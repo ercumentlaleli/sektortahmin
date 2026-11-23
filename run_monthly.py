@@ -32,10 +32,50 @@ from sektortahmin.report import safe_name, write_sector_workbook, write_summary_
 MIN_QUARTERS = 24  # bir NACE serisinin modele girmesi için gereken asgari çeyrek sayısı
 
 
+def write_app_data(d: Path, results, metas, run_info, inputs_q, assumptions):
+    """Streamlit arayüzü için düz CSV çıktıları."""
+    d.mkdir(parents=True, exist_ok=True)
+    models, ann, qs, diags, coefs = [], [], [], [], []
+    for r in results:
+        m = metas[r.code]
+        models.append({"NACE": r.code, "Ad": m.get("name", ""), "Düzey": m["level"], "Son ay": m["last_month"],
+                       "Model": "ARDL({p},{dl_GSYH},{dl_DUNYA},{dl_REDK})".format(**r.order),
+                       "Örneklem": f"{r.sample[0]}–{r.sample[1]}", "N": r.nobs,
+                       "R2": r.ols.rsquared, "Düz. R2": r.ols.rsquared_adj, "AIC": r.aic,
+                       "Mevsimsellik arındırıldı": r.season["mevsimsel"],
+                       "Dosya": f"sektorler/{m['level'][0]}{'li' if m['level'][0] == '2' else 'lu'}/{safe_name(r.code)}.xlsx"})
+        ann.append(r.annual.assign(NACE=r.code))
+        q = r.quarterly.copy()
+        q.index = q.index.astype(str)
+        qs.append(q.rename_axis("Çeyrek").reset_index().assign(NACE=r.code))
+        diags.append(r.diagnostics.assign(NACE=r.code))
+        coefs.append(pd.DataFrame({"Değişken": r.design_cols, "Katsayı": np.asarray(r.ols.params),
+                                   "Std. hata": np.asarray(r.ols.bse), "t": np.asarray(r.ols.tvalues),
+                                   "p": np.asarray(r.ols.pvalues)}).assign(NACE=r.code))
+    pd.DataFrame(models).to_csv(d / "models.csv", index=False)
+    pd.concat(ann).to_csv(d / "annual.csv", index=False)
+    pd.concat(qs).to_csv(d / "quarterly.csv", index=False)
+    pd.concat(diags).to_csv(d / "diagnostics.csv", index=False)
+    pd.concat(coefs).to_csv(d / "coefficients.csv", index=False)
+    x = inputs_q.copy()
+    x.index = x.index.astype(str)
+    x.rename_axis("Çeyrek").to_csv(d / "inputs_quarterly.csv")
+    assumptions["Yıllık varsayımlar"].to_csv(d / "assumptions_annual.csv")
+    pd.Series(run_info).to_csv(d / "run_info.csv", header=["Değer"])
+
+
+def make_zip(out_dir: Path, run_tag: str):
+    import zipfile
+    zp = out_dir / f"Sektor_Tahminleri_{run_tag}.zip"
+    with zipfile.ZipFile(zp, "w", zipfile.ZIP_DEFLATED) as z:
+        for f in sorted(out_dir.rglob("*.xlsx")):
+            z.write(f, f.relative_to(out_dir))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--excel", required=True, help="Makro tahminler Excel dosyası")
-    ap.add_argument("--end-year", type=int, default=None, help="Tahmin ufku son yılı (varsayılan: içinde bulunulan yıl + 2)")
+    ap.add_argument("--end-year", type=int, default=2032, help="Tahmin ufku son yılı (varsayılan: 2032)")
     ap.add_argument("--out", default="outputs")
     ap.add_argument("--cache", default="data/cache")
     ap.add_argument("--levels", default="2,3")
@@ -43,7 +83,7 @@ def main():
     args = ap.parse_args()
 
     today = dt.date.today()
-    end_year = args.end_year or today.year + 2
+    end_year = args.end_year
     horizon_end = pd.Period(f"{end_year}Q4", "Q")
     run_tag = today.strftime("%Y-%m")
     out_dir = Path(args.out) / run_tag
@@ -73,12 +113,20 @@ def main():
     reer_m = ds.evds_reer_monthly()
     world = ds.imf_world_gdp_quarterly()
     weo, weo_pub = ds.imf_weo_world_growth()
+    weo_last = int(weo.index.max())
+    weo_ext_note = "-"
+    if end_year > weo_last:  # WEO orta vadeli projeksiyon ufkunu aşan yıllar: son WEO yılı sabit tutulur
+        for yr in range(weo_last + 1, end_year + 1):
+            weo.loc[yr] = weo.loc[weo_last]
+        weo_ext_note = f"{weo_last + 1}-{end_year}: WEO'nun son yılı ({weo_last}, %{weo.loc[weo_last]:.2f}) sabit tutuldu"
     for o, n in [(gdp, "gsyh_ma"), (reer_m, "redk_aylik"), (world, "imf_dunya_gsyh"), (weo, "imf_weo_dunya_buyume")]:
         ds.save_cache(o, cache / f"{n}.csv")
     reer_q = pj.quarterly_mean_complete(reer_m)
 
     # ------------------------------------------------------------ 5-7) Projeksiyonlar
     tr_growth = pj.read_turkey_growth(args.excel)
+    if end_year > tr_growth.index.max():
+        raise SystemExit(f"Excel'de {end_year} yılına kadar Türkiye büyüme varsayımı yok (son yıl {tr_growth.index.max()}).")
     cpi_usd = pj.read_monthly_cpi_usd(args.excel)
     gdp_ext = pj.extend_with_annual_growth(gdp, tr_growth, end_year)
     world_ext = pj.extend_with_annual_growth(world, weo, end_year)
@@ -144,7 +192,7 @@ def main():
             continue
         metas[code] = meta
         results.append(r)
-        fn = sector_dir / f"{lvl}li" / f"{safe_name(code)}.xlsx"
+        fn = sector_dir / ("2li" if lvl == 2 else "3lu") / f"{safe_name(code)}.xlsx"
         write_sector_workbook(fn, r, meta, inputs_q, m, assumptions)
         print(f"  {code}: ARDL{tuple(r.order.values())}  N={r.nobs}  "
               f"{' '.join(f'{int(a.Yıl)}:{a._3:.1f}' for a in r.annual.tail(3).itertuples())}")
@@ -157,6 +205,8 @@ def main():
         "TR GSYH son gerçekleşen": str(gdp.index[-1]),
         "IMF küresel GSYH son gerçekleşen": str(world.index[-1]),
         "IMF WEO yayım tarihi": weo_pub,
+        "WEO ufku dışı yıllar": weo_ext_note,
+        "COVID kuklaları": "2020Q2, 2020Q3 (impuls, her modelde)",
         "REDK son tam çeyrek": str(reer_q.index[-1]) + f" (son ay {reer_m.index[-1]})",
         "Tahmin örneklemi sonu": str(x_last_actual),
         "Tahmin ufku": str(horizon_end),
@@ -164,6 +214,8 @@ def main():
         "Modellenemeyen": "; ".join(f"{c}: {w}" for c, w in failed) or "-",
     }
     write_summary_workbook(out_dir / f"Ozet_Tum_Sektorler_{run_tag}.xlsx", results, metas, run_info)
+    write_app_data(out_dir / "app_data", results, metas, run_info, inputs_q, assumptions)
+    make_zip(out_dir, run_tag)
     print("\n".join(f"{k}: {v}" for k, v in run_info.items()))
     print(f"Çıktılar: {out_dir}")
     return 0 if results else 1

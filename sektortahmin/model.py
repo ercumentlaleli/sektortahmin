@@ -16,6 +16,14 @@ import itertools
 X_COLS = ["dl_GSYH", "dl_DUNYA", "dl_REDK"]
 X_LABELS = {"dl_GSYH": "Türkiye GSYH (MA)", "dl_DUNYA": "Küresel GSYH (IMF)", "dl_REDK": "REDK (TÜFE bazlı)"}
 MAXLAG = 4
+# COVID-19 impuls kuklaları (2020Q2 çöküş, 2020Q3 toparlanma). Her aday modelde sabit yer alır,
+# tahmin döneminde 0'dır.
+DUMMY_PERIODS = ["2020Q2", "2020Q3"]
+
+
+def dummy_frame(index: pd.PeriodIndex) -> pd.DataFrame:
+    return pd.DataFrame({f"D{p}": (index == pd.Period(p, "Q")).astype(float) for p in DUMMY_PERIODS}, index=index)
+
 ALPHA = 0.05
 
 
@@ -70,6 +78,8 @@ class ModelResult:
 
 def _design(df: pd.DataFrame, p: int, q: dict) -> pd.DataFrame:
     cols = {"const": pd.Series(1.0, index=df.index)}
+    for c, v in dummy_frame(df.index).items():
+        cols[c] = v
     for i in range(1, p + 1):
         cols[f"dly(-{i})"] = df["dly"].shift(i)
     for x, qq in q.items():
@@ -88,10 +98,11 @@ def select_order_aic(est: pd.DataFrame):
         for j in range(0, MAXLAG + 1):
             lagged[(x, j)] = est[x].shift(j).loc[rows].values
     n = len(yv)
+    dums = [d for d in dummy_frame(rows).T.values if d.any()]
     out = []
     for p in range(1, MAXLAG + 1):
         for qs in itertools.product(range(MAXLAG + 1), repeat=len(X_COLS)):
-            cols = [np.ones(n)] + [lagged[("dly", i)] for i in range(1, p + 1)]
+            cols = [np.ones(n)] + dums + [lagged[("dly", i)] for i in range(1, p + 1)]
             for x, qq in zip(X_COLS, qs):
                 cols += [lagged[(x, j)] for j in range(qq + 1)]
             Xm = np.column_stack(cols)
@@ -108,7 +119,10 @@ def select_order_aic(est: pd.DataFrame):
     return best[0], dict(zip(X_COLS, best[1:])), tab
 
 
-def diagnostics(res, X: np.ndarray) -> pd.DataFrame:
+def diagnostics(res, X: np.ndarray, X_het: np.ndarray | None = None) -> pd.DataFrame:
+    """X_het: değişen varyans testlerinde kullanılan regresörler (kuklalar hariç;
+    impuls kuklalarında kalıntı tam sıfır olduğundan bu testleri bozar)."""
+    X_het = X if X_het is None else X_het
     rows = []
     e = res.resid
     warnings.simplefilter("ignore", FutureWarning)
@@ -124,17 +138,17 @@ def diagnostics(res, X: np.ndarray) -> pd.DataFrame:
         except Exception:
             add(f"Breusch-Godfrey LM (gecikme {lag})", "Otokorelasyon yok", np.nan, np.nan)
     try:
-        lm, lmp, fv, fp = het_breuschpagan(e, X)
+        lm, lmp, fv, fp = het_breuschpagan(e, X_het)
         add("Breusch-Pagan-Godfrey", "Sabit varyans", lm, lmp)
     except Exception:
         add("Breusch-Pagan-Godfrey", "Sabit varyans", np.nan, np.nan)
     try:
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            if X.shape[1] * (X.shape[1] + 1) / 2 < len(e) - 1:
-                lm, lmp, fv, fp = het_white(e, X)
+            if X_het.shape[1] * (X_het.shape[1] + 1) / 2 < len(e) - 1:
+                lm, lmp, fv, fp = het_white(e, X_het)
             else:  # çapraz terimler için gözlem yetersiz: kareler ile White (çapraz terimsiz)
-                Z = np.column_stack([X, X[:, 1:] ** 2])
+                Z = np.column_stack([X_het, X_het[:, 1:] ** 2])
                 lm, lmp, fv, fp = het_breuschpagan(e, Z)
         add("White", "Sabit varyans", lm, lmp)
     except Exception:
@@ -189,16 +203,18 @@ def fit_and_forecast(code: str, y_level_q: pd.Series, n_months: pd.Series, X_dl:
     ye = df.loc[est_rows, "dly"]
     ok = Xe.notna().all(axis=1) & ye.notna()
     Xe, ye = Xe[ok], ye[ok]
+    Xe = Xe.loc[:, [c for c in Xe.columns if not c.startswith("D") or Xe[c].any()]]
     res = sm.OLS(ye.reset_index(drop=True).rename("dlog_SUE"), Xe.reset_index(drop=True)).fit()
     params = pd.Series(np.asarray(res.params), index=Xe.columns)
-    diag = diagnostics(res, Xe.values)
+    het_cols = [c for c in Xe.columns if not (c.startswith("D") and c[1:] in DUMMY_PERIODS)]
+    diag = diagnostics(res, Xe.values, Xe[het_cols].values)
     fitted = pd.Series(np.asarray(res.fittedvalues), index=Xe.index)
 
     # Tahmin: y'nin son gerçekleşeninden sonrası, dinamik
     path = df["dly"].copy()
     fc_idx = pd.period_range(y.index[-1] + 1, horizon_end, freq="Q")
     for t in fc_idx:
-        row = {"const": 1.0}
+        row = {"const": 1.0, **{c: 0.0 for c in params.index if c[1:] in DUMMY_PERIODS}}
         for i in range(1, p + 1):
             row[f"dly(-{i})"] = path[t - i]
         for x, qq in q.items():

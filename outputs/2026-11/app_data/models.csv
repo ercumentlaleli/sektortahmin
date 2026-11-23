@@ -1,0 +1,119 @@
+NACE,Ad,Düzey,Son ay,Model,Örneklem,N,R2,Düz. R2,AIC,Mevsimsellik arındırıldı,Dosya
+B05,Mining of coal and lignite,2'li (NACE Rev.2),2026-09,"ARDL(4,0,1,1)",2013Q2–2026Q2,53,0.3582884441370613,0.1861219291494436,-1.90234839665409,False,sektorler/2li/B05.xlsx
+B051,Mining of hard coal,3'li (NACE Rev.2),2026-09,"ARDL(1,0,0,0)",2013Q2–2026Q2,53,0.7286262953831257,0.6932297252157074,-1.6702482603052258,False,sektorler/3lu/B051.xlsx
+B052,Mining of lignite,3'li (NACE Rev.2),2026-09,"ARDL(1,0,0,1)",2013Q2–2026Q2,53,0.1786669665323345,0.050904050215142216,-1.7470392170546933,False,sektorler/3lu/B052.xlsx
+B06,Extraction of crude petroleum and natural gas,2'li (NACE Rev.2),2026-09,"ARDL(2,0,0,1)",2013Q2–2026Q2,53,0.28341497571163765,0.1531267894773899,-3.4402958301887216,False,sektorler/2li/B06.xlsx
+B07,Mining of metal ores,2'li (NACE Rev.2),2026-09,"ARDL(1,4,0,2)",2013Q2–2026Q2,53,0.29759257941413964,0.08687035323838155,-2.4273904476661747,False,sektorler/2li/B07.xlsx
+B071,Mining of iron ores,3'li (NACE Rev.2),2026-09,"ARDL(2,4,0,4)",2013Q2–2026Q2,53,0.47947722272187454,0.2684544751766885,-0.7077784497951417,False,sektorler/3lu/B071.xlsx
+B072,Mining of non-ferrous metal ores,3'li (NACE Rev.2),2026-09,"ARDL(1,0,0,0)",2013Q2–2026Q2,53,0.0978482644004035,-0.019823701112587244,-2.254386510433766,False,sektorler/3lu/B072.xlsx
+B08,Other mining and quarrying,2'li (NACE Rev.2),2026-09,"ARDL(1,0,2,3)",2013Q2–2026Q2,53,0.6521515528429092,0.5588263597032018,-3.049969299057439,False,sektorler/2li/B08.xlsx
+B081,"Quarrying of stone, sand and clay",3'li (NACE Rev.2),2026-09,"ARDL(1,0,2,3)",2013Q2–2026Q2,53,0.6044102801782112,0.49827645290895073,-2.622985688909133,False,sektorler/3lu/B081.xlsx
+B089,Mining and quarrying n.e.c.,3'li (NACE Rev.2),2026-09,"ARDL(3,0,0,3)",2013Q2–2026Q2,53,0.4790509322576766,0.3392841092048581,-2.638641037365609,False,sektorler/3lu/B089.xlsx
+C10,Manufacture of food products,2'li (NACE Rev.2),2026-09,"ARDL(1,1,2,0)",2013Q2–2026Q2,53,0.6734720601450993,0.6051290029661667,-4.805315518368268,False,sektorler/2li/C10.xlsx
+C101,Processing and preserving of meat and production of meat products,3'li (NACE Rev.2),2026-09,"ARDL(3,2,0,0)",2013Q2–2026Q2,53,0.24564755253767367,0.06603982695140542,-4.363115040823084,False,sektorler/3lu/C101.xlsx
+C102,"Processing and preserving of fish, crustaceans and molluscs",3'li (NACE Rev.2),2026-09,"ARDL(4,0,0,2)",2013Q2–2026Q2,53,0.346378380439334,0.1710164825084236,-1.9199764003776654,False,sektorler/3lu/C102.xlsx
+C103,Processing and preserving of fruit and vegetables,3'li (NACE Rev.2),2026-09,"ARDL(1,1,2,0)",2013Q2–2026Q2,53,0.27587249889250864,0.12431092889326634,-2.495158195509128,False,sektorler/3lu/C103.xlsx
+C104,Manufacture of vegetable and animal oils and fats,3'li (NACE Rev.2),2026-09,"ARDL(1,0,1,0)",2013Q2–2026Q2,53,0.1528089416863856,0.0210236659487123,-2.6595993733822962,False,sektorler/3lu/C104.xlsx
+C105,Manufacture of dairy products,3'li (NACE Rev.2),2026-09,"ARDL(2,0,0,0)",2013Q2–2026Q2,53,0.41158620181794525,0.3200551665451813,-2.9201676461757904,False,sektorler/3lu/C105.xlsx
+C106,"Manufacture of grain mill products, starches and starch products",3'li (NACE Rev.2),2026-09,"ARDL(1,0,0,0)",2013Q2–2026Q2,53,0.3711760345766446,0.2891555173475113,-4.08461460617565,False,sektorler/3lu/C106.xlsx
+C107,Manufacture of bakery and farinaceous products,3'li (NACE Rev.2),2026-09,"ARDL(2,4,2,3)",2013Q2–2026Q2,53,0.7988677679476746,0.7094756648133077,-4.43424596624067,False,sektorler/3lu/C107.xlsx
+C108,Manufacture of other food products,3'li (NACE Rev.2),2026-09,"ARDL(1,1,4,0)",2013Q2–2026Q2,53,0.7063565984602312,0.6275742224373664,-3.0469629272291856,False,sektorler/3lu/C108.xlsx
+C109,Manufacture of prepared animal feeds,3'li (NACE Rev.2),2026-09,"ARDL(4,2,4,3)",2013Q2–2026Q2,53,0.6878452999884785,0.5225869293941436,-4.13869907399469,False,sektorler/3lu/C109.xlsx
+C11,Manufacture of beverages,2'li (NACE Rev.2),2026-09,"ARDL(4,0,4,0)",2013Q2–2026Q2,53,0.7933177838203854,0.7244237117605139,-3.690713399334294,False,sektorler/2li/C11.xlsx
+C110,Manufacture of beverages,3'li (NACE Rev.2),2026-09,"ARDL(4,0,4,0)",2013Q2–2026Q2,53,0.7933177838203854,0.7244237117605139,-3.690713399334294,False,sektorler/3lu/C110.xlsx
+C12,Manufacture of tobacco products,2'li (NACE Rev.2),2026-09,"ARDL(4,2,0,3)",2013Q2–2026Q2,53,0.38503584871750907,0.15847010877132817,-2.556704190586568,False,sektorler/2li/C12.xlsx
+C120,Manufacture of tobacco products,3'li (NACE Rev.2),2026-09,"ARDL(4,2,0,3)",2013Q2–2026Q2,53,0.38503584871750907,0.15847010877132817,-2.556704190586568,False,sektorler/3lu/C120.xlsx
+C13,Manufacture of textiles,2'li (NACE Rev.2),2026-09,"ARDL(1,0,0,0)",2013Q2–2026Q2,53,0.9251686652848161,0.9154080564089225,-4.292556665291743,False,sektorler/2li/C13.xlsx
+C131,Preparation and spinning of textile fibres,3'li (NACE Rev.2),2026-09,"ARDL(1,0,0,1)",2013Q2–2026Q2,53,0.8863561989991049,0.8686782743989656,-3.634573233458988,False,sektorler/3lu/C131.xlsx
+C132,Weaving of textiles,3'li (NACE Rev.2),2026-09,"ARDL(4,0,4,2)",2013Q2–2026Q2,53,0.9475835273352977,0.9263336059847427,-3.6701628292591755,False,sektorler/3lu/C132.xlsx
+C133,Finishing of textiles,3'li (NACE Rev.2),2026-09,"ARDL(1,0,0,0)",2013Q2–2026Q2,53,0.8936260251682717,0.8797511588858724,-3.4030716817956734,False,sektorler/3lu/C133.xlsx
+C139,Manufacture of other textiles,3'li (NACE Rev.2),2026-09,"ARDL(1,4,0,0)",2013Q2–2026Q2,53,0.8983766440410895,0.8741806069080156,-4.422250393894615,False,sektorler/3lu/C139.xlsx
+C14,Manufacture of wearing apparel,2'li (NACE Rev.2),2026-09,"ARDL(2,0,4,2)",2013Q2–2026Q2,53,0.9296193694106509,0.9061591592142012,-3.8193201679152304,False,sektorler/2li/C14.xlsx
+C141,"Manufacture of wearing apparel, except fur apparel",3'li (NACE Rev.2),2026-09,"ARDL(2,1,4,2)",2013Q2–2026Q2,53,0.9300860959098708,0.9043283417714021,-3.7354737954743205,False,sektorler/3lu/C141.xlsx
+C142,Manufacture of articles of fur,3'li (NACE Rev.2),2026-09,"ARDL(2,0,0,0)",2013Q2–2026Q2,53,0.4961629769290965,0.41778832889584494,-0.002642722779079454,False,sektorler/3lu/C142.xlsx
+C143,Manufacture of knitted and crocheted apparel,3'li (NACE Rev.2),2026-09,"ARDL(3,4,2,3)",2013Q2–2026Q2,53,0.8132839602096444,0.7225933123114717,-2.895994933480673,False,sektorler/3lu/C143.xlsx
+C15,Manufacture of leather and related products,2'li (NACE Rev.2),2026-09,"ARDL(4,4,4,4)",2013Q2–2026Q2,53,0.914199870549953,0.8560772022128244,-3.286782968183666,False,sektorler/2li/C15.xlsx
+C151,"Tanning and dressing of leather; manufacture of luggage, handbags, saddlery and harness; dressing and dyeing of fur",3'li (NACE Rev.2),2026-09,"ARDL(1,4,4,4)",2013Q2–2026Q2,53,0.8382437844253998,0.7526081408859056,-2.5748337759497812,False,sektorler/3lu/C151.xlsx
+C152,Manufacture of footwear,3'li (NACE Rev.2),2026-09,"ARDL(4,1,4,4)",2013Q2–2026Q2,53,0.8834150589352493,0.8216936195480283,-3.0073746884690933,False,sektorler/3lu/C152.xlsx
+C16,"Manufacture of wood and of products of wood and cork, except furniture; manufacture of articles of straw and plaiting materials",2'li (NACE Rev.2),2026-09,"ARDL(1,1,0,3)",2013Q2–2026Q2,53,0.6426314126594626,0.5575436537688584,-3.244790331473102,False,sektorler/2li/C16.xlsx
+C161,Sawmilling and planing of wood,3'li (NACE Rev.2),2026-09,"ARDL(2,2,0,0)",2013Q2–2026Q2,53,0.5949193208763917,0.5101349926877294,-2.6348016050729615,False,sektorler/3lu/C161.xlsx
+C162,"Manufacture of products of wood, cork, straw and plaiting materials",3'li (NACE Rev.2),2026-09,"ARDL(1,1,0,3)",2013Q2–2026Q2,53,0.6289909324784768,0.5406554402114474,-3.1740013729623318,False,sektorler/3lu/C162.xlsx
+C17,Manufacture of paper and paper products,2'li (NACE Rev.2),2026-09,"ARDL(1,0,0,0)",2013Q2–2026Q2,53,0.42372295710716223,0.34855638629505303,-3.9554611793119405,False,sektorler/2li/C17.xlsx
+C171,"Manufacture of pulp, paper and paperboard",3'li (NACE Rev.2),2026-09,"ARDL(1,0,0,0)",2013Q2–2026Q2,53,0.3907623385232304,0.3112965565914779,-3.3296557455625213,False,sektorler/3lu/C171.xlsx
+C172,Manufacture of articles of paper and paperboard,3'li (NACE Rev.2),2026-09,"ARDL(1,1,0,0)",2013Q2–2026Q2,53,0.37599713701534276,0.27893002499550723,-3.6470979943286927,False,sektorler/3lu/C172.xlsx
+C18,Printing and reproduction of recorded media,2'li (NACE Rev.2),2026-09,"ARDL(2,0,3,1)",2013Q2–2026Q2,53,0.550908940891673,0.4304210957650486,-2.6643667269892153,False,sektorler/2li/C18.xlsx
+C181,Printing and service activities related to printing,3'li (NACE Rev.2),2026-09,"ARDL(2,0,3,1)",2013Q2–2026Q2,53,0.5504950723111388,0.4298961892726638,-2.663883988341123,False,sektorler/3lu/C181.xlsx
+C19,Manufacture of coke and refined petroleum products,2'li (NACE Rev.2),2026-09,"ARDL(1,3,3,3)",2013Q2–2026Q2,53,0.6087391238116399,0.45011984968122354,-2.544027976343549,False,sektorler/2li/C19.xlsx
+C20,Manufacture of chemicals and chemical products,2'li (NACE Rev.2),2026-09,"ARDL(1,0,0,0)",2013Q2–2026Q2,53,0.7382410095703316,0.7040985325577661,-4.497899453371556,False,sektorler/2li/C20.xlsx
+C201,"Manufacture of basic chemicals, fertilisers and nitrogen compounds, plastics and synthetic rubber in primary forms",3'li (NACE Rev.2),2026-09,"ARDL(1,0,2,0)",2013Q2–2026Q2,53,0.5303446540777564,0.4449527730009849,-3.516915672194559,False,sektorler/3lu/C201.xlsx
+C202,Manufacture of pesticides and other agrochemical products,3'li (NACE Rev.2),2026-09,"ARDL(1,2,3,2)",2013Q2–2026Q2,53,0.5084280324811663,0.3445707099748885,-1.7375372200301378,False,sektorler/3lu/C202.xlsx
+C203,"Manufacture of paints, varnishes and similar coatings, printing ink and mastics",3'li (NACE Rev.2),2026-09,"ARDL(2,2,0,0)",2013Q2–2026Q2,53,0.7521868506701717,0.7003189822057889,-3.270506268068833,False,sektorler/3lu/C203.xlsx
+C204,"Manufacture of soap and detergents, cleaning and polishing preparations, perfumes and toilet preparations",3'li (NACE Rev.2),2026-09,"ARDL(1,0,4,1)",2013Q2–2026Q2,53,0.5004193113215216,0.3663854680175396,-3.8735495156277073,False,sektorler/3lu/C204.xlsx
+C205,Manufacture of other chemical products,3'li (NACE Rev.2),2026-09,"ARDL(3,2,0,4)",2013Q2–2026Q2,53,0.8928018291462692,0.8533077662001578,-3.6627416282094987,False,sektorler/3lu/C205.xlsx
+C206,Manufacture of man-made fibres,3'li (NACE Rev.2),2026-09,"ARDL(1,0,0,0)",2013Q2–2026Q2,53,0.6863930983067184,0.6454878502597686,-2.4811024310049423,False,sektorler/3lu/C206.xlsx
+C21,Manufacture of basic pharmaceutical products and pharmaceutical preparations,2'li (NACE Rev.2),2026-09,"ARDL(4,3,0,4)",2013Q2–2026Q2,53,0.5232855617311398,0.31141247805609085,-2.8414247122639122,False,sektorler/2li/C21.xlsx
+C212,Manufacture of pharmaceutical preparations,3'li (NACE Rev.2),2026-09,"ARDL(4,3,0,4)",2013Q2–2026Q2,53,0.5161063476799492,0.3010425022043711,-2.8135712765832177,False,sektorler/3lu/C212.xlsx
+C22,Manufacture of rubber and plastic products,2'li (NACE Rev.2),2026-09,"ARDL(3,2,0,4)",2013Q2–2026Q2,53,0.9190375354343305,0.8892092590153997,-4.827456332876505,False,sektorler/2li/C22.xlsx
+C221,Manufacture of rubber products,3'li (NACE Rev.2),2026-09,"ARDL(3,3,0,2)",2013Q2–2026Q2,53,0.926585981251343,0.9021146416684572,-3.943343549297998,False,sektorler/3lu/C221.xlsx
+C222,Manufacture of plastics products,3'li (NACE Rev.2),2026-09,"ARDL(3,3,0,3)",2013Q2–2026Q2,53,0.8972557353544481,0.8594025852218764,-4.9384052805101355,False,sektorler/3lu/C222.xlsx
+C23,Manufacture of other non-metallic mineral products,2'li (NACE Rev.2),2026-09,"ARDL(1,3,0,4)",2013Q2–2026Q2,53,0.7657515599172791,0.6876687465563721,-3.8208654143516396,False,sektorler/2li/C23.xlsx
+C231,Manufacture of glass and glass products,3'li (NACE Rev.2),2026-09,"ARDL(3,0,1,0)",2013Q2–2026Q2,53,0.7896604626749419,0.7456359083510926,-3.7301081768065663,False,sektorler/3lu/C231.xlsx
+C232,Manufacture of refractory products,3'li (NACE Rev.2),2026-09,"ARDL(1,0,3,0)",2013Q2–2026Q2,53,0.539333468934096,0.44291489266448814,-2.6827768802694356,False,sektorler/3lu/C232.xlsx
+C233,Manufacture of clay building materials,3'li (NACE Rev.2),2026-09,"ARDL(1,2,0,0)",2013Q2–2026Q2,53,0.4667812975172252,0.36983244252035696,-2.7588532319002055,False,sektorler/3lu/C233.xlsx
+C234,Manufacture of other porcelain and ceramic products,3'li (NACE Rev.2),2026-09,"ARDL(2,0,0,4)",2013Q2–2026Q2,53,0.8089167455577072,0.7576505065609945,-3.186422588466063,False,sektorler/3lu/C234.xlsx
+C235,"Manufacture of cement, lime and plaster",3'li (NACE Rev.2),2026-09,"ARDL(1,1,0,3)",2013Q2–2026Q2,53,0.5295077865662094,0.41748583098673553,-2.978242874075239,False,sektorler/3lu/C235.xlsx
+C236,"Manufacture of articles of concrete, cement and plaster",3'li (NACE Rev.2),2026-09,"ARDL(1,1,0,3)",2013Q2–2026Q2,53,0.5286825722082844,0.4164641370197807,-2.3214774722913947,False,sektorler/3lu/C236.xlsx
+C237,"Cutting, shaping and finishing of stone",3'li (NACE Rev.2),2026-09,"ARDL(1,3,3,0)",2013Q2–2026Q2,53,0.8097403433415644,0.7526624463440337,-3.772635037947365,False,sektorler/3lu/C237.xlsx
+C239,Manufacture of abrasive products and non-metallic mineral products n.e.c.,3'li (NACE Rev.2),2026-09,"ARDL(2,4,0,3)",2013Q2–2026Q2,53,0.5612390880920946,0.3995903310733925,-1.8752800780738488,False,sektorler/3lu/C239.xlsx
+C24,Manufacture of basic metals,2'li (NACE Rev.2),2026-09,"ARDL(1,4,0,0)",2013Q2–2026Q2,53,0.7185842626146628,0.651580515618154,-3.95111674093998,False,sektorler/2li/C24.xlsx
+C241,Manufacture of basic iron and steel and of ferro-alloys,3'li (NACE Rev.2),2026-09,"ARDL(1,4,0,3)",2013Q2–2026Q2,53,0.5381266731788137,0.38416889757175166,-3.1523199975386804,False,sektorler/3lu/C241.xlsx
+C242,"Manufacture of tubes, pipes, hollow profiles and related fittings, of steel",3'li (NACE Rev.2),2026-09,"ARDL(2,2,0,0)",2013Q2–2026Q2,53,0.49788777598914635,0.39279451980082813,-2.2469845354041444,False,sektorler/3lu/C242.xlsx
+C243,Manufacture of other products of first processing of steel,3'li (NACE Rev.2),2026-09,"ARDL(1,1,0,0)",2013Q2–2026Q2,53,0.6799885216039987,0.6302089582979541,-3.3382261390818044,False,sektorler/3lu/C243.xlsx
+C244,Manufacture of basic precious and other non-ferrous metals,3'li (NACE Rev.2),2026-09,"ARDL(2,0,1,0)",2013Q2–2026Q2,53,0.8329505668292302,0.802577942616363,-4.367437531748366,False,sektorler/3lu/C244.xlsx
+C245,Casting of metals,3'li (NACE Rev.2),2026-09,"ARDL(1,0,0,0)",2013Q2–2026Q2,53,0.7091889792891497,0.6712571070225171,-3.513331760302074,False,sektorler/3lu/C245.xlsx
+C25,"Manufacture of fabricated metal products, except machinery and equipment",2'li (NACE Rev.2),2026-09,"ARDL(1,0,0,0)",2013Q2–2026Q2,53,0.7802541960684042,0.7515916999034135,-4.0403058536891585,False,sektorler/2li/C25.xlsx
+C251,Manufacture of structural metal products,3'li (NACE Rev.2),2026-09,"ARDL(1,0,0,1)",2013Q2–2026Q2,53,0.4531672738424144,0.36810440532901223,-2.5540465485288184,False,sektorler/3lu/C251.xlsx
+C252,"Manufacture of tanks, reservoirs and containers of metal",3'li (NACE Rev.2),2026-09,"ARDL(4,0,0,0)",2013Q2–2026Q2,53,0.5917202894573423,0.5062663965530652,-2.513938381461493,False,sektorler/3lu/C252.xlsx
+C254,Manufacture of weapons and ammunition,3'li (NACE Rev.2),2026-09,"ARDL(1,0,4,1)",2013Q2–2026Q2,53,0.2827869240847568,0.09036390371725256,-0.7845587355842082,False,sektorler/3lu/C254.xlsx
+C255,"Forging, pressing, stamping and roll-forming of metal; powder metallurgy",3'li (NACE Rev.2),2026-09,"ARDL(2,2,0,0)",2013Q2–2026Q2,53,0.9071128128596613,0.8876713085744741,-3.663028947929342,False,sektorler/3lu/C255.xlsx
+C256,Treatment and coating of metals; machining,3'li (NACE Rev.2),2026-09,"ARDL(1,0,0,0)",2013Q2–2026Q2,53,0.5785942048328436,0.523628231550171,-3.4004196183454387,False,sektorler/3lu/C256.xlsx
+C257,"Manufacture of cutlery, tools and general hardware",3'li (NACE Rev.2),2026-09,"ARDL(1,0,2,0)",2013Q2–2026Q2,53,0.6269269348046556,0.5590954684055021,-2.9474397519350535,False,sektorler/3lu/C257.xlsx
+C259,Manufacture of other fabricated metal products,3'li (NACE Rev.2),2026-09,"ARDL(1,1,0,0)",2013Q2–2026Q2,53,0.85492020931341,0.8323522418732737,-4.57264886264785,False,sektorler/3lu/C259.xlsx
+C26,"Manufacture of computer, electronic and optical products",2'li (NACE Rev.2),2026-09,"ARDL(2,0,0,4)",2013Q2–2026Q2,53,0.42686491149747896,0.2730969609236319,-1.6823212610793838,False,sektorler/2li/C26.xlsx
+C261,Manufacture of electronic components and boards,3'li (NACE Rev.2),2026-09,"ARDL(1,4,1,4)",2013Q2–2026Q2,53,0.4305885443822858,0.19974606237510428,-1.1120783706968744,False,sektorler/3lu/C261.xlsx
+C263,Manufacture of communication equipment,3'li (NACE Rev.2),2026-09,"ARDL(3,4,4,3)",2013Q2–2026Q2,53,0.7472459444067523,0.6017208820954885,-1.132348407231938,False,sektorler/3lu/C263.xlsx
+C265,"Manufacture of instruments and appliances for measuring, testing and navigation; watches and clocks",3'li (NACE Rev.2),2026-09,"ARDL(3,0,0,3)",2013Q2–2026Q2,53,0.4766323566237307,0.3362166474252194,-1.0404565163734825,False,sektorler/3lu/C265.xlsx
+C266,"Manufacture of irradiation, electromedical and electrotherapeutic equipment",3'li (NACE Rev.2),2026-09,"ARDL(2,0,0,0)",2013Q2–2026Q2,53,0.26112943589826565,0.14619401481577377,-0.1766760315585993,False,sektorler/3lu/C266.xlsx
+C27,Manufacture of electrical equipment,2'li (NACE Rev.2),2026-09,"ARDL(4,0,1,0)",2013Q2–2026Q2,53,0.8788454674651729,0.849999150194976,-4.31665342864101,False,sektorler/2li/C27.xlsx
+C271,"Manufacture of electric motors, generators, transformers and electricity distribution and control apparatus",3'li (NACE Rev.2),2026-09,"ARDL(1,0,1,0)",2013Q2–2026Q2,53,0.44608946805638106,0.3599256075318181,-2.5176036182781703,False,sektorler/3lu/C271.xlsx
+C272,Manufacture of batteries and accumulators,3'li (NACE Rev.2),2026-09,"ARDL(2,2,0,0)",2013Q2–2026Q2,53,0.4037359077843007,0.2789364466228753,-1.7088844781815826,False,sektorler/3lu/C272.xlsx
+C273,Manufacture of wiring and wiring devices,3'li (NACE Rev.2),2026-09,"ARDL(1,1,4,3)",2013Q2–2026Q2,53,0.7973494634405806,0.722688739445005,-3.282902316639909,False,sektorler/3lu/C273.xlsx
+C274,Manufacture of electric lighting equipment,3'li (NACE Rev.2),2026-09,"ARDL(1,2,3,3)",2013Q2–2026Q2,53,0.8669364286156109,0.8179130075792571,-3.681042945017816,False,sektorler/3lu/C274.xlsx
+C275,Manufacture of domestic appliances,3'li (NACE Rev.2),2026-09,"ARDL(1,0,1,0)",2013Q2–2026Q2,53,0.815901671647716,0.7872641539040274,-3.6545162540860385,False,sektorler/3lu/C275.xlsx
+C279,Manufacture of other electrical equipment,3'li (NACE Rev.2),2026-09,"ARDL(1,0,0,0)",2013Q2–2026Q2,53,0.21538058566419938,0.11303892292474715,-2.587218305131859,False,sektorler/3lu/C279.xlsx
+C28,Manufacture of machinery and equipment n.e.c.,2'li (NACE Rev.2),2026-09,"ARDL(2,2,0,0)",2013Q2–2026Q2,53,0.8672083211084629,0.8394147138986063,-4.380606829618362,False,sektorler/2li/C28.xlsx
+C281,Manufacture of general-purpose machinery,3'li (NACE Rev.2),2026-09,"ARDL(1,0,1,0)",2013Q2–2026Q2,53,0.8328225563073792,0.806817176177416,-3.4669840071227247,False,sektorler/3lu/C281.xlsx
+C282,Manufacture of other general-purpose machinery,3'li (NACE Rev.2),2026-09,"ARDL(1,2,1,0)",2013Q2–2026Q2,53,0.7613016971049779,0.7113415871967175,-3.953459034173589,False,sektorler/3lu/C282.xlsx
+C283,Manufacture of agricultural and forestry machinery,3'li (NACE Rev.2),2026-09,"ARDL(4,1,0,0)",2013Q2–2026Q2,53,0.5275582739362713,0.4150721486830026,-1.6937569176042762,False,sektorler/3lu/C283.xlsx
+C284,Manufacture of metal forming machinery and machine tools,3'li (NACE Rev.2),2026-09,"ARDL(2,0,0,0)",2013Q2–2026Q2,53,0.6425392507665857,0.5869342453302768,-3.2732726400678533,False,sektorler/3lu/C284.xlsx
+C289,Manufacture of other special-purpose machinery,3'li (NACE Rev.2),2026-09,"ARDL(1,3,1,1)",2013Q2–2026Q2,53,0.6546160218903863,0.5619520277634167,-3.4343566893116,False,sektorler/3lu/C289.xlsx
+C29,"Manufacture of motor vehicles, trailers and semi-trailers",2'li (NACE Rev.2),2026-09,"ARDL(1,4,0,0)",2013Q2–2026Q2,53,0.89812629271364,0.8738706481216495,-3.3406532014614476,False,sektorler/2li/C29.xlsx
+C291,Manufacture of motor vehicles,3'li (NACE Rev.2),2026-09,"ARDL(4,4,1,3)",2013Q2–2026Q2,53,0.8792105382573918,0.8205413711252678,-2.614887015931564,False,sektorler/3lu/C291.xlsx
+C292,Manufacture of bodies (coachwork) for motor vehicles; manufacture of trailers and semi-trailers,3'li (NACE Rev.2),2026-09,"ARDL(2,0,0,2)",2013Q2–2026Q2,53,0.4556839021216206,0.3417572769842854,-2.0609231516497477,False,sektorler/3lu/C292.xlsx
+C293,Manufacture of parts and accessories for motor vehicles,3'li (NACE Rev.2),2026-09,"ARDL(1,0,0,0)",2013Q2–2026Q2,53,0.9076252156832378,0.8955763307723559,-3.683777119803302,False,sektorler/3lu/C293.xlsx
+C30,Manufacture of other transport equipment,2'li (NACE Rev.2),2026-09,"ARDL(4,3,4,1)",2013Q2–2026Q2,53,0.7034551175127571,0.5594190317332391,-1.4868286040119258,False,sektorler/2li/C30.xlsx
+C301,Building of ships and boats,3'li (NACE Rev.2),2026-09,"ARDL(3,4,4,4)",2013Q2–2026Q2,53,0.9377831410256747,0.8988976041667214,-6.234064335805282,False,sektorler/3lu/C301.xlsx
+C302,Manufacture of railway locomotives and rolling stock,3'li (NACE Rev.2),2026-09,"ARDL(2,4,2,0)",2013Q2–2026Q2,53,0.3397938492874819,0.11972513238330929,-4.422071093712723,False,sektorler/3lu/C302.xlsx
+C309,Manufacture of transport equipment n.e.c.,3'li (NACE Rev.2),2026-09,"ARDL(1,0,0,0)",2013Q2–2026Q2,53,0.14775197240918891,0.03658918620169194,-0.586362640971215,False,sektorler/3lu/C309.xlsx
+C31,Manufacture of furniture,2'li (NACE Rev.2),2026-09,"ARDL(4,4,4,0)",2013Q2–2026Q2,53,0.778485573846821,0.6708928525724198,-2.9255794379463156,False,sektorler/2li/C31.xlsx
+C310,Manufacture of furniture,3'li (NACE Rev.2),2026-09,"ARDL(4,4,4,0)",2013Q2–2026Q2,53,0.778485573846821,0.6708928525724198,-2.9255794379463156,False,sektorler/3lu/C310.xlsx
+C32,Other manufacturing,2'li (NACE Rev.2),2026-09,"ARDL(4,4,0,0)",2013Q2–2026Q2,53,0.5155809698843632,0.35410795984581767,-2.3009238474391287,False,sektorler/2li/C32.xlsx
+C321,"Manufacture of jewellery, bijouterie and related articles",3'li (NACE Rev.2),2026-09,"ARDL(1,2,0,0)",2013Q2–2026Q2,53,0.6049913708508019,0.5331716200964023,-1.1582828348023484,False,sektorler/3lu/C321.xlsx
+C322,Manufacture of musical instruments,3'li (NACE Rev.2),2026-09,"ARDL(2,0,0,0)",2013Q2–2026Q2,53,0.5622995626608899,0.49421282796369503,-0.7807234719360534,False,sektorler/3lu/C322.xlsx
+C323,Manufacture of sports goods,3'li (NACE Rev.2),2026-09,"ARDL(1,2,2,0)",2013Q2–2026Q2,53,0.40146926676157335,0.25896194932385275,-1.2037733726811353,False,sektorler/3lu/C323.xlsx
+C324,Manufacture of games and toys,3'li (NACE Rev.2),2026-09,"ARDL(4,2,0,4)",2013Q2–2026Q2,53,0.5466726316474046,0.3628912660990552,-2.2385484796841215,False,sektorler/3lu/C324.xlsx
+C325,Manufacture of medical and dental instruments and supplies,3'li (NACE Rev.2),2026-09,"ARDL(2,1,0,0)",2013Q2–2026Q2,53,0.35576707462991597,0.2386338154717188,-2.3633446896948818,False,sektorler/3lu/C325.xlsx
+C329,Manufacturing n.e.c.,3'li (NACE Rev.2),2026-09,"ARDL(1,0,0,3)",2013Q2–2026Q2,53,0.46093733104626733,0.3481102608001373,-2.050825835510193,False,sektorler/3lu/C329.xlsx
+C33,Repair and installation of machinery and equipment,2'li (NACE Rev.2),2026-09,"ARDL(4,1,2,0)",2013Q2–2026Q2,53,0.7433877455220211,0.6664040691786275,-3.575030721574994,False,sektorler/2li/C33.xlsx
+D35,"Electricity, gas, steam and air conditioning supply",2'li (NACE Rev.2),2026-09,"ARDL(2,2,0,0)",2013Q2–2026Q2,53,0.7208582696932493,0.6624332563732317,-4.96973819989962,False,sektorler/2li/D35.xlsx
+D351,"Electric power generation, transmission and distribution",3'li (NACE Rev.2),2026-09,"ARDL(2,2,0,0)",2013Q2–2026Q2,53,0.7208582696932493,0.6624332563732317,-4.96973819989962,False,sektorler/3lu/D351.xlsx

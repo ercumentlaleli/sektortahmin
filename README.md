@@ -11,6 +11,18 @@ export EVDS_API_KEY=...   # TCMB EVDS API anahtarı
 python run_monthly.py --excel "inputs/<yeni_makro_excel>.xlsx"
 ```
 
+## Arayüz (Streamlit)
+
+```bash
+streamlit run app.py
+```
+
+* **Genel bakış**: tüm sektörlerin yıllık gerçekleşen ve tahmin büyümeleri, tanı testi özeti
+* **Sektör detayı**: yıllık bar grafik, çeyreklik düzey grafiği, tanı testleri, katsayılar, sektör Excel'ini indirme
+* **Varsayımlar**: Türkiye/küresel büyüme varsayımları, açıklayıcı değişken projeksiyonları
+* **Yeni çalıştırma**: yeni makro Excel'i yükleyip modeli arayüzden çalıştırma (API anahtarları ortamda tanımlı olmalı)
+* Yan menü: özet Excel ve tüm sektör dosyalarını (zip) indirme
+
 Çıktılar `outputs/<YYYY-AA>/` altına yazılır:
 
 * `Ozet_Tum_Sektorler_<YYYY-AA>.xlsx`: tüm sektörlerin model, yıllık büyüme ve tanı testi özeti
@@ -22,7 +34,7 @@ python run_monthly.py --excel "inputs/<yeni_makro_excel>.xlsx"
   * **Varsayımlar**: Türkiye/küresel büyüme varsayımları, REDK projeksiyonu, mevsimsellik testleri
   * **Model Çıktısı**: tam regresyon çıktısı
 
-Opsiyonlar: `--end-year 2028` (tahmin ufku), `--only C24,C241` (yalnızca seçilen kodlar), `--levels 2,3`.
+Opsiyonlar: `--end-year 2032` (varsayılan) (tahmin ufku), `--only C24,C241` (yalnızca seçilen kodlar), `--levels 2,3`.
 
 ## Yöntem
 
@@ -34,8 +46,9 @@ Opsiyonlar: `--end-year 2028` (tahmin ufku), `--only C24,C241` (yalnızca seçil
 | 3. Mevsimsellik | Δlog serilerde çeyrek kuklaları F testi ve Kruskal-Wallis testi. İki test de %5'te anlamlıysa çeyrek etkileri arındırılır. |
 | ARDL | Δlog(SÜE) = c + Σφᵢ Δlog(SÜE)₍t−i₎ + Σ β Δlog(X)₍t−j₎. p = 1..4, her X için q = 0..4. 500 aday modelin hepsi aynı örneklemde AIC ile karşılaştırılır (EViews mantığı). Üç açıklayıcı da her modelde en az eşanlı olarak yer alır. |
 | Örneklem | Bağımlı ve tüm açıklayıcıların gerçekleşen olduğu ortak dönem. Küresel GSYH serisi nedeniyle başlangıç 2012Q2, ilk 4 çeyrek gecikmeler için ayrıldığından tahmin 2013Q2'den başlar. |
+| COVID kuklaları | 2020Q2 ve 2020Q3 için ayrı impuls kuklaları her aday modelde sabit yer alır, tahmin döneminde 0'dır. Değişen varyans testlerinde regresör kümesinden çıkarılır. |
 | 4. Tanı testleri | Breusch-Godfrey LM (1 ve 4 gecikme), Breusch-Pagan-Godfrey, White, ARCH LM(4), Jarque-Bera, Ramsey RESET |
-| 5. Küresel projeksiyon | IMF WEO (son yayım) dünya reel büyümesi `G001.NGDP_RPCH` |
+| 5. Küresel projeksiyon | IMF WEO (son yayım) dünya reel büyümesi `G001.NGDP_RPCH`. WEO ufkunun (şu an 2031) ötesindeki yıllarda son WEO yılının büyümesi sabit tutulur. |
 | 6. Türkiye projeksiyonu | Makro Excel → *Macro Projections* sayfası, "GSYH büyüme, %" satırı (26. satır) |
 | Yıllık → çeyreklik | Yılın eksik çeyrekleri için sabit bir çeyreklik büyüme oranı bulunur. Bu oran, yıllık ortalama endeks büyümesini varsayılan yıllık büyümeye eşitler. |
 | 7. REDK projeksiyonu | Excel → *Aylık Kur Tahminleri*: B (TÜFE endeksi), H (Dolar/TL). Çeyrek ortalamalarının % değişimi alınır. REDK = REDK(−1)·(1+TÜFE değ.)/(1+USD değ.) formülü son tam REDK çeyreğinden itibaren uygulanır. |
