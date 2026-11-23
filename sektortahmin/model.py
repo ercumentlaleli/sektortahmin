@@ -16,9 +16,10 @@ import itertools
 X_COLS = ["dl_GSYH", "dl_DUNYA", "dl_REDK"]
 X_LABELS = {"dl_GSYH": "Türkiye GSYH (MA)", "dl_DUNYA": "Küresel GSYH (IMF)", "dl_REDK": "REDK (TÜFE bazlı)"}
 MAXLAG = 4
-# COVID-19 impuls kuklaları (2020Q2 çöküş, 2020Q3 toparlanma). Her aday modelde sabit yer alır,
-# tahmin döneminde 0'dır.
-DUMMY_PERIODS = ["2020Q2", "2020Q3"]
+# Opsiyonel COVID-19 impuls kuklaları (varsayılan: kapalı). run_monthly.py --covid-dummy ile
+# ["2020Q2", "2020Q3"] olarak açılır; açıkken her aday modelde sabit yer alır, tahmin döneminde 0'dır.
+COVID_PERIODS = ["2020Q2", "2020Q3"]
+DUMMY_PERIODS: list[str] = []
 
 
 def dummy_frame(index: pd.PeriodIndex) -> pd.DataFrame:

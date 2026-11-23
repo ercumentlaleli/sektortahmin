@@ -26,6 +26,7 @@ import pandas as pd
 
 from sektortahmin import data_sources as ds
 from sektortahmin import projections as pj
+from sektortahmin import model as model_mod
 from sektortahmin.model import X_COLS, apply_factors, fit_and_forecast, seasonal_factors, seasonality_test
 from sektortahmin.report import safe_name, write_sector_workbook, write_summary_workbook
 
@@ -79,10 +80,14 @@ def main():
     ap.add_argument("--out", default="outputs")
     ap.add_argument("--cache", default="data/cache")
     ap.add_argument("--levels", default="2,3")
+    ap.add_argument("--covid-dummy", action="store_true", help="2020Q2/2020Q3 COVID impuls kuklalarını ekle")
     ap.add_argument("--only", default="", help="Virgülle NACE kodları (test için)")
     args = ap.parse_args()
 
     today = dt.date.today()
+    if args.covid_dummy:
+        model_mod.DUMMY_PERIODS[:] = model_mod.COVID_PERIODS
+    dummy_text = ("COVID impuls kuklaları: " + ", ".join(model_mod.DUMMY_PERIODS)) if model_mod.DUMMY_PERIODS else "Yok"
     end_year = args.end_year
     horizon_end = pd.Period(f"{end_year}Q4", "Q")
     run_tag = today.strftime("%Y-%m")
@@ -183,7 +188,7 @@ def main():
             failed.append((code, f"yetersiz gözlem ({len(mean_q)} çeyrek)"))
             continue
         meta = {"name": names.get(code, ""), "level": f"{lvl}'li (NACE Rev.2)", "last_month": str(m.index.max()),
-                "run_date": today.isoformat()}
+                "run_date": today.isoformat(), "dummies": dummy_text}
         try:
             r = fit_and_forecast(code, mean_q, cnt_q, X_dl, x_last_actual, horizon_end)
         except Exception as e:
@@ -206,7 +211,7 @@ def main():
         "IMF küresel GSYH son gerçekleşen": str(world.index[-1]),
         "IMF WEO yayım tarihi": weo_pub,
         "WEO ufku dışı yıllar": weo_ext_note,
-        "COVID kuklaları": "2020Q2, 2020Q3 (impuls, her modelde)",
+        "COVID kuklaları": dummy_text,
         "REDK son tam çeyrek": str(reer_q.index[-1]) + f" (son ay {reer_m.index[-1]})",
         "Tahmin örneklemi sonu": str(x_last_actual),
         "Tahmin ufku": str(horizon_end),

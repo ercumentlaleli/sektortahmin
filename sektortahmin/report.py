@@ -64,7 +64,7 @@ def write_sector_workbook(path: Path, r: ModelResult, meta: dict, inputs_q: pd.D
             ("Model", f"ARDL({r.order['p']}, {r.order['dl_GSYH']}, {r.order['dl_DUNYA']}, {r.order['dl_REDK']})  –  AIC ile seçildi (maks. 4 gecikme)"),
             ("Bağımlı değişken", "Δlog(SÜE)"),
             ("Açıklayıcılar", "Δlog(Türkiye GSYH MA), Δlog(IMF küresel GSYH), Δlog(REDK) ve gecikmeleri"),
-            ("Kukla değişkenler", "COVID-19 impuls kuklaları: D2020Q2, D2020Q3 (tahmin döneminde 0)"),
+            ("Kukla değişkenler", meta.get("dummies", "Yok")),
             ("Tahmin örneklemi", f"{r.sample[0]} – {r.sample[1]}"),
             ("Gözlem sayısı", r.nobs),
             ("R²", r.ols.rsquared),

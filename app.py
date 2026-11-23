@@ -177,7 +177,9 @@ elif page == "Sektör detayı":
     m = models.set_index("NACE").loc[code]
     st.title(f"{code} – {m['Ad']}")
     st.caption(f"{m['Düzey']} · Son açıklanan ay: {m['Son ay']} · Örneklem: {m['Örneklem']} · "
-               "Δlog(SÜE) ~ Δlog(TR GSYH), Δlog(Küresel GSYH), Δlog(REDK) + COVID kuklaları (2020Q2, 2020Q3)")
+               "Δlog(SÜE) ~ Δlog(TR GSYH), Δlog(Küresel GSYH), Δlog(REDK)"
+               + ("" if str(D["run_info"]["Değer"].get("COVID kuklaları", "Yok")) == "Yok"
+                  else " + " + str(D["run_info"]["Değer"].get("COVID kuklaları"))))
 
     c = st.columns(5)
     c[0].metric("Model (p, q_GSYH, q_Dünya, q_REDK)", m["Model"].replace("ARDL", ""))
@@ -202,7 +204,6 @@ elif page == "Sektör detayı":
         dg = D["diagnostics"][D["diagnostics"]["NACE"] == code].drop(columns="NACE").set_index("Test")
         st.dataframe(dg.style.format({"İstatistik": "{:.3f}", "p-değeri": "{:.3f}"}).map(color_result, subset=["Sonuç (%5)"]),
                      width="stretch")
-        st.caption("Değişen varyans testlerinde COVID kuklaları regresör kümesinden çıkarılmıştır.")
     with t3:
         cf = D["coefficients"][D["coefficients"]["NACE"] == code].drop(columns="NACE").set_index("Değişken")
         st.dataframe(cf.style.format("{:.4f}").map(lambda v: "font-weight:bold" if v < 0.05 else "", subset=["p"]),

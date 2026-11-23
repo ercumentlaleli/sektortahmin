@@ -46,7 +46,7 @@ Opsiyonlar: `--end-year 2032` (varsayılan) (tahmin ufku), `--only C24,C241` (ya
 | 3. Mevsimsellik | Δlog serilerde çeyrek kuklaları F testi ve Kruskal-Wallis testi. İki test de %5'te anlamlıysa çeyrek etkileri arındırılır. |
 | ARDL | Δlog(SÜE) = c + Σφᵢ Δlog(SÜE)₍t−i₎ + Σ β Δlog(X)₍t−j₎. p = 1..4, her X için q = 0..4. 500 aday modelin hepsi aynı örneklemde AIC ile karşılaştırılır (EViews mantığı). Üç açıklayıcı da her modelde en az eşanlı olarak yer alır. |
 | Örneklem | Bağımlı ve tüm açıklayıcıların gerçekleşen olduğu ortak dönem. Küresel GSYH serisi nedeniyle başlangıç 2012Q2, ilk 4 çeyrek gecikmeler için ayrıldığından tahmin 2013Q2'den başlar. |
-| COVID kuklaları | 2020Q2 ve 2020Q3 için ayrı impuls kuklaları her aday modelde sabit yer alır, tahmin döneminde 0'dır. Değişen varyans testlerinde regresör kümesinden çıkarılır. |
+| COVID kuklaları | Varsayılan olarak **kullanılmaz**. `--covid-dummy` ile 2020Q2 ve 2020Q3 impuls kuklaları her aday modele eklenir (tahmin döneminde 0). |
 | 4. Tanı testleri | Breusch-Godfrey LM (1 ve 4 gecikme), Breusch-Pagan-Godfrey, White, ARCH LM(4), Jarque-Bera, Ramsey RESET |
 | 5. Küresel projeksiyon | IMF WEO (son yayım) dünya reel büyümesi `G001.NGDP_RPCH`. WEO ufkunun (şu an 2031) ötesindeki yıllarda son WEO yılının büyümesi sabit tutulur. |
 | 6. Türkiye projeksiyonu | Makro Excel → *Macro Projections* sayfası, "GSYH büyüme, %" satırı (26. satır) |
