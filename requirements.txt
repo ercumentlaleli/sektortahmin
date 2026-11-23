@@ -1,0 +1,7 @@
+pandas>=2.2
+numpy
+scipy
+statsmodels>=0.14
+openpyxl
+xlsxwriter
+requests
