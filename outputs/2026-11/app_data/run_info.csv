@@ -1,16 +1,17 @@
 ,Değer
 Çalıştırma tarihi,2026-11-23
 Makro Excel,Makro_Tahminler_Alternatif_3_Kasim_2026.xlsx
+COVID kuklaları,Yok
+Model,Sanayi üretimi (SÜE)
 Türkiye büyüme satırı (Macro Projections),26
 SÜE son ay (2'li),2026-09
 TR GSYH son gerçekleşen,2026Q2
 IMF küresel GSYH son gerçekleşen,2026Q2
 IMF WEO yayım tarihi,2026-10-13T02:00:00Z
-WEO ufku dışı yıllar,"2032-2032: WEO'nun son yılı (2031, %3.08) sabit tutuldu"
-COVID kuklaları,Yok
-Uzun vade yakınsaması,"2029Q1–2032Q4 doğrusal; hedef = tarihsel göreli büyüme oranı (2013Q1'ten, [0, 2] sınırlı) x TR GSYH büyümesi"
+WEO ufku dışı yıllar,"2032-2032: son yıl (2031, %3.08) sabit tutuldu"
 REDK son tam çeyrek,2026Q3 (son ay 2026-10)
+Uzun vade yakınsaması,"2029Q1–2032Q4 doğrusal; hedef = tarihsel göreli büyüme oranı (2013Q1'ten, [0, 2] sınırlı) x TR GSYH büyümesi"
 Tahmin örneklemi sonu,2026Q2
 Tahmin ufku,2032Q4
 Modellenen seri,118
-Modellenemeyen,B061: yetersiz gözlem (0 çeyrek); B062: yetersiz gözlem (0 çeyrek); C182: yetersiz gözlem (0 çeyrek); C191: yetersiz gözlem (0 çeyrek); C192: yetersiz gözlem (0 çeyrek); C211: yetersiz gözlem (0 çeyrek); C253: yetersiz gözlem (0 çeyrek); C262: yetersiz gözlem (0 çeyrek); C264: yetersiz gözlem (0 çeyrek); C267: yetersiz gözlem (0 çeyrek); C268: yetersiz gözlem (0 çeyrek); C303: yetersiz gözlem (0 çeyrek); C304: yetersiz gözlem (0 çeyrek); C331: yetersiz gözlem (0 çeyrek); C332: yetersiz gözlem (0 çeyrek)
+Modellenemeyen,B061: TÜİK veri yayımlamıyor (gizli); B062: TÜİK veri yayımlamıyor (gizli); C182: TÜİK veri yayımlamıyor (gizli); C191: TÜİK veri yayımlamıyor (gizli); C192: TÜİK veri yayımlamıyor (gizli); C211: TÜİK veri yayımlamıyor (gizli); C253: TÜİK veri yayımlamıyor (gizli); C262: TÜİK veri yayımlamıyor (gizli); C264: TÜİK veri yayımlamıyor (gizli); C267: TÜİK veri yayımlamıyor (gizli); C268: TÜİK veri yayımlamıyor (gizli); C303: TÜİK veri yayımlamıyor (gizli); C304: TÜİK veri yayımlamıyor (gizli); C331: TÜİK veri yayımlamıyor (gizli); C332: TÜİK veri yayımlamıyor (gizli)

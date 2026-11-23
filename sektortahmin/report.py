@@ -39,9 +39,22 @@ def _write_df(ws, df: pd.DataFrame, r0: int, c0: int, fmt_h, fmt_n=None, index=T
     return r0 + len(df) + 1
 
 
+def model_str(r: ModelResult, sep: str = ",") -> str:
+    return "ARDL(" + sep.join(str(r.order[k]) for k in ["p", *r.spec.x_cols]) + ")"
+
+
+def disp_name(c: str, spec) -> str:
+    """Dahili sütun adlarını model türüne göre görüntüleme adına çevirir."""
+    c = c.replace("SÜE", spec.dep_short)
+    if spec.word != "büyüme":
+        c = c.replace("büyüme", spec.word).replace("Büyüme", spec.word.capitalize())
+    return c
+
+
 def write_sector_workbook(path: Path, r: ModelResult, meta: dict, inputs_q: pd.DataFrame,
                           monthly: pd.Series, assumptions: dict):
     path.parent.mkdir(parents=True, exist_ok=True)
+    sp = r.spec
     with pd.ExcelWriter(path, engine="xlsxwriter") as xw:
         wb = xw.book
         H = wb.add_format({"bold": True, "bg_color": "#1F3864", "font_color": "white", "border": 1, "text_wrap": True})
@@ -59,11 +72,11 @@ def write_sector_workbook(path: Path, r: ModelResult, meta: dict, inputs_q: pd.D
         ws.write(0, 0, f"{r.code} – {meta.get('name', '')}", T)
         info = [
             ("NACE düzeyi", meta.get("level")),
-            ("Veri kaynağı", "TÜİK SDMX – SÜE (2021=100), mevsim ve takvim etkisinden arındırılmış"),
+            ("Veri kaynağı", sp.dep_source),
             ("Son açıklanan ay", meta.get("last_month")),
-            ("Model", f"ARDL({r.order['p']}, {r.order['dl_GSYH']}, {r.order['dl_DUNYA']}, {r.order['dl_REDK']})  –  AIC ile seçildi (maks. 4 gecikme)"),
-            ("Bağımlı değişken", "Δlog(SÜE)"),
-            ("Açıklayıcılar", "Δlog(Türkiye GSYH MA), Δlog(IMF küresel GSYH), Δlog(REDK) ve gecikmeleri"),
+            ("Model", f"{model_str(r, ', ')}  –  AIC ile seçildi (maks. 4 gecikme); sıra: p, " + ", ".join(sp.x_labels[x] for x in sp.x_cols)),
+            ("Bağımlı değişken", f"Δlog({sp.dep_short})"),
+            ("Açıklayıcılar", ", ".join(f"Δlog({sp.x_labels[x]})" for x in sp.x_cols) + " ve gecikmeleri"),
             ("Kukla değişkenler", meta.get("dummies", "Yok")),
             ("Tahmin örneklemi", f"{r.sample[0]} – {r.sample[1]}"),
             ("Gözlem sayısı", r.nobs),
@@ -71,9 +84,9 @@ def write_sector_workbook(path: Path, r: ModelResult, meta: dict, inputs_q: pd.D
             ("Düzeltilmiş R²", r.ols.rsquared_adj),
             ("AIC (EViews ölçeği, seçilen model)", r.aic),
             ("Mevsimsellik testi (F, p)", f"F={r.season['F']:.2f}, p={r.season['F_p']:.3f}; KW p={r.season['KW_p']:.3f}"),
-            ("Mevsimsellik arındırması", "Uygulandı" if r.season["mevsimsel"] else "Gerek yok (seri zaten MA)"),
-            ("Uzun vade yakınsaması", f"{r.convergence.get('Yakınsama', '')}: tahmin, sektörün tarihsel göreli büyümesi x TR GSYH büyümesine yaklaştırılır"),
-            ("Göreli büyüme oranı (ham → sınırlı [0, 2])",
+            ("Mevsimsellik arındırması", "Uygulandı" if r.season["mevsimsel"] else sp.sa_note),
+            ("Uzun vade yakınsaması", f"{r.convergence.get('Yakınsama', '')}: tahmin, sektörün tarihsel göreli {sp.word}{'si' if sp.word.endswith('e') else 'i'} x {sp.anchor_label}ne yaklaştırılır"),
+            (f"Göreli {sp.word} oranı (ham → sınırlı [0, 2])",
              f"{r.convergence.get('Göreli büyüme oranı (ham)', float('nan')):.2f} → {r.convergence.get('Göreli büyüme oranı (sınırlı)', float('nan')):.2f}"
              f"  (pencere {r.convergence.get('Tarihsel pencere', '')})"),
             ("Çalıştırma tarihi", meta.get("run_date")),
@@ -97,9 +110,10 @@ def write_sector_workbook(path: Path, r: ModelResult, meta: dict, inputs_q: pd.D
             ws.write(row + i, 4, res, OK if res == "Geçti" else BAD)
         row += len(d) + 2
 
-        ws.write(row, 0, "Yıllık büyüme: gerçekleşen vs. model (ham) vs. yakınsamalı tahmin (%)", T)
+        ws.write(row, 0, f"Yıllık ortalama {sp.word}: gerçekleşen vs. model (ham) vs. yakınsamalı tahmin (%)", T)
         row += 1
         a = r.annual.copy()
+        a.columns = [disp_name(c, sp) for c in a.columns]
         a_start = row
         _write_df(ws, a, row, 0, H, N2, index=False)
         a_end = row + len(a)
@@ -112,7 +126,7 @@ def write_sector_workbook(path: Path, r: ModelResult, meta: dict, inputs_q: pd.D
                        "values": ["Özet", a_start + 1, 2, a_end, 2], "fill": {"color": "#ED7D31"}})
         ch.add_series({"name": "Yakınsamalı tahmin", "categories": ["Özet", a_start + 1, 0, a_end, 0],
                        "values": ["Özet", a_start + 1, 3, a_end, 3], "fill": {"color": "#70AD47"}})
-        ch.set_title({"name": f"{r.code} – Yıllık SÜE büyümesi (%)"})
+        ch.set_title({"name": f"{r.code} – Yıllık ortalama {sp.dep_short} {sp.word}{'si' if sp.word.endswith('e') else 'i'} (%)"})
         ch.set_x_axis({"name": "Yıl", "num_font": {"rotation": -45}})
         ch.set_y_axis({"name": "%", "major_gridlines": {"visible": True, "line": {"color": "#D9D9D9"}}})
         ch.set_legend({"position": "bottom"})
@@ -137,15 +151,16 @@ def write_sector_workbook(path: Path, r: ModelResult, meta: dict, inputs_q: pd.D
         lr = []
         p = r.order["p"]
         ar = sum(res.params.get(f"dly(-{i})", 0.0) for i in range(1, p + 1))
-        for x in X_COLS:
+        for x in sp.x_cols:
             sx = sum(v for k, v in res.params.items() if k.startswith(x))
-            lr.append({"Değişken": X_LABELS[x], "Uzun dönem esnekliği": sx / (1 - ar) if abs(1 - ar) > 1e-8 else np.nan})
+            lr.append({"Değişken": sp.x_labels[x], "Uzun dönem esnekliği": sx / (1 - ar) if abs(1 - ar) > 1e-8 else np.nan})
         ws2.write(rr + 15, 0, "Uzun dönem esneklikleri  Σβ / (1 − Σφ)", T)
         _write_df(ws2, pd.DataFrame(lr), rr + 16, 0, H, N4, index=False)
 
         # ---------------- Çeyreklik
         q = r.quarterly.copy()
         q = q.join(inputs_q, how="left")
+        q.columns = [disp_name(c, sp) for c in q.columns]
         q.index.name = "Çeyrek"
         ws3 = wb.add_worksheet("Çeyreklik")
         ws3.set_column(0, 0, 10)
@@ -154,8 +169,8 @@ def write_sector_workbook(path: Path, r: ModelResult, meta: dict, inputs_q: pd.D
         _write_df(ws3, q, 0, 0, H, N4)
 
         # ---------------- Aylık veri
-        ws4 = wb.add_worksheet("Aylık SÜE")
-        m = monthly.dropna().to_frame("SÜE (MA, 2021=100)")
+        ws4 = wb.add_worksheet(f"Aylık {sp.dep_short}")
+        m = monthly.dropna().to_frame(sp.dep_unit)
         m.index.name = "Ay"
         _write_df(ws4, m, 0, 0, H, N4)
         ws4.set_column(0, 1, 18)
@@ -182,9 +197,9 @@ def write_summary_workbook(path: Path, results: list[ModelResult], metas: dict, 
         a = r.annual.set_index("Yıl")
         d = r.diagnostics.set_index("Test")["Sonuç (%5)"]
         row = {"NACE": r.code, "Ad": metas[r.code].get("name", ""), "Düzey": metas[r.code]["level"],
-               "Model": f"ARDL({r.order['p']},{r.order['dl_GSYH']},{r.order['dl_DUNYA']},{r.order['dl_REDK']})",
+               "Model": model_str(r),
                "Örneklem": f"{r.sample[0]}–{r.sample[1]}", "N": r.nobs, "Düz. R²": r.ols.rsquared_adj}
-        row["Göreli büyüme oranı"] = r.convergence.get("Göreli büyüme oranı (sınırlı)")
+        row[f"Göreli {r.spec.word} oranı"] = r.convergence.get("Göreli büyüme oranı (sınırlı)")
         for yr in sorted(a.index):
             g = a.loc[yr]
             if pd.notna(g["Gerçekleşen büyüme %"]):

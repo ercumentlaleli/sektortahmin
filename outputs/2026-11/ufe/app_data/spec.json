@@ -1,0 +1,22 @@
+{
+ "key": "ufe",
+ "title": "Yurt içi üretici fiyatları (Yİ-ÜFE)",
+ "dep_short": "Yİ-ÜFE",
+ "dep_source": "TÜİK SDMX – Yurt İçi Üretici Fiyat Endeksi (2003=100), NACE Rev.2",
+ "dep_unit": "Yİ-ÜFE (2003=100)",
+ "x_cols": [
+  "dl_YIUFE",
+  "dl_USD",
+  "dl_BRENT"
+ ],
+ "x_labels": {
+  "dl_YIUFE": "Yİ-ÜFE genel (Excel E)",
+  "dl_USD": "Dolar/TL (Excel H)",
+  "dl_BRENT": "Brent petrol (USD, EVDS)"
+ },
+ "anchor_col": "dl_YIUFE",
+ "anchor_label": "Yİ-ÜFE genel değişimi",
+ "word": "değişim",
+ "sample_start": "2005Q1",
+ "sa_note": "Gerek yok (mevsimsellik bulunmadı)"
+}

@@ -1,0 +1,16 @@
+,Değer
+Çalıştırma tarihi,2026-11-23
+Makro Excel,Makro_Tahminler_Alternatif_3_Kasim_2026.xlsx
+COVID kuklaları,Yok
+Model,Yurt içi üretici fiyatları (Yİ-ÜFE)
+Yİ-ÜFE son ay,2026-10
+Dolar/TL son tam ay (EVDS),2026-10
+Brent son tam çeyrek (EVDS),2026Q3
+Yİ-ÜFE / Dolar-TL projeksiyonu,"Excel 'Aylık Kur Tahminleri' E ve H sütunlarının aylık % değişimleri, son gerçekleşen aydan zincirlenerek"
+Brent projeksiyonu,IMF WEO ortalama petrol fiyatı (APSP) yıllık % değişimleri; WEO yayım 2026-10-13T02:00:00Z
+WEO petrol ufku dışı yıllar,"2032-2032: son yıl (2031, %-2.54) sabit tutuldu"
+Uzun vade yakınsaması,"2029Q1–2032Q4 doğrusal; hedef = tarihsel göreli değişim oranı (2013Q1'ten, [0, 2] sınırlı) x Yİ-ÜFE genel değişimi"
+Tahmin örneklemi sonu,2026Q3
+Tahmin ufku,2032Q4
+Modellenen seri,116
+Modellenemeyen,C211: tahmin örneklemi kısa (22 gözlem < 40; veri 2020-01'dan başlıyor); C256: tahmin örneklemi kısa (34 gözlem < 40; veri 2017-01'dan başlıyor); C268: yayımı durmuş (son veri 2018-12); C279: tahmin örneklemi kısa (31 gözlem < 40; veri 2017-12'dan başlıyor); C302: tahmin örneklemi kısa (34 gözlem < 40; veri 2017-01'dan başlıyor); C324: tahmin örneklemi kısa (22 gözlem < 40; veri 2020-01'dan başlıyor)

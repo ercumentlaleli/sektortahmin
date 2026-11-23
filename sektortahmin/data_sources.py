@@ -163,3 +163,44 @@ def save_cache(obj, path: Path):
         obj.to_csv(path)
     else:
         path.write_text(json.dumps(obj, ensure_ascii=False, indent=1))
+
+
+# ---------------------------------------------------------------- Yİ-ÜFE modeli için
+PPI_FLOW = "DF_YIUFE_EDO_V1"
+PPI_FAAL = {2: "4", 3: "5"}   # bu dataflow'da FAAL_GRUP 4 = 2'li (bölüm), 5 = 3'lü (grup), _T = genel
+EVDS_USD = "TP.DK.USD.A.YTL"
+EVDS_BRENT = "TP.BRENTPETROL.EUBP"
+
+
+def tuik_ppi_monthly(start: str = "2004-01", token: str | None = None) -> dict[str, pd.DataFrame]:
+    """Yİ-ÜFE (2003=100) endeksi: {'2': geniş tablo, '3': geniş tablo, 'genel': tek sütun}."""
+    token = token or tuik_token()
+    h = {"Authorization": "Bearer " + token, "Accept": "application/vnd.sdmx.data+csv;version=2.0"}
+    r = _get(TUIK_BASE + f"data/{PPI_FLOW}/all", headers=h, params={"startPeriod": start}, timeout=900)
+    r.raise_for_status()
+    d = pd.read_csv(io.StringIO(r.text), dtype=str)
+    d = d[d.DEGISIM == DEGISIM_INDEX].copy()
+    d["OBS_VALUE"] = pd.to_numeric(d["OBS_VALUE"], errors="coerce")
+    out = {}
+    for key, fg in [("2", PPI_FAAL[2]), ("3", PPI_FAAL[3]), ("genel", "_T")]:
+        x = d[d.FAAL_GRUP == fg]
+        w = x.pivot_table(index="TIME_PERIOD", columns="URUN_UFE_NACE_CPA", values="OBS_VALUE", aggfunc="last")
+        w.index = pd.PeriodIndex(w.index, freq="M")
+        out[key] = w.sort_index()
+    return out
+
+
+def evds_monthly_avg(code: str, start="01-01-2000") -> pd.Series:
+    """Günlük/iş günü EVDS serisinin aylık ortalaması (yalnızca tamamlanmış aylar)."""
+    s = evds_series(code, start=start, frequency="5", aggregation="avg")
+    s.index = pd.PeriodIndex(pd.to_datetime(s.index, format="%Y-%m"), freq="M")
+    cur = pd.Period(pd.Timestamp.today(), "M")
+    return s[s.index < cur].sort_index()
+
+
+def imf_weo_oil() -> tuple[pd.Series, str]:
+    """IMF WEO ortalama ham petrol fiyatı (APSP, USD/varil), yıllık; (seri, yayım tarihi)."""
+    d = _imf_csv("data/IMF.RES,WEO/G001.POILAPSP.A?startPeriod=2000")
+    s = pd.Series(pd.to_numeric(d.OBS_VALUE).values, index=d.TIME_PERIOD.astype(int), name="WEO_PETROL")
+    pub = d.get("PUBLICATION_DATE", pd.Series([""])).iloc[0]
+    return s.sort_index(), pub

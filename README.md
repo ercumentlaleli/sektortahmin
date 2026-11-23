@@ -1,6 +1,13 @@
-# Sektörel Sanayi Üretimi Tahmin Modeli (ARDL)
+# Sektörel Sanayi Üretimi ve Üretici Fiyatları Tahmin Modeli (ARDL)
 
-TÜİK sanayi üretim endeksinin (SÜE) 2'li ve 3'lü NACE kırılımları için her ay çalıştırılan ARDL tahmin sistemi.
+TÜİK verileriyle 2'li ve 3'lü NACE kırılımlarında her ay çalıştırılan iki ARDL tahmin seti:
+
+| Model | Bağımlı değişken | Açıklayıcılar | Çıktı klasörü |
+|---|---|---|---|
+| **SÜE** | Mevsim ve takvim etkisinden arındırılmış sanayi üretim endeksi | TR GSYH (MA), IMF küresel GSYH, REDK | `outputs/<YYYY-AA>/` |
+| **Yİ-ÜFE** | Yurt içi üretici fiyat endeksi (2003=100) | Yİ-ÜFE genel (Excel E), Dolar/TL (Excel H), Brent (EVDS) | `outputs/<YYYY-AA>/ufe/` |
+
+İki model aynı yöntemi kullanır: çeyreklik ortalama, Δlog, mevsimsellik testi, AIC ile ARDL, tanı testleri, dinamik tahmin, uzun vade yakınsaması.
 
 ## Aylık çalıştırma
 
@@ -34,7 +41,7 @@ streamlit run app.py
   * **Varsayımlar**: Türkiye/küresel büyüme varsayımları, REDK projeksiyonu, mevsimsellik testleri
   * **Model Çıktısı**: tam regresyon çıktısı
 
-Opsiyonlar: `--end-year 2032` (varsayılan) (tahmin ufku), `--only C24,C241` (yalnızca seçilen kodlar), `--levels 2,3`.
+Opsiyonlar: `--models sue,ufe` (varsayılan ikisi), `--end-year 2032` (varsayılan) (tahmin ufku), `--only C24,C241` (yalnızca seçilen kodlar), `--levels 2,3`.
 
 ## Yöntem
 
@@ -60,3 +67,14 @@ Opsiyonlar: `--end-year 2032` (varsayılan) (tahmin ufku), `--only C24,C241` (ya
 
 * TÜİK'in bazı 3'lü kırılımları (ör. C191, C192, C211) gizlilik nedeniyle yayımlanmadığı için modellenemez. Bu kodlar özet dosyasının *Çalıştırma Bilgisi* sayfasında listelenir.
 * Aynı gün yeniden çalıştırmada TÜİK verisi `data/cache/<tarih>/` önbelleğinden okunur.
+
+## Yİ-ÜFE modeli
+
+| Adım | Uygulama |
+|---|---|
+| Bağımlı değişken | TÜİK SDMX `DF_YIUFE_EDO_V1`, endeks (2003=100). FAAL_GRUP 4 = 2'li, 5 = 3'lü. Aylık → çeyrek ortalaması (eksik aylarda açıklanan ayların ortalaması). Örneklem 2005Q1'den. |
+| Yİ-ÜFE genel | Gerçekleşen: TÜİK genel endeks (B-E36). Gelecek: Excel *Aylık Kur Tahminleri* E sütununun aylık % değişimleri son gerçekleşen aydan zincirlenir. |
+| Dolar/TL | Gerçekleşen: EVDS `TP.DK.USD.A.YTL` aylık ortalama. Gelecek: Excel H sütununun aylık % değişimleri. |
+| Brent | Gerçekleşen: EVDS `TP.BRENTPETROL.EUBP` aylık ortalama (tam çeyrekler). Gelecek: IMF WEO ortalama petrol fiyatı `G001.POILAPSP` yıllık % değişimleri. WEO ufku (2031) sonrasında son yılın değişimi sabit tutulur. |
+| Uzun vade yakınsaması | Hedef = sektörün tarihsel göreli fiyat değişimi oranı × genel Yİ-ÜFE değişimi. |
+| Dışlanan seriler | Tahmin örneklemi 40 çeyrekten kısa olanlar ve yayımı 12 aydan uzun süredir durmuş olanlar. |

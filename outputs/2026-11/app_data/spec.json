@@ -1,0 +1,22 @@
+{
+ "key": "sue",
+ "title": "Sanayi üretimi (SÜE)",
+ "dep_short": "SÜE",
+ "dep_source": "TÜİK SDMX – SÜE (2021=100), mevsim ve takvim etkisinden arındırılmış",
+ "dep_unit": "SÜE (MA, 2021=100)",
+ "x_cols": [
+  "dl_GSYH",
+  "dl_DUNYA",
+  "dl_REDK"
+ ],
+ "x_labels": {
+  "dl_GSYH": "Türkiye GSYH (MA)",
+  "dl_DUNYA": "Küresel GSYH (IMF)",
+  "dl_REDK": "REDK (TÜFE bazlı)"
+ },
+ "anchor_col": "dl_GSYH",
+ "anchor_label": "TR GSYH büyümesi",
+ "word": "büyüme",
+ "sample_start": "2011Q1",
+ "sa_note": "Gerek yok (seri zaten MA)"
+}

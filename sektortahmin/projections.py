@@ -125,3 +125,47 @@ def monthly_to_quarterly_partial(m: pd.DataFrame) -> tuple[pd.DataFrame, pd.Data
     mean = m.groupby(qi).mean()
     cnt = m.groupby(qi).count()
     return mean, cnt
+
+
+def read_monthly_columns(xlsx_path: str, cols: dict[str, int]) -> pd.DataFrame:
+    """Aylık Kur Tahminleri sayfasından A sütunu (tarih) ve istenen sütunları okur. cols: {ad: sütun no}."""
+    wb = openpyxl.load_workbook(xlsx_path, data_only=True)
+    ws = _find_sheet(wb, "Aylık Kur")
+    rows = []
+    for r in range(3, ws.max_row + 1):
+        d = ws.cell(r, 1).value
+        vals = [ws.cell(r, c).value for c in cols.values()]
+        if isinstance(d, (dt.date, dt.datetime)) and all(isinstance(v, (int, float)) for v in vals):
+            rows.append((pd.Period(d, "M"), *map(float, vals)))
+    return pd.DataFrame(rows, columns=["Ay", *cols]).set_index("Ay")
+
+
+def splice_monthly(actual: pd.Series, excel: pd.Series) -> pd.DataFrame:
+    """Gerçekleşen aylık seriyi, son gerçekleşen aydan sonra Excel'deki aylık % değişimlerle uzatır."""
+    actual = actual.dropna().sort_index()
+    excel = excel.dropna().sort_index()
+    last = actual.index[-1]
+    val = actual.copy().astype(float)
+    src = pd.Series("Gerçekleşen", index=actual.index)
+    fut = excel[excel.index > last]
+    if len(fut):
+        if last not in excel.index:
+            raise KeyError(f"Excel'de {last} ayı yok; zincirleme yapılamıyor.")
+        growth = excel.loc[last:].pct_change().iloc[1:]
+        level = actual.iloc[-1]
+        for p, g in growth.items():
+            level *= 1 + g
+            val.loc[p] = level
+            src.loc[p] = "Projeksiyon (Excel)"
+    return pd.DataFrame({"deger": val, "kaynak": src}).sort_index()
+
+
+def quarterly_from_monthly_path(m: pd.DataFrame, last_actual_month: pd.Period) -> pd.DataFrame:
+    """Gerçekleşen+projeksiyon aylık yolundan tam çeyrek ortalamaları; kaynak: çeyreğin tüm ayları
+    gerçekleşense 'Gerçekleşen', değilse 'Projeksiyon'."""
+    qi = m.index.asfreq("Q")
+    g = m["deger"].groupby(qi)
+    q = g.mean()[g.count() == 3]
+    lastq = last_actual_month.asfreq("Q") if last_actual_month.month % 3 == 0 else last_actual_month.asfreq("Q") - 1
+    src = pd.Series(["Gerçekleşen" if p <= lastq else "Projeksiyon" for p in q.index], index=q.index)
+    return pd.DataFrame({"deger": q, "kaynak": src})

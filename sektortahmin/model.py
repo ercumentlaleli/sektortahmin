@@ -16,6 +16,40 @@ import itertools
 X_COLS = ["dl_GSYH", "dl_DUNYA", "dl_REDK"]
 X_LABELS = {"dl_GSYH": "Türkiye GSYH (MA)", "dl_DUNYA": "Küresel GSYH (IMF)", "dl_REDK": "REDK (TÜFE bazlı)"}
 MAXLAG = 4
+
+
+@dataclass(frozen=True)
+class ModelSpec:
+    """Bir model setinin (bağımlı değişken + açıklayıcılar) tanımı."""
+    key: str                 # "sue" / "ufe"
+    title: str               # arayüzde gösterilen ad
+    dep_short: str           # "SÜE" / "Yİ-ÜFE"
+    dep_source: str          # veri kaynağı açıklaması
+    dep_unit: str            # aylık sayfa sütun adı
+    x_cols: tuple
+    x_labels: dict
+    anchor_col: str          # uzun vade yakınsamasında hedefin bağlandığı açıklayıcı
+    anchor_label: str
+    word: str                # "büyüme" / "değişim"
+    sample_start: str        # bağımlı değişken için en erken çeyrek
+    sa_note: str             # mevsimsellik arındırması gerekmezse yazılacak not
+
+
+SUE_SPEC = ModelSpec(
+    key="sue", title="Sanayi üretimi (SÜE)", dep_short="SÜE",
+    dep_source="TÜİK SDMX – SÜE (2021=100), mevsim ve takvim etkisinden arındırılmış",
+    dep_unit="SÜE (MA, 2021=100)",
+    x_cols=tuple(X_COLS), x_labels=X_LABELS, anchor_col="dl_GSYH", anchor_label="TR GSYH büyümesi",
+    word="büyüme", sample_start="2011Q1", sa_note="Gerek yok (seri zaten MA)")
+
+UFE_SPEC = ModelSpec(
+    key="ufe", title="Yurt içi üretici fiyatları (Yİ-ÜFE)", dep_short="Yİ-ÜFE",
+    dep_source="TÜİK SDMX – Yurt İçi Üretici Fiyat Endeksi (2003=100), NACE Rev.2",
+    dep_unit="Yİ-ÜFE (2003=100)",
+    x_cols=("dl_YIUFE", "dl_USD", "dl_BRENT"),
+    x_labels={"dl_YIUFE": "Yİ-ÜFE genel (Excel E)", "dl_USD": "Dolar/TL (Excel H)", "dl_BRENT": "Brent petrol (USD, EVDS)"},
+    anchor_col="dl_YIUFE", anchor_label="Yİ-ÜFE genel değişimi",
+    word="değişim", sample_start="2005Q1", sa_note="Gerek yok (mevsimsellik bulunmadı)")
 # Opsiyonel COVID-19 impuls kuklaları (varsayılan: kapalı). run_monthly.py --covid-dummy ile
 # ["2020Q2", "2020Q3"] olarak açılır; açıkken her aday modelde sabit yer alır, tahmin döneminde 0'dır.
 COVID_PERIODS = ["2020Q2", "2020Q3"]
@@ -85,6 +119,7 @@ class ModelResult:
     annual: pd.DataFrame
     select_table: pd.DataFrame = field(default_factory=pd.DataFrame)
     convergence: dict = field(default_factory=dict)
+    spec: ModelSpec = SUE_SPEC
     notes: list = field(default_factory=list)
 
 
@@ -100,22 +135,23 @@ def _design(df: pd.DataFrame, p: int, q: dict) -> pd.DataFrame:
     return pd.DataFrame(cols)
 
 
-def select_order_aic(est: pd.DataFrame):
+def select_order_aic(est: pd.DataFrame, x_cols=tuple(X_COLS)):
+    x_cols = list(x_cols)
     rows = est.index[MAXLAG:]
     yv = est.loc[rows, "dly"].values
     lagged = {}
     for i in range(1, MAXLAG + 1):
         lagged[("dly", i)] = est["dly"].shift(i).loc[rows].values
-    for x in X_COLS:
+    for x in x_cols:
         for j in range(0, MAXLAG + 1):
             lagged[(x, j)] = est[x].shift(j).loc[rows].values
     n = len(yv)
     dums = [d for d in dummy_frame(rows).T.values if d.any()]
     out = []
     for p in range(1, MAXLAG + 1):
-        for qs in itertools.product(range(MAXLAG + 1), repeat=len(X_COLS)):
+        for qs in itertools.product(range(MAXLAG + 1), repeat=len(x_cols)):
             cols = ([np.ones(n)] if USE_CONST else []) + dums + [lagged[("dly", i)] for i in range(1, p + 1)]
-            for x, qq in zip(X_COLS, qs):
+            for x, qq in zip(x_cols, qs):
                 cols += [lagged[(x, j)] for j in range(qq + 1)]
             Xm = np.column_stack(cols)
             beta, *_ = np.linalg.lstsq(Xm, yv, rcond=None)
@@ -125,10 +161,10 @@ def select_order_aic(est: pd.DataFrame):
             out.append(((p, *qs), -2 * llf / n + 2 * k / n, k))
     out.sort(key=lambda t: t[1])
     best = out[0][0]
-    tab = pd.DataFrame({"Model (p, q_GSYH, q_Dünya, q_REDK)": [f"ARDL{o}" for o, _, _ in out[:10]],
+    tab = pd.DataFrame({"Model (p, " + ", ".join("q_" + x[3:] for x in x_cols) + ")": [f"ARDL{o}" for o, _, _ in out[:10]],
                         "AIC (EViews ölçeği)": [a for _, a, _ in out[:10]],
                         "Parametre sayısı": [k for _, _, k in out[:10]]})
-    return best[0], dict(zip(X_COLS, best[1:])), tab
+    return best[0], dict(zip(x_cols, best[1:])), tab
 
 
 def diagnostics(res, X: np.ndarray, X_het: np.ndarray | None = None) -> pd.DataFrame:
@@ -184,10 +220,11 @@ def diagnostics(res, X: np.ndarray, X_het: np.ndarray | None = None) -> pd.DataF
 
 
 def fit_and_forecast(code: str, y_level_q: pd.Series, n_months: pd.Series, X_dl: pd.DataFrame,
-                     x_last_actual: pd.Period, horizon_end: pd.Period) -> ModelResult:
+                     x_last_actual: pd.Period, horizon_end: pd.Period, spec: ModelSpec = SUE_SPEC) -> ModelResult:
     """y_level_q: çeyreklik SÜE düzeyi (gerçekleşen); X_dl: açıklayıcıların log-farkları
     (gerçekleşen + projeksiyon, horizon_end'e kadar)."""
     notes = []
+    X_dl = X_dl[list(spec.x_cols)]
     y = y_level_q.dropna()
     dly_raw = np.log(y).diff()
 
@@ -209,7 +246,7 @@ def fit_and_forecast(code: str, y_level_q: pd.Series, n_months: pd.Series, X_dl:
 
     # 2) AIC ile gecikme seçimi (EViews tarzı): p = 1..4, her açıklayıcı için q = 0..4,
     #    tüm modeller aynı örneklemde (ilk MAXLAG gözlem tutulur) karşılaştırılır.
-    p, q, sel_tab = select_order_aic(df.loc[est_idx])
+    p, q, sel_tab = select_order_aic(df.loc[est_idx], spec.x_cols)
 
     # Seçilen modeli aynı örneklemde (ilk MAXLAG gözlem tutularak) OLS ile tahmin et
     D = _design(df, p, q)
@@ -244,16 +281,16 @@ def fit_and_forecast(code: str, y_level_q: pd.Series, n_months: pd.Series, X_dl:
     last_full_year = y.index[-1].year - (0 if y.index[-1].quarter == 4 else 1)
     win = pd.period_range(max(pd.Period(REL_START, "Q"), dly_raw.dropna().index[0]),
                           pd.Period(f"{last_full_year}Q4", "Q"), freq="Q")
-    g_y, g_x = dly_raw.reindex(win).mean(), X_dl["dl_GSYH"].reindex(win).mean()
+    g_y, g_x = dly_raw.reindex(win).mean(), X_dl[spec.anchor_col].reindex(win).mean()
     ratio_raw = float(g_y / g_x) if g_x else np.nan
     ratio = float(np.clip(ratio_raw, *RATIO_BOUNDS)) if ratio_raw == ratio_raw else 1.0
-    target = ratio * X_dl["dl_GSYH"].reindex(fc_idx)
+    target = ratio * X_dl[spec.anchor_col].reindex(fc_idx)
     c0 = pd.Period(CONV_START, "Q")
     n_conv = max((horizon_end - c0).n + 1, 1)
     w = pd.Series([1.0 if t < c0 else max(0.0, 1 - ((t - c0).n + 1) / n_conv) for t in fc_idx], index=fc_idx)
     fc_conv = w * fc_dly + (1 - w) * target
-    conv = {"Tarihsel pencere": f"{win[0]}–{win[-1]}", "Ort. Δlog SÜE (çeyreklik)": float(g_y),
-            "Ort. Δlog GSYH (çeyreklik)": float(g_x), "Göreli büyüme oranı (ham)": ratio_raw,
+    conv = {"Tarihsel pencere": f"{win[0]}–{win[-1]}", f"Ort. Δlog {spec.dep_short} (çeyreklik)": float(g_y),
+            f"Ort. Δlog {spec.anchor_col[3:]} (çeyreklik)": float(g_x), "Göreli büyüme oranı (ham)": ratio_raw,
             "Göreli büyüme oranı (sınırlı)": ratio, "Yakınsama": f"{c0} – {horizon_end} (doğrusal)"}
 
     # Düzeyler
@@ -296,8 +333,11 @@ def fit_and_forecast(code: str, y_level_q: pd.Series, n_months: pd.Series, X_dl:
         fit_g = np.nan
         if all(c in fitted_lvl.index for c in cur) and all(c in y.index for c in prv):
             fit_g = (fitted_lvl[cur].sum() / y[prv].sum() - 1) * 100
+        partial = [c for c in cur if c in y.index and pd.notna(n_months.get(c)) and n_months.get(c) < 3]
         if n_act == 4:
-            model_g, tur = fit_g, "Model içi uyum"
+            model_g, tur = fit_g, ("Model içi uyum" if fit_g == fit_g else "Gerçekleşen")
+            if partial:
+                tur += f" ({partial[-1]}: {int(n_months[partial[-1]])} ay açıklandı)"
         elif n_act == 0:
             model_g, tur = mix, "Tahmin"
         else:
@@ -305,10 +345,11 @@ def fit_and_forecast(code: str, y_level_q: pd.Series, n_months: pd.Series, X_dl:
         annual_rows.append({"Yıl": yr, "Gerçekleşen büyüme %": act, "Model / Tahmin büyüme %": model_g,
                             "Yakınsamalı tahmin büyüme %": (mix_c if n_act < 4 else np.nan), "Tür": tur})
     annual = pd.DataFrame(annual_rows)
-    annual = annual[annual["Model / Tahmin büyüme %"].notna()].reset_index(drop=True)
+    first_fit = annual.index[annual["Model / Tahmin büyüme %"].notna()]
+    annual = annual.loc[first_fit[0]:].reset_index(drop=True) if len(first_fit) else annual
 
     fcdf = pd.DataFrame({"dlog tahmin": fc_dly, "SÜE tahmin": lvl.reindex(fc_idx)})
     return ModelResult(code=code, order={"p": p, **q}, ols=res, design_cols=list(Xe.columns),
                        sample=(Xe.index[0], Xe.index[-1]), nobs=int(res.nobs), aic=float(sel_tab.iloc[0, 1]),
                        diagnostics=diag, season=season, fitted=fitted_raw, forecast=fcdf,
-                       quarterly=qdf, annual=annual, select_table=sel_tab, notes=notes, convergence=conv)
+                       quarterly=qdf, annual=annual, select_table=sel_tab, notes=notes, convergence=conv, spec=spec)
