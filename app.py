@@ -18,7 +18,8 @@ INPUTS = ROOT / "inputs"
 
 st.set_page_config(page_title="Sektörel SÜE Tahminleri", page_icon="🏭", layout="wide")
 
-C_ACT, C_FC = "#1F3864", "#ED7D31"
+C_ACT, C_FC, C_CONV = "#1F3864", "#ED7D31", "#70AD47"
+CONV_COL = "Yakınsamalı tahmin büyüme %"
 
 
 # ------------------------------------------------------------------ veri
@@ -50,15 +51,18 @@ def download(path: Path, label: str, key: str):
 
 
 def annual_chart(a: pd.DataFrame, title: str):
-    m = a.melt(id_vars=["Yıl", "Tür"], value_vars=["Gerçekleşen büyüme %", "Model / Tahmin büyüme %"],
-               var_name="Seri", value_name="Büyüme %").dropna(subset=["Büyüme %"])
-    m["Seri"] = m["Seri"].map({"Gerçekleşen büyüme %": "Gerçekleşen", "Model / Tahmin büyüme %": "Model / Tahmin"})
+    names = {"Gerçekleşen büyüme %": "Gerçekleşen", "Model / Tahmin büyüme %": "Model / Tahmin (ham)",
+             CONV_COL: "Yakınsamalı tahmin"}
+    cols = [c for c in names if c in a.columns]
+    m = a.melt(id_vars=["Yıl", "Tür"], value_vars=cols, var_name="Seri", value_name="Büyüme %").dropna(subset=["Büyüme %"])
+    m["Seri"] = m["Seri"].map(names)
     m["Yıl"] = m["Yıl"].astype(str)
+    dom = [names[c] for c in cols]
     return (alt.Chart(m, title=title).mark_bar()
             .encode(x=alt.X("Yıl:N", title=None),
-                    xOffset=alt.XOffset("Seri:N", sort=["Gerçekleşen", "Model / Tahmin"]),
+                    xOffset=alt.XOffset("Seri:N", sort=dom),
                     y=alt.Y("Büyüme %:Q", title="Yıllık büyüme (%)"),
-                    color=alt.Color("Seri:N", scale=alt.Scale(domain=["Gerçekleşen", "Model / Tahmin"], range=[C_ACT, C_FC]),
+                    color=alt.Color("Seri:N", scale=alt.Scale(domain=dom, range=[C_ACT, C_FC, C_CONV][:len(dom)]),
                                     legend=alt.Legend(orient="bottom", title=None)),
                     tooltip=["Yıl", "Seri", alt.Tooltip("Büyüme %:Q", format=".2f"), "Tür"])
             .properties(height=380))
@@ -71,13 +75,17 @@ def level_chart(q: pd.DataFrame, title: str):
     fit = q[["Tarih", "SÜE (model içi uyum)"]].rename(columns={"SÜE (model içi uyum)": "Endeks"}).assign(Seri="Model içi uyum")
     last_act = q["SÜE (gerçekleşen)"].last_valid_index()
     fc = q.loc[last_act:, ["Tarih", "SÜE (gerçekleşen + tahmin)"]].rename(
-        columns={"SÜE (gerçekleşen + tahmin)": "Endeks"}).assign(Seri="Tahmin")
-    m = pd.concat([act, fit, fc]).dropna()
+        columns={"SÜE (gerçekleşen + tahmin)": "Endeks"}).assign(Seri="Tahmin (ham)")
+    parts = [act, fit, fc]
+    if "SÜE (gerçekleşen + yakınsamalı tahmin)" in q.columns:
+        parts.append(q.loc[last_act:, ["Tarih", "SÜE (gerçekleşen + yakınsamalı tahmin)"]].rename(
+            columns={"SÜE (gerçekleşen + yakınsamalı tahmin)": "Endeks"}).assign(Seri="Yakınsamalı tahmin"))
+    m = pd.concat(parts).dropna()
     return (alt.Chart(m, title=title).mark_line(point=alt.OverlayMarkDef(size=12))
             .encode(x=alt.X("Tarih:T", title=None),
                     y=alt.Y("Endeks:Q", scale=alt.Scale(zero=False), title="SÜE (MA, 2021=100)"),
-                    color=alt.Color("Seri:N", scale=alt.Scale(domain=["Gerçekleşen", "Model içi uyum", "Tahmin"],
-                                                              range=[C_ACT, "#A5A5A5", C_FC]),
+                    color=alt.Color("Seri:N", scale=alt.Scale(domain=["Gerçekleşen", "Model içi uyum", "Tahmin (ham)", "Yakınsamalı tahmin"],
+                                                              range=[C_ACT, "#A5A5A5", C_FC, C_CONV]),
                                     legend=alt.Legend(orient="bottom", title=None)),
                     strokeDash=alt.condition(alt.datum.Seri == "Model içi uyum", alt.value([4, 3]), alt.value([1, 0])),
                     tooltip=[alt.Tooltip("Tarih:T", format="%Y-%m"), "Seri", alt.Tooltip("Endeks:Q", format=".2f")])
@@ -143,16 +151,24 @@ if page == "Genel bakış":
     last_full = [y for y in years if a.loc[a["Yıl"] == y, "Gerçekleşen büyüme %"].notna().any()]
     show_years = (last_full[-2:] if last_full else []) + fc_years
 
-    f1, f2 = st.columns([1, 3])
-    lvl = f1.multiselect("Düzey", sorted(models["Düzey"].unique()), default=sorted(models["Düzey"].unique()))
-    search = f2.text_input("Ara (kod veya ad)", "")
+    f1, f2, f3 = st.columns([1, 1, 2])
+    has_conv = CONV_COL in a.columns
+    kind = f1.radio("Tahmin serisi", ["Yakınsamalı", "Model (ham)"] if has_conv else ["Model (ham)"], horizontal=True,
+                    help="Yakınsamalı: 2029'dan itibaren tahmin, sektörün tarihsel göreli büyümesi x TR GSYH "
+                         "büyümesine doğrusal olarak yaklaştırılır. 2026–2028 iki seride aynıdır.")
+    lvl = f2.multiselect("Düzey", sorted(models["Düzey"].unique()), default=sorted(models["Düzey"].unique()))
+    search = f3.text_input("Ara (kod veya ad)", "")
     piv_act = a.pivot(index="NACE", columns="Yıl", values="Gerçekleşen büyüme %")
-    piv_fc = a.pivot(index="NACE", columns="Yıl", values="Model / Tahmin büyüme %")
-    tbl = models.set_index("NACE")[["Ad", "Düzey", "Model", "Düz. R2"]].copy()
+    piv_fit = a.pivot(index="NACE", columns="Yıl", values="Model / Tahmin büyüme %")
+    piv_fc = a.pivot(index="NACE", columns="Yıl", values=CONV_COL if kind == "Yakınsamalı" else "Model / Tahmin büyüme %")
+    base_cols = ["Ad", "Düzey", "Model", "Düz. R2"] + (["Göreli büyüme oranı"] if "Göreli büyüme oranı" in models.columns else [])
+    tbl = models.set_index("NACE")[base_cols].copy()
     for y in show_years:
         if y in last_full:
             tbl[f"{y} Gerç. %"] = piv_act.get(y)
-        tbl[f"{y} {'Tahmin' if y in fc_years else 'Model'} %"] = piv_fc.get(y)
+            tbl[f"{y} Model %"] = piv_fit.get(y)
+        else:
+            tbl[f"{y} Tahmin %"] = piv_fc.get(y)
     diag = D["diagnostics"].pivot(index="NACE", columns="Test", values="Sonuç (%5)")
     tbl["Geçen test"] = (diag == "Geçti").sum(axis=1).astype(str) + "/" + diag.notna().sum(axis=1).astype(str)
     tbl = tbl[tbl["Düzey"].isin(lvl)]
@@ -160,7 +176,8 @@ if page == "Genel bakış":
         s = search.lower()
         tbl = tbl[tbl.index.str.lower().str.contains(s) | tbl["Ad"].str.lower().str.contains(s)]
     num_cols = [c for c in tbl.columns if c.endswith("%") or c == "Düz. R2"]
-    st.dataframe(tbl.style.format({c: "{:.1f}" for c in num_cols if c != "Düz. R2"} | {"Düz. R2": "{:.2f}"})
+    st.caption(f"Gösterilen tahmin serisi: **{kind}**")
+    st.dataframe(tbl.style.format({c: "{:.1f}" for c in num_cols if c != "Düz. R2"} | {"Düz. R2": "{:.2f}", "Göreli büyüme oranı": "{:.2f}"})
                  .map(growth_color, subset=[c for c in num_cols if c != "Düz. R2"]),
                  width="stretch", height=560)
 
@@ -181,24 +198,31 @@ elif page == "Sektör detayı":
                + ("" if str(D["run_info"]["Değer"].get("COVID kuklaları", "Yok")) == "Yok"
                   else " + " + str(D["run_info"]["Değer"].get("COVID kuklaları"))))
 
-    c = st.columns(5)
+    c = st.columns(6)
     c[0].metric("Model (p, q_GSYH, q_Dünya, q_REDK)", m["Model"].replace("ARDL", ""))
     c[1].metric("R²", f"{m['R2']:.3f}")
     c[2].metric("Düzeltilmiş R²", f"{m['Düz. R2']:.3f}")
     c[3].metric("AIC", f"{m['AIC']:.3f}")
-    with c[4]:
+    if "Göreli büyüme oranı" in m.index:
+        c[4].metric("Göreli büyüme oranı", f"{m['Göreli büyüme oranı']:.2f}",
+                    help=f"Sektörün tarihsel ortalama büyümesi / GSYH ortalama büyümesi (ham: {m['Göreli büyüme oranı (ham)']:.2f}, "
+                         "[0, 2] aralığında sınırlı). Uzun vade hedefi = bu oran x TR GSYH büyümesi.")
+    with c[5]:
         download(run_dir / m["Dosya"], f"⬇ {code}.xlsx", "dl_sector")
 
     a = D["annual"][D["annual"]["NACE"] == code]
     q = D["quarterly"][D["quarterly"]["NACE"] == code]
     g1, g2 = st.columns(2)
-    g1.altair_chart(annual_chart(a, "Yıllık büyüme: gerçekleşen vs. model / tahmin"), width="stretch")
+    g1.altair_chart(annual_chart(a, "Yıllık büyüme: gerçekleşen, model (ham) ve yakınsamalı tahmin"), width="stretch")
     g2.altair_chart(level_chart(q, "Çeyreklik SÜE düzeyi"), width="stretch")
 
+    if CONV_COL in a.columns:
+        st.caption("Yakınsamalı tahmin: 2028 sonuna kadar model tahminiyle aynıdır; 2029Q1'den ufuk sonuna doğru ağırlık "
+                   "doğrusal olarak modelden hedefe (göreli büyüme oranı x TR GSYH büyümesi) kayar. Yargısal bir düzeltmedir.")
     t1, t2, t3, t4 = st.tabs(["Yıllık tablo", "Tanı testleri", "Katsayılar", "Çeyreklik veri"])
     with t1:
         st.dataframe(a.drop(columns="NACE").set_index("Yıl").style.format(
-            {"Gerçekleşen büyüme %": "{:.2f}", "Model / Tahmin büyüme %": "{:.2f}"}, na_rep="–"),
+            {"Gerçekleşen büyüme %": "{:.2f}", "Model / Tahmin büyüme %": "{:.2f}", CONV_COL: "{:.2f}"}, na_rep="–"),
             width="stretch")
     with t2:
         dg = D["diagnostics"][D["diagnostics"]["NACE"] == code].drop(columns="NACE").set_index("Test")

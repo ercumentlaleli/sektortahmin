@@ -72,6 +72,10 @@ def write_sector_workbook(path: Path, r: ModelResult, meta: dict, inputs_q: pd.D
             ("AIC (EViews ölçeği, seçilen model)", r.aic),
             ("Mevsimsellik testi (F, p)", f"F={r.season['F']:.2f}, p={r.season['F_p']:.3f}; KW p={r.season['KW_p']:.3f}"),
             ("Mevsimsellik arındırması", "Uygulandı" if r.season["mevsimsel"] else "Gerek yok (seri zaten MA)"),
+            ("Uzun vade yakınsaması", f"{r.convergence.get('Yakınsama', '')}: tahmin, sektörün tarihsel göreli büyümesi x TR GSYH büyümesine yaklaştırılır"),
+            ("Göreli büyüme oranı (ham → sınırlı [0, 2])",
+             f"{r.convergence.get('Göreli büyüme oranı (ham)', float('nan')):.2f} → {r.convergence.get('Göreli büyüme oranı (sınırlı)', float('nan')):.2f}"
+             f"  (pencere {r.convergence.get('Tarihsel pencere', '')})"),
             ("Çalıştırma tarihi", meta.get("run_date")),
         ]
         for i, (k, v) in enumerate(info, start=2):
@@ -93,7 +97,7 @@ def write_sector_workbook(path: Path, r: ModelResult, meta: dict, inputs_q: pd.D
             ws.write(row + i, 4, res, OK if res == "Geçti" else BAD)
         row += len(d) + 2
 
-        ws.write(row, 0, "Yıllık büyüme: gerçekleşen vs. model/tahmin (%)", T)
+        ws.write(row, 0, "Yıllık büyüme: gerçekleşen vs. model (ham) vs. yakınsamalı tahmin (%)", T)
         row += 1
         a = r.annual.copy()
         a_start = row
@@ -104,13 +108,15 @@ def write_sector_workbook(path: Path, r: ModelResult, meta: dict, inputs_q: pd.D
         ch = wb.add_chart({"type": "column"})
         ch.add_series({"name": "Gerçekleşen", "categories": ["Özet", a_start + 1, 0, a_end, 0],
                        "values": ["Özet", a_start + 1, 1, a_end, 1], "fill": {"color": "#1F3864"}})
-        ch.add_series({"name": "Model / Tahmin", "categories": ["Özet", a_start + 1, 0, a_end, 0],
+        ch.add_series({"name": "Model / Tahmin (ham)", "categories": ["Özet", a_start + 1, 0, a_end, 0],
                        "values": ["Özet", a_start + 1, 2, a_end, 2], "fill": {"color": "#ED7D31"}})
+        ch.add_series({"name": "Yakınsamalı tahmin", "categories": ["Özet", a_start + 1, 0, a_end, 0],
+                       "values": ["Özet", a_start + 1, 3, a_end, 3], "fill": {"color": "#70AD47"}})
         ch.set_title({"name": f"{r.code} – Yıllık SÜE büyümesi (%)"})
         ch.set_x_axis({"name": "Yıl", "num_font": {"rotation": -45}})
         ch.set_y_axis({"name": "%", "major_gridlines": {"visible": True, "line": {"color": "#D9D9D9"}}})
         ch.set_legend({"position": "bottom"})
-        ch.set_size({"width": 820, "height": 380})
+        ch.set_size({"width": 900, "height": 400})
         ws.insert_chart(a_start, 5, ch)
 
         # ---------------- Katsayılar
@@ -178,10 +184,15 @@ def write_summary_workbook(path: Path, results: list[ModelResult], metas: dict, 
         row = {"NACE": r.code, "Ad": metas[r.code].get("name", ""), "Düzey": metas[r.code]["level"],
                "Model": f"ARDL({r.order['p']},{r.order['dl_GSYH']},{r.order['dl_DUNYA']},{r.order['dl_REDK']})",
                "Örneklem": f"{r.sample[0]}–{r.sample[1]}", "N": r.nobs, "Düz. R²": r.ols.rsquared_adj}
-        for yr in sorted(a.index)[-6:]:
+        row["Göreli büyüme oranı"] = r.convergence.get("Göreli büyüme oranı (sınırlı)")
+        for yr in sorted(a.index):
             g = a.loc[yr]
-            row[f"{yr} Gerçekleşen %"] = g["Gerçekleşen büyüme %"]
-            row[f"{yr} Model/Tahmin %"] = g["Model / Tahmin büyüme %"]
+            if pd.notna(g["Gerçekleşen büyüme %"]):
+                if yr >= sorted(a.index)[-1] - 9:
+                    row[f"{yr} Gerçekleşen %"] = g["Gerçekleşen büyüme %"]
+                continue
+            row[f"{yr} Model (ham) %"] = g["Model / Tahmin büyüme %"]
+            row[f"{yr} Yakınsamalı %"] = g["Yakınsamalı tahmin büyüme %"]
         for t in ["Breusch-Godfrey LM (gecikme 4)", "Breusch-Pagan-Godfrey", "Jarque-Bera", "ARCH LM (gecikme 4)", "Ramsey RESET"]:
             row[t] = d.get(t)
         rows.append(row)

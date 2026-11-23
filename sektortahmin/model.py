@@ -23,6 +23,14 @@ DUMMY_PERIODS: list[str] = []
 # Sabit terim (True: modelde sabit var; False: sabitsiz)
 USE_CONST = True
 
+# Uzun vade yakınsaması (yargısal düzeltme, ARDL tahminine dokunmaz; ayrı seri olarak raporlanır):
+#   büyüme_t = w_t * model_t + (1 - w_t) * hedef_t
+#   hedef_t  = oran * Δlog(TR GSYH)_t,  oran = ort. Δlog(SÜE) / ort. Δlog(GSYH) (tarihsel), [0, 2] ile sınırlı
+#   w_t = 1 (CONV_START öncesi), CONV_START'tan ufuk sonuna doğrusal olarak 0'a iner.
+CONV_START = "2029Q1"
+REL_START = "2013Q1"          # göreli büyüme oranı için tarihsel pencere başlangıcı
+RATIO_BOUNDS = (0.0, 2.0)
+
 
 def dummy_frame(index: pd.PeriodIndex) -> pd.DataFrame:
     return pd.DataFrame({f"D{p}": (index == pd.Period(p, "Q")).astype(float) for p in DUMMY_PERIODS}, index=index)
@@ -76,6 +84,7 @@ class ModelResult:
     quarterly: pd.DataFrame
     annual: pd.DataFrame
     select_table: pd.DataFrame = field(default_factory=pd.DataFrame)
+    convergence: dict = field(default_factory=dict)
     notes: list = field(default_factory=list)
 
 
@@ -231,10 +240,28 @@ def fit_and_forecast(code: str, y_level_q: pd.Series, n_months: pd.Series, X_dl:
     fc_dly = apply_factors(path.loc[fc_idx], fac, sign=+1)
     fitted_raw = apply_factors(fitted, fac, sign=+1)
 
+    # Uzun vade yakınsaması: hedef = sektörün tarihsel göreli büyümesi x TR GSYH büyümesi
+    last_full_year = y.index[-1].year - (0 if y.index[-1].quarter == 4 else 1)
+    win = pd.period_range(max(pd.Period(REL_START, "Q"), dly_raw.dropna().index[0]),
+                          pd.Period(f"{last_full_year}Q4", "Q"), freq="Q")
+    g_y, g_x = dly_raw.reindex(win).mean(), X_dl["dl_GSYH"].reindex(win).mean()
+    ratio_raw = float(g_y / g_x) if g_x else np.nan
+    ratio = float(np.clip(ratio_raw, *RATIO_BOUNDS)) if ratio_raw == ratio_raw else 1.0
+    target = ratio * X_dl["dl_GSYH"].reindex(fc_idx)
+    c0 = pd.Period(CONV_START, "Q")
+    n_conv = max((horizon_end - c0).n + 1, 1)
+    w = pd.Series([1.0 if t < c0 else max(0.0, 1 - ((t - c0).n + 1) / n_conv) for t in fc_idx], index=fc_idx)
+    fc_conv = w * fc_dly + (1 - w) * target
+    conv = {"Tarihsel pencere": f"{win[0]}–{win[-1]}", "Ort. Δlog SÜE (çeyreklik)": float(g_y),
+            "Ort. Δlog GSYH (çeyreklik)": float(g_x), "Göreli büyüme oranı (ham)": ratio_raw,
+            "Göreli büyüme oranı (sınırlı)": ratio, "Yakınsama": f"{c0} – {horizon_end} (doğrusal)"}
+
     # Düzeyler
     lvl = y.copy().astype(float)
+    lvl_c = y.copy().astype(float)
     for t in fc_idx:
         lvl.loc[t] = lvl[t - 1] * np.exp(fc_dly[t])
+        lvl_c.loc[t] = lvl_c[t - 1] * np.exp(fc_conv[t])
     fitted_lvl = pd.Series({t: y[t - 1] * np.exp(fitted_raw[t]) for t in fitted_raw.index})
 
     qdf = pd.DataFrame(index=pd.period_range(y.index[0], horizon_end, freq="Q"))
@@ -245,6 +272,10 @@ def fit_and_forecast(code: str, y_level_q: pd.Series, n_months: pd.Series, X_dl:
     qdf["dlog SÜE (tahmin)"] = fc_dly
     qdf["SÜE (gerçekleşen + tahmin)"] = lvl
     qdf["SÜE (model içi uyum)"] = fitted_lvl
+    qdf["Yakınsama ağırlığı (model)"] = w
+    qdf["dlog hedef (oran x GSYH)"] = target
+    qdf["dlog SÜE (yakınsamalı tahmin)"] = fc_conv
+    qdf["SÜE (gerçekleşen + yakınsamalı tahmin)"] = lvl_c
     qdf["Çeyreklik büyüme % (q/q)"] = (np.exp(qdf["dlog SÜE (gerçekleşen)"].fillna(qdf["dlog SÜE (tahmin)"])) - 1) * 100
     qdf["Yıllık büyüme % (y/y)"] = qdf["SÜE (gerçekleşen + tahmin)"].pct_change(4) * 100
 
@@ -260,6 +291,7 @@ def fit_and_forecast(code: str, y_level_q: pd.Series, n_months: pd.Series, X_dl:
         n_act = sum(c in y.index for c in cur)
         act = (y.reindex(cur).sum() / y.reindex(prv).sum() - 1) * 100 if n_act == 4 and all(c in y.index for c in prv) else np.nan
         mix = (lv[cur].sum() / lv[prv].sum() - 1) * 100
+        mix_c = (lvl_c.reindex(cur).sum() / lvl_c.reindex(prv).sum() - 1) * 100
         # model içi uyum: tüm çeyrekler için one-step uyum mevcutsa
         fit_g = np.nan
         if all(c in fitted_lvl.index for c in cur) and all(c in y.index for c in prv):
@@ -270,7 +302,8 @@ def fit_and_forecast(code: str, y_level_q: pd.Series, n_months: pd.Series, X_dl:
             model_g, tur = mix, "Tahmin"
         else:
             model_g, tur = mix, f"Tahmin ({n_act} çeyrek gerçekleşen)"
-        annual_rows.append({"Yıl": yr, "Gerçekleşen büyüme %": act, "Model / Tahmin büyüme %": model_g, "Tür": tur})
+        annual_rows.append({"Yıl": yr, "Gerçekleşen büyüme %": act, "Model / Tahmin büyüme %": model_g,
+                            "Yakınsamalı tahmin büyüme %": (mix_c if n_act < 4 else np.nan), "Tür": tur})
     annual = pd.DataFrame(annual_rows)
     annual = annual[annual["Model / Tahmin büyüme %"].notna()].reset_index(drop=True)
 
@@ -278,4 +311,4 @@ def fit_and_forecast(code: str, y_level_q: pd.Series, n_months: pd.Series, X_dl:
     return ModelResult(code=code, order={"p": p, **q}, ols=res, design_cols=list(Xe.columns),
                        sample=(Xe.index[0], Xe.index[-1]), nobs=int(res.nobs), aic=float(sel_tab.iloc[0, 1]),
                        diagnostics=diag, season=season, fitted=fitted_raw, forecast=fcdf,
-                       quarterly=qdf, annual=annual, select_table=sel_tab, notes=notes)
+                       quarterly=qdf, annual=annual, select_table=sel_tab, notes=notes, convergence=conv)

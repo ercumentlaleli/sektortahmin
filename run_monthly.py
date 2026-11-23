@@ -41,6 +41,8 @@ def write_app_data(d: Path, results, metas, run_info, inputs_q, assumptions):
         m = metas[r.code]
         models.append({"NACE": r.code, "Ad": m.get("name", ""), "Düzey": m["level"], "Son ay": m["last_month"],
                        "Model": "ARDL({p},{dl_GSYH},{dl_DUNYA},{dl_REDK})".format(**r.order),
+                       "Göreli büyüme oranı (ham)": r.convergence.get("Göreli büyüme oranı (ham)"),
+                       "Göreli büyüme oranı": r.convergence.get("Göreli büyüme oranı (sınırlı)"),
                        "Örneklem": f"{r.sample[0]}–{r.sample[1]}", "N": r.nobs,
                        "R2": r.ols.rsquared, "Düz. R2": r.ols.rsquared_adj, "AIC": r.aic,
                        "Mevsimsellik arındırıldı": r.season["mevsimsel"],
@@ -212,6 +214,8 @@ def main():
         "IMF WEO yayım tarihi": weo_pub,
         "WEO ufku dışı yıllar": weo_ext_note,
         "COVID kuklaları": dummy_text,
+        "Uzun vade yakınsaması": f"{model_mod.CONV_START}–{horizon_end} doğrusal; hedef = tarihsel göreli büyüme oranı "
+                                 f"({model_mod.REL_START}'ten, [{model_mod.RATIO_BOUNDS[0]:g}, {model_mod.RATIO_BOUNDS[1]:g}] sınırlı) x TR GSYH büyümesi",
         "REDK son tam çeyrek": str(reer_q.index[-1]) + f" (son ay {reer_m.index[-1]})",
         "Tahmin örneklemi sonu": str(x_last_actual),
         "Tahmin ufku": str(horizon_end),

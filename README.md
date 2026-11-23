@@ -53,6 +53,7 @@ Opsiyonlar: `--end-year 2032` (varsayılan) (tahmin ufku), `--only C24,C241` (ya
 | Yıllık → çeyreklik | Yılın eksik çeyrekleri için sabit bir çeyreklik büyüme oranı bulunur. Bu oran, yıllık ortalama endeks büyümesini varsayılan yıllık büyümeye eşitler. |
 | 7. REDK projeksiyonu | Excel → *Aylık Kur Tahminleri*: B (TÜFE endeksi), H (Dolar/TL). Çeyrek ortalamalarının % değişimi alınır. REDK = REDK(−1)·(1+TÜFE değ.)/(1+USD değ.) formülü son tam REDK çeyreğinden itibaren uygulanır. |
 | Tahmin | Dinamik tahmin. Bağımlı değişken gecikmeleri için gerçekleşen değer varsa o, yoksa tahmin kullanılır. |
+| Uzun vade yakınsaması | Yargısal düzeltme, ham ARDL tahmini ayrıca raporlanır. büyüme_t = w_t·model_t + (1−w_t)·hedef_t. Hedef = göreli büyüme oranı × TR GSYH büyümesi. Oran = sektörün 2013Q1'den son tam yıla ortalama Δlog büyümesi / GSYH'nin ortalama Δlog büyümesi, [0, 2] aralığında sınırlı. w = 1 (2028Q4'e kadar), 2029Q1'den ufuk sonuna doğrusal olarak 0'a iner. Ayarlar: `sektortahmin/model.py` → `CONV_START`, `REL_START`, `RATIO_BOUNDS`. |
 | 8. Yıllığa çevirme | Yıllık ortalama endeks büyümesi. Geçmiş yıllarda "Model / Tahmin" sütunu, tek adım ileri model içi uyumdan hesaplanır. |
 
 ## Notlar
