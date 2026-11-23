@@ -20,6 +20,8 @@ MAXLAG = 4
 # ["2020Q2", "2020Q3"] olarak açılır; açıkken her aday modelde sabit yer alır, tahmin döneminde 0'dır.
 COVID_PERIODS = ["2020Q2", "2020Q3"]
 DUMMY_PERIODS: list[str] = []
+# Sabit terim (True: modelde sabit var; False: sabitsiz)
+USE_CONST = True
 
 
 def dummy_frame(index: pd.PeriodIndex) -> pd.DataFrame:
@@ -78,7 +80,7 @@ class ModelResult:
 
 
 def _design(df: pd.DataFrame, p: int, q: dict) -> pd.DataFrame:
-    cols = {"const": pd.Series(1.0, index=df.index)}
+    cols = {"const": pd.Series(1.0, index=df.index)} if USE_CONST else {}
     for c, v in dummy_frame(df.index).items():
         cols[c] = v
     for i in range(1, p + 1):
@@ -103,7 +105,7 @@ def select_order_aic(est: pd.DataFrame):
     out = []
     for p in range(1, MAXLAG + 1):
         for qs in itertools.product(range(MAXLAG + 1), repeat=len(X_COLS)):
-            cols = [np.ones(n)] + dums + [lagged[("dly", i)] for i in range(1, p + 1)]
+            cols = ([np.ones(n)] if USE_CONST else []) + dums + [lagged[("dly", i)] for i in range(1, p + 1)]
             for x, qq in zip(X_COLS, qs):
                 cols += [lagged[(x, j)] for j in range(qq + 1)]
             Xm = np.column_stack(cols)
@@ -124,6 +126,9 @@ def diagnostics(res, X: np.ndarray, X_het: np.ndarray | None = None) -> pd.DataF
     """X_het: değişen varyans testlerinde kullanılan regresörler (kuklalar hariç;
     impuls kuklalarında kalıntı tam sıfır olduğundan bu testleri bozar)."""
     X_het = X if X_het is None else X_het
+    # Yardımcı regresyonlarda (BP, White) sabit terim bulunmalı
+    if not np.allclose(X_het[:, 0], 1.0):
+        X_het = np.column_stack([np.ones(len(X_het)), X_het])
     rows = []
     e = res.resid
     warnings.simplefilter("ignore", FutureWarning)
@@ -215,7 +220,7 @@ def fit_and_forecast(code: str, y_level_q: pd.Series, n_months: pd.Series, X_dl:
     path = df["dly"].copy()
     fc_idx = pd.period_range(y.index[-1] + 1, horizon_end, freq="Q")
     for t in fc_idx:
-        row = {"const": 1.0, **{c: 0.0 for c in params.index if c[1:] in DUMMY_PERIODS}}
+        row = {**({"const": 1.0} if USE_CONST else {}), **{c: 0.0 for c in params.index if c[1:] in DUMMY_PERIODS}}
         for i in range(1, p + 1):
             row[f"dly(-{i})"] = path[t - i]
         for x, qq in q.items():
