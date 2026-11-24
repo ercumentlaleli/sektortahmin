@@ -306,23 +306,6 @@ elif page == "Sektör detayı":
             cv = D["cv"]
             cv = cv[cv["NACE"] == code] if not cv.empty else cv
             if not cv.empty:
-                c1 = cv[cv["h"] == 1].copy()
-                c1["Tarih"] = pd.PeriodIndex(c1["Hedef çeyrek"], freq="Q").to_timestamp()
-                mm = c1.melt(id_vars=["Tarih"], value_vars=["Gerçekleşen Δlog", "Tahmin Δlog", "Naif Δlog"],
-                             var_name="Seri", value_name="Δlog")
-                mm["Değişim %"] = mm["Δlog"] * 100
-                mm["Seri"] = mm["Seri"].map({"Gerçekleşen Δlog": "Gerçekleşen", "Tahmin Δlog": "Model (1 çeyrek önceden)",
-                                             "Naif Δlog": "Naif"})
-                ch = (alt.Chart(mm, title="Çapraz doğrulama: 1 çeyrek önceden tahmin vs gerçekleşen (çeyreklik %)")
-                      .mark_line(point=True)
-                      .encode(x=alt.X("Tarih:T", title=None, axis=alt.Axis(format="%Y-Ç%q", tickCount="quarter")),
-                              y=alt.Y("Değişim %:Q", title="Çeyreklik değişim (%)"),
-                              color=alt.Color("Seri:N", scale=alt.Scale(domain=["Gerçekleşen", "Model (1 çeyrek önceden)", "Naif"],
-                                                                        range=[C_ACT, C_FC, "#A5A5A5"]),
-                                              legend=alt.Legend(orient="bottom", title=None)),
-                              tooltip=[alt.Tooltip("Tarih:T", format="%Y-Q%q"), "Seri", alt.Tooltip("Değişim %:Q", format=".2f")])
-                      .properties(height=320))
-                st.altair_chart(ch, width="stretch")
                 with st.expander("Çapraz doğrulama ayrıntısı"):
                     st.dataframe(cv.drop(columns="NACE"), width="stretch")
     with t6:
