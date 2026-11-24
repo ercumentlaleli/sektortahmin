@@ -33,6 +33,7 @@ class ModelSpec:
     word: str                # "büyüme" / "değişim"
     sample_start: str        # bağımlı değişken için en erken çeyrek
     sa_note: str             # mevsimsellik arındırması gerekmezse yazılacak not
+    partial_as_estimate: bool = False  # True: eksik aylı çeyrek doldurulmuş tahmin sayılır (gerçekleşen değil)
 
 
 SUE_SPEC = ModelSpec(
@@ -49,7 +50,8 @@ UFE_SPEC = ModelSpec(
     x_cols=("dl_YIUFE", "dl_USD", "dl_BRENT"),
     x_labels={"dl_YIUFE": "Yİ-ÜFE genel (Excel E)", "dl_USD": "Dolar/TL (Excel H)", "dl_BRENT": "Brent petrol (USD, EVDS)"},
     anchor_col="dl_YIUFE", anchor_label="Yİ-ÜFE genel değişimi",
-    word="değişim", sample_start="2005Q1", sa_note="Gerek yok (mevsimsellik bulunmadı)")
+    word="değişim", sample_start="2005Q1", sa_note="Gerek yok (mevsimsellik bulunmadı)",
+    partial_as_estimate=True)
 # Opsiyonel COVID-19 impuls kuklaları (varsayılan: kapalı). run_monthly.py --covid-dummy ile
 # ["2020Q2", "2020Q3"] olarak açılır; açıkken her aday modelde sabit yer alır, tahmin döneminde 0'dır.
 COVID_PERIODS = ["2020Q2", "2020Q3"]
@@ -325,7 +327,10 @@ def fit_and_forecast(code: str, y_level_q: pd.Series, n_months: pd.Series, X_dl:
         prv = [pd.Period(f"{yr-1}Q{k}", "Q") for k in range(1, 5)]
         if not all(c in lv.index and pd.notna(lv[c]) for c in cur + prv):
             continue
-        n_act = sum(c in y.index for c in cur)
+        if spec.partial_as_estimate:  # eksik aylı (doldurulmuş) çeyrek gerçekleşen sayılmaz
+            n_act = sum(c in y.index and n_months.get(c, 3) >= 3 for c in cur)
+        else:
+            n_act = sum(c in y.index for c in cur)
         act = (y.reindex(cur).sum() / y.reindex(prv).sum() - 1) * 100 if n_act == 4 and all(c in y.index for c in prv) else np.nan
         mix = (lv[cur].sum() / lv[prv].sum() - 1) * 100
         mix_c = (lvl_c.reindex(cur).sum() / lvl_c.reindex(prv).sum() - 1) * 100
@@ -342,6 +347,8 @@ def fit_and_forecast(code: str, y_level_q: pd.Series, n_months: pd.Series, X_dl:
             model_g, tur = mix, "Tahmin"
         else:
             model_g, tur = mix, f"Tahmin ({n_act} çeyrek gerçekleşen)"
+            if partial and spec.partial_as_estimate:
+                tur = f"Tahmin ({n_act} çeyrek gerçekleşen; {partial[-1]}: {int(n_months[partial[-1]])} ay gerçekleşen + kalan aylar tahmini)"
         annual_rows.append({"Yıl": yr, "Gerçekleşen büyüme %": act, "Model / Tahmin büyüme %": model_g,
                             "Yakınsamalı tahmin büyüme %": (mix_c if n_act < 4 else np.nan), "Tür": tur})
     annual = pd.DataFrame(annual_rows)

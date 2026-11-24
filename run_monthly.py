@@ -120,7 +120,7 @@ def make_zip(out_dir: Path, run_tag: str, prefix: str):
 
 def run_model_set(spec, deps: dict, names: dict, X_dl: pd.DataFrame, x_last_actual, horizon_end,
                   inputs_q, assumptions, run_info_base: dict, out_dir: Path, run_tag: str, only: set,
-                  meta_extra: dict, zip_prefix: str, summary_prefix: str):
+                  meta_extra: dict, zip_prefix: str, summary_prefix: str, fill_path: pd.Series | None = None):
     results, metas, failed = [], {}, []
     out_dir.mkdir(parents=True, exist_ok=True)
     sector_dir = out_dir / "sektorler"
@@ -137,7 +137,13 @@ def run_model_set(spec, deps: dict, names: dict, X_dl: pd.DataFrame, x_last_actu
         if (latest - m.index.max()).n > MAX_STALE_MONTHS:
             failed.append((code, f"yayımı durmuş (son veri {m.index.max()})"))
             continue
-        mean_q, cnt_q = pj.monthly_to_quarterly_partial(m)
+        if fill_path is not None:
+            # Eksik aylı son çeyrek: açıklanan aylar + kalan aylar (son değer x genel endeksin aylık değişimi)
+            mf = pj.fill_quarter_end(m, fill_path)
+            mean_q = mf.groupby(mf.index.asfreq("Q")).mean()
+            cnt_q = m.groupby(m.index.asfreq("Q")).count()
+        else:
+            mean_q, cnt_q = pj.monthly_to_quarterly_partial(m)
         mean_q = mean_q[mean_q.index >= start]
         if len(mean_q) < MIN_QUARTERS:
             failed.append((code, f"yetersiz gözlem ({len(mean_q)} çeyrek)"))
@@ -281,8 +287,13 @@ def prepare_ufe(args, tok, cache, end_year, today):
 
     oil_g = (oil.pct_change() * 100).dropna()
     oil_g, oil_note = extend_growth_table(oil_g, end_year)
-    brent_q = pj.quarterly_mean_complete(brent_m)
-    brent_ext = pj.extend_with_annual_growth(brent_q, oil_g, end_year)
+    # Brent: açıklanan aylar gerçekleşen; içinde bulunulan çeyreğin eksik ayları son gerçekleşen ayın değeriyle
+    # doldurulur (aylık Brent projeksiyonu yok). WEO yıllık değişimleri bir sonraki yıldan itibaren uygulanır.
+    brent_full = pj.fill_quarter_end(brent_m)
+    brent_q_all = brent_full.groupby(brent_full.index.asfreq("Q")).mean()
+    brent_q = pj.quarterly_mean_complete(brent_m)          # tamamen gerçekleşen çeyrekler
+    brent_ext = pj.extend_with_annual_growth(brent_q_all, oil_g, end_year)
+    brent_ext.loc[brent_ext.index > brent_q.index[-1], "kaynak"] = "Projeksiyon"
 
     horizon_end = pd.Period(f"{end_year}Q4", "Q")
     lv = pd.DataFrame({"YIUFE": ppi_q["deger"], "USD": usd_q["deger"], "BRENT": brent_ext["deger"]}).loc[:horizon_end]
@@ -320,10 +331,13 @@ def prepare_ufe(args, tok, cache, end_year, today):
         "Dolar/TL son tam ay (EVDS)": str(usd_m.index[-1]),
         "Brent son tam çeyrek (EVDS)": str(brent_q.index[-1]),
         "Yİ-ÜFE / Dolar-TL projeksiyonu": "Excel 'Aylık Kur Tahminleri' E ve H sütunlarının aylık % değişimleri, son gerçekleşen aydan zincirlenerek",
-        "Brent projeksiyonu": f"IMF WEO ortalama petrol fiyatı (APSP) yıllık % değişimleri; WEO yayım {oil_pub}",
+        "Brent projeksiyonu": f"İçinde bulunulan çeyrekte açıklanan aylar gerçekleşen, kalan aylar son ayın değeriyle sabit "
+                              f"({brent_m.index[-1]}: {brent_m.iloc[-1]:.2f} USD); sonraki yıllar IMF WEO ortalama petrol fiyatı (APSP) "
+                              f"yıllık % değişimleri; WEO yayım {oil_pub}",
+        "Kısmi çeyrek (Yİ-ÜFE, Dolar/TL)": "Açıklanan aylar gerçekleşen; kalan aylar son değer x Excel E (Yİ-ÜFE) / H (Dolar/TL) aylık değişimi",
         "WEO petrol ufku dışı yıllar": oil_note,
     }
-    return deps, X_dl, x_last_actual, inputs_q, assumptions, info
+    return deps, X_dl, x_last_actual, inputs_q, assumptions, info, ppi_path["deger"]
 
 
 def main():
@@ -361,9 +375,10 @@ def main():
                             out_root, run_tag, only, meta_extra, "Sektor_Tahminleri", "Ozet_Tum_Sektorler")
         ok &= bool(res)
     if "ufe" in models:
-        deps, X_dl, xla, inputs_q, assumptions, info = prepare_ufe(args, tok, cache, end_year, today)
+        deps, X_dl, xla, inputs_q, assumptions, info, fill_path = prepare_ufe(args, tok, cache, end_year, today)
         res = run_model_set(UFE_SPEC, deps, names, X_dl, xla, horizon_end, inputs_q, assumptions, {**base, **info},
-                            out_root / "ufe", run_tag, only, meta_extra, "YIUFE_Tahminleri", "Ozet_YIUFE_Tum_Sektorler")
+                            out_root / "ufe", run_tag, only, meta_extra, "YIUFE_Tahminleri", "Ozet_YIUFE_Tum_Sektorler",
+                            fill_path=fill_path)
         ok &= bool(res)
     return 0 if ok else 1
 

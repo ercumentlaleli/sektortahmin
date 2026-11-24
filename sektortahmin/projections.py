@@ -169,3 +169,25 @@ def quarterly_from_monthly_path(m: pd.DataFrame, last_actual_month: pd.Period) -
     lastq = last_actual_month.asfreq("Q") if last_actual_month.month % 3 == 0 else last_actual_month.asfreq("Q") - 1
     src = pd.Series(["Gerçekleşen" if p <= lastq else "Projeksiyon" for p in q.index], index=q.index)
     return pd.DataFrame({"deger": q, "kaynak": src})
+
+
+def fill_quarter_end(m: pd.Series, path: pd.Series | None = None) -> pd.Series:
+    """Son açıklanan ayın çeyreği tamamlanmamışsa eksik ayları doldurur.
+
+    path verilirse: eksik ay = son değer x path[ay] / path[son ay] (projeksiyon kaynağının aylık değişimleri);
+    path yoksa: son değer sabit tutulur.
+    """
+    m = m.dropna().sort_index().astype(float)
+    last = m.index[-1]
+    qend = last.asfreq("Q").asfreq("M", how="end")
+    if last == qend:
+        return m
+    out = m.copy()
+    for p in pd.period_range(last + 1, qend, freq="M"):
+        if path is not None:
+            if p not in path.index or last not in path.index:
+                raise KeyError(f"{p} için aylık projeksiyon yok.")
+            out.loc[p] = m.iloc[-1] * path[p] / path[last]
+        else:
+            out.loc[p] = m.iloc[-1]
+    return out

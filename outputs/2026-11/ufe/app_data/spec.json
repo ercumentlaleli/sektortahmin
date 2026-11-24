@@ -18,5 +18,6 @@
  "anchor_label": "Yİ-ÜFE genel değişimi",
  "word": "değişim",
  "sample_start": "2005Q1",
- "sa_note": "Gerek yok (mevsimsellik bulunmadı)"
+ "sa_note": "Gerek yok (mevsimsellik bulunmadı)",
+ "partial_as_estimate": true
 }

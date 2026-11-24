@@ -18,5 +18,6 @@
  "anchor_label": "TR GSYH büyümesi",
  "word": "büyüme",
  "sample_start": "2011Q1",
- "sa_note": "Gerek yok (seri zaten MA)"
+ "sa_note": "Gerek yok (seri zaten MA)",
+ "partial_as_estimate": false
 }

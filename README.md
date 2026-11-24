@@ -72,9 +72,10 @@ Opsiyonlar: `--models sue,ufe` (varsayılan ikisi), `--end-year 2032` (varsayıl
 
 | Adım | Uygulama |
 |---|---|
-| Bağımlı değişken | TÜİK SDMX `DF_YIUFE_EDO_V1`, endeks (2003=100). FAAL_GRUP 4 = 2'li, 5 = 3'lü. Aylık → çeyrek ortalaması (eksik aylarda açıklanan ayların ortalaması). Örneklem 2005Q1'den. |
+| Bağımlı değişken | TÜİK SDMX `DF_YIUFE_EDO_V1`, endeks (2003=100). FAAL_GRUP 4 = 2'li, 5 = 3'lü. Aylık → çeyrek ortalaması. Örneklem 2005Q1'den. |
+| Kısmi çeyrek | SÜE'den farklı olarak, eksik aylar açıklanan ayların ortalamasıyla değil doldurularak tamamlanır. Kalan aylar = sektörün son değeri × Excel E'nin (genel Yİ-ÜFE) aylık değişimi. Bu çeyrek gerçekleşen değil tahmin sayılır. Yıl bar grafikte "Tahmin (3 çeyrek gerçekleşen; Q4: n ay gerçekleşen + kalan aylar tahmini)" olarak görünür. |
 | Yİ-ÜFE genel | Gerçekleşen: TÜİK genel endeks (B-E36). Gelecek: Excel *Aylık Kur Tahminleri* E sütununun aylık % değişimleri son gerçekleşen aydan zincirlenir. |
-| Dolar/TL | Gerçekleşen: EVDS `TP.DK.USD.A.YTL` aylık ortalama. Gelecek: Excel H sütununun aylık % değişimleri. |
-| Brent | Gerçekleşen: EVDS `TP.BRENTPETROL.EUBP` aylık ortalama (tam çeyrekler). Gelecek: IMF WEO ortalama petrol fiyatı `G001.POILAPSP` yıllık % değişimleri. WEO ufku (2031) sonrasında son yılın değişimi sabit tutulur. |
+| Dolar/TL | Gerçekleşen: EVDS `TP.DK.USD.A.YTL` aylık ortalama (tamamlanmış aylar). Kısmi çeyrekteki ve sonraki aylar: Excel H sütununun aylık % değişimleri. |
+| Brent | Gerçekleşen: EVDS `TP.BRENTPETROL.EUBP` aylık ortalama (tamamlanmış aylar). Kısmi çeyreğin kalan ayları son gerçekleşen ayın değeriyle sabit tutulur; aylık Brent projeksiyonu yok. Sonraki yıllar: IMF WEO ortalama petrol fiyatı `G001.POILAPSP` yıllık % değişimleri. WEO ufku (2031) sonrasında son yılın değişimi sabit tutulur. |
 | Uzun vade yakınsaması | Hedef = sektörün tarihsel göreli fiyat değişimi oranı × genel Yİ-ÜFE değişimi. |
 | Dışlanan seriler | Tahmin örneklemi 40 çeyrekten kısa olanlar ve yayımı 12 aydan uzun süredir durmuş olanlar. |
