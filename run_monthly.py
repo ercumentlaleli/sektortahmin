@@ -31,6 +31,7 @@ import pandas as pd
 from sektortahmin import data_sources as ds
 from sektortahmin import model as model_mod
 from sektortahmin import projections as pj
+from sektortahmin import validation as V
 from sektortahmin.model import SUE_SPEC, UFE_SPEC, apply_factors, fit_and_forecast, seasonal_factors, seasonality_test
 from sektortahmin.report import model_str, safe_name, write_sector_workbook, write_summary_workbook
 
@@ -78,7 +79,7 @@ def x_seasonality(X_dl: pd.DataFrame, x_last_actual, start: str):
 def write_app_data(d: Path, results, metas, run_info, inputs_q, assumptions, spec):
     """Streamlit arayüzü için düz CSV çıktıları."""
     d.mkdir(parents=True, exist_ok=True)
-    models, ann, qs, diags, coefs = [], [], [], [], []
+    models, ann, qs, diags, coefs, perfs, urs, cvs = [], [], [], [], [], [], [], []
     for r in results:
         m = metas[r.code]
         models.append({"NACE": r.code, "Ad": m.get("name", ""), "Düzey": m["level"], "Son ay": m["last_month"],
@@ -94,6 +95,10 @@ def write_app_data(d: Path, results, metas, run_info, inputs_q, assumptions, spe
         q.index = q.index.astype(str)
         qs.append(q.rename_axis("Çeyrek").reset_index().assign(NACE=r.code))
         diags.append(r.diagnostics.assign(NACE=r.code))
+        perfs.append(r.perf.assign(NACE=r.code))
+        urs.append(r.unit_root.assign(NACE=r.code))
+        if not r.cv.empty:
+            cvs.append(r.cv.assign(NACE=r.code))
         coefs.append(pd.DataFrame({"Değişken": r.design_cols, "Katsayı": np.asarray(r.ols.params),
                                    "Std. hata": np.asarray(r.ols.bse), "t": np.asarray(r.ols.tvalues),
                                    "p": np.asarray(r.ols.pvalues)}).assign(NACE=r.code))
@@ -102,6 +107,12 @@ def write_app_data(d: Path, results, metas, run_info, inputs_q, assumptions, spe
     pd.concat(qs).to_csv(d / "quarterly.csv", index=False)
     pd.concat(diags).to_csv(d / "diagnostics.csv", index=False)
     pd.concat(coefs).to_csv(d / "coefficients.csv", index=False)
+    pd.concat(perfs).to_csv(d / "performance.csv", index=False)
+    pd.concat(urs).to_csv(d / "unit_root.csv", index=False)
+    if cvs:
+        pd.concat(cvs).to_csv(d / "cv.csv", index=False)
+    if "Açıklayıcılarda birim kök testleri (ADF, PP)" in assumptions:
+        assumptions["Açıklayıcılarda birim kök testleri (ADF, PP)"].to_csv(d / "unit_root_x.csv", index=False)
     x = inputs_q.copy()
     x.index = x.index.astype(str)
     x.rename_axis("Çeyrek").to_csv(d / "inputs_quarterly.csv")
@@ -172,6 +183,8 @@ def run_model_set(spec, deps: dict, names: dict, X_dl: pd.DataFrame, x_last_actu
                                          f"({model_mod.REL_START}'ten, [{model_mod.RATIO_BOUNDS[0]:g}, {model_mod.RATIO_BOUNDS[1]:g}] sınırlı) x {spec.anchor_label}",
                 "Tahmin örneklemi sonu": str(x_last_actual),
                 "Tahmin ufku": str(horizon_end),
+                "Çapraz doğrulama": (f"Genişleyen pencere, son {V.CV_ORIGINS} başlangıç noktası, h=1..{V.CV_H}, "
+                                     "her noktada AIC ile yeniden seçim; açıklayıcıların gerçekleşen değerleri") if model_mod.RUN_CV else "Kapalı",
                 "Modellenen seri": len(results),
                 "Modellenemeyen": "; ".join(f"{c}: {w}" for c, w in failed) or "-"}
     if results:
@@ -220,6 +233,8 @@ def prepare_sue(args, tok, cache, end_year, today):
     X_dl = np.log(levels).diff()
     X_dl.columns = list(SUE_SPEC.x_cols)
     season_x = x_seasonality(X_dl, x_last_actual, "2012Q2")
+    ur_x = V.unit_root_table({"TR GSYH (MA)": gdp.loc["2012Q1":x_last_actual], "Küresel GSYH (IMF)": world.loc[:x_last_actual],
+                              "REDK": reer_q.loc["2012Q1":x_last_actual]})
 
     inputs_q = pd.DataFrame({
         "TR GSYH (MA endeks)": gdp_ext["deger"], "TR GSYH kaynak": gdp_ext["kaynak"],
@@ -237,6 +252,7 @@ def prepare_sue(args, tok, cache, end_year, today):
         "Yıllık varsayımlar": annual,
         "REDK projeksiyonu: REDK = REDK(-1)*(1+TÜFE değ.)/(1+USD değ.)": redk_tab,
         "Açıklayıcı değişkenlerde mevsimsellik testi (Δlog, çeyrek kuklaları)": season_x,
+        "Açıklayıcılarda birim kök testleri (ADF, PP)": ur_x,
     }
     info = {
         "Model": SUE_SPEC.title,
@@ -302,6 +318,9 @@ def prepare_ufe(args, tok, cache, end_year, today):
     X_dl = np.log(lv).diff()
     X_dl.columns = list(UFE_SPEC.x_cols)
     season_x = x_seasonality(X_dl, x_last_actual, "2005Q2")
+    ur_x = V.unit_root_table({"Yİ-ÜFE genel": ppi_q["deger"].loc["2005Q1":x_last_actual],
+                              "Dolar/TL": usd_q["deger"].loc["2005Q1":x_last_actual],
+                              "Brent (USD)": brent_q.loc["2005Q1":x_last_actual]})
 
     inputs_q = pd.DataFrame({
         "Yİ-ÜFE genel (2003=100)": ppi_q["deger"], "Yİ-ÜFE genel kaynak": ppi_q["kaynak"],
@@ -324,6 +343,7 @@ def prepare_ufe(args, tok, cache, end_year, today):
     assumptions = {
         "Yıllık varsayımlar": annual,
         "Açıklayıcı değişkenlerde mevsimsellik testi (Δlog, çeyrek kuklaları)": season_x,
+        "Açıklayıcılarda birim kök testleri (ADF, PP)": ur_x,
     }
     info = {
         "Model": UFE_SPEC.title,
@@ -350,11 +370,14 @@ def main():
     ap.add_argument("--levels", default="2,3")
     ap.add_argument("--covid-dummy", action="store_true", help="2020Q2/2020Q3 COVID impuls kuklalarını ekle")
     ap.add_argument("--only", default="", help="Virgülle NACE kodları (test için)")
+    ap.add_argument("--no-cv", action="store_true", help="Zaman serisi çapraz doğrulamasını atla (hızlı çalıştırma)")
     args = ap.parse_args()
 
     today = dt.date.today()
     if args.covid_dummy:
         model_mod.DUMMY_PERIODS[:] = model_mod.COVID_PERIODS
+    if args.no_cv:
+        model_mod.RUN_CV = False
     dummy_text = ("COVID impuls kuklaları: " + ", ".join(model_mod.DUMMY_PERIODS)) if model_mod.DUMMY_PERIODS else "Yok"
     end_year = args.end_year
     horizon_end = pd.Period(f"{end_year}Q4", "Q")

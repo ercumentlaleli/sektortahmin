@@ -1,0 +1,13 @@
+Değişken,Dönüşüm,Test,Deterministik,İstatistik,p-değeri,Gecikme,Sonuç (%5)
+TR GSYH (MA),log düzey,ADF,sabit + trend,-4.2456230587833605,0.003816212372104321,0,Durağan
+TR GSYH (MA),log düzey,PP,sabit + trend,-4.0941404095613,0.00636253067992912,11,Durağan
+TR GSYH (MA),Δlog,ADF,sabit,-11.067263485136717,4.647871637196124e-20,0,Durağan
+TR GSYH (MA),Δlog,PP,sabit,-13.36683066907694,4.196370147545412e-60,11,Durağan
+Küresel GSYH (IMF),log düzey,ADF,sabit + trend,-3.5750435831417233,0.03202071296222614,0,Durağan
+Küresel GSYH (IMF),log düzey,PP,sabit + trend,-3.356766393689373,0.05743978413801312,11,Birim kök (durağan değil)
+Küresel GSYH (IMF),Δlog,ADF,sabit,-7.103638050855402,4.106757631094215e-10,1,Durağan
+Küresel GSYH (IMF),Δlog,PP,sabit,-10.03135831860771,3.1394390379886877e-25,11,Durağan
+REDK,log düzey,ADF,sabit + trend,-0.8604969883162504,0.9601932641487693,0,Birim kök (durağan değil)
+REDK,log düzey,PP,sabit + trend,-1.0198851197532783,0.9396804837120628,11,Birim kök (durağan değil)
+REDK,Δlog,ADF,sabit,-7.644710738513422,1.8558076756507835e-11,0,Durağan
+REDK,Δlog,PP,sabit,-7.64393162981829,4.563765720190746e-13,11,Durağan

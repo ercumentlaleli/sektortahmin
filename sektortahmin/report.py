@@ -133,6 +133,21 @@ def write_sector_workbook(path: Path, r: ModelResult, meta: dict, inputs_q: pd.D
         ch.set_size({"width": 900, "height": 400})
         ws.insert_chart(a_start, 5, ch)
 
+        # Tahmin performansı (örneklem içi + zaman serisi çapraz doğrulaması)
+        ws.write(row, 0, "Tahmin performansı (çeyreklik log-değişim, yüzde puan)", T)
+        row += 1
+        if not r.perf.empty:
+            row = _write_df(ws, r.perf, row, 0, H, N4, index=False) + 1
+            ws.write(row, 0, "Çapraz doğrulama: son 12 çeyrekte her başlangıç noktasında yalnızca o güne kadarki veriyle gecikmeler "
+                             "AIC ile yeniden seçilip model yeniden tahmin edildi; 1–4 çeyrek sonrası, açıklayıcıların gerçekleşen "
+                             "değerleriyle tahmin edildi. Theil U < 1: model naif tahminden (ortalama değişim) daha iyi.")
+            row += 2
+        ws.write(row, 0, "Birim kök testleri (H0: birim kök var)", T)
+        ws.write(row, 3, r.unit_root_note, B)
+        row += 1
+        if not r.unit_root.empty:
+            row = _write_df(ws, r.unit_root, row, 0, H, N4, index=False) + 2
+
         # ---------------- Katsayılar
         ws2 = wb.add_worksheet("Katsayılar")
         res = r.ols
@@ -183,6 +198,14 @@ def write_sector_workbook(path: Path, r: ModelResult, meta: dict, inputs_q: pd.D
             ws5.write(rr, 0, title, T)
             rr = _write_df(ws5, df, rr + 1, 0, H, N4) + 2
 
+        # ---------------- Çapraz doğrulama ayrıntısı
+        if not r.cv.empty:
+            wcv = wb.add_worksheet("Çapraz Doğrulama")
+            wcv.set_column(0, 3, 14)
+            wcv.set_column(4, 12, 16)
+            wcv.freeze_panes(1, 0)
+            _write_df(wcv, r.cv, 0, 0, H, N4, index=False)
+
         # ---------------- Model çıktısı
         ws6 = wb.add_worksheet("Model Çıktısı")
         ws6.set_column(0, 0, 110)
@@ -210,6 +233,18 @@ def write_summary_workbook(path: Path, results: list[ModelResult], metas: dict, 
             row[f"{yr} Yakınsamalı %"] = g["Yakınsamalı tahmin büyüme %"]
         for t in ["Breusch-Godfrey LM (gecikme 4)", "Breusch-Pagan-Godfrey", "Jarque-Bera", "ARCH LM (gecikme 4)", "Ramsey RESET"]:
             row[t] = d.get(t)
+        ur = r.unit_root
+        if not ur.empty:
+            for tst in ("ADF", "PP"):
+                x = ur[(ur["Dönüşüm"] == "Δlog") & (ur["Test"] == tst)]
+                row[f"{tst} Δlog"] = x["Sonuç (%5)"].iloc[0].split(" ")[0] if len(x) else None
+        pf = r.perf.set_index("Ölçüt") if not r.perf.empty else pd.DataFrame()
+        for lab, key in [("RMSE örneklem içi", "Örneklem içi"), ("RMSE h=1", "h=1"), ("RMSE 4Ç kümülatif", "kümülatif")]:
+            m = [i for i in pf.index if key in i]
+            row[lab] = pf.loc[m[0], "RMSE"] if m else None
+        for lab, key in [("Theil U h=1", "h=1"), ("Theil U 4Ç kümülatif", "kümülatif")]:
+            m = [i for i in pf.index if key in i]
+            row[lab] = pf.loc[m[0], "Theil U (naif'e göre)"] if m else None
         rows.append(row)
     df = pd.DataFrame(rows)
     with pd.ExcelWriter(path, engine="xlsxwriter") as xw:
@@ -229,6 +264,12 @@ def write_summary_workbook(path: Path, results: list[ModelResult], metas: dict, 
             if c in ["Breusch-Godfrey LM (gecikme 4)", "Breusch-Pagan-Godfrey", "Jarque-Bera", "ARCH LM (gecikme 4)", "Ramsey RESET"]:
                 ws.conditional_format(1, j, len(df), j, {"type": "cell", "criteria": "==", "value": '"Geçti"', "format": ok})
                 ws.conditional_format(1, j, len(df), j, {"type": "cell", "criteria": "==", "value": '"Kaldı"', "format": bad})
+            if c in ("ADF Δlog", "PP Δlog"):
+                ws.conditional_format(1, j, len(df), j, {"type": "cell", "criteria": "==", "value": '"Durağan"', "format": ok})
+                ws.conditional_format(1, j, len(df), j, {"type": "cell", "criteria": "==", "value": '"Birim"', "format": bad})
+            if c.startswith("Theil U"):
+                ws.conditional_format(1, j, len(df), j, {"type": "cell", "criteria": "<", "value": 1, "format": ok})
+                ws.conditional_format(1, j, len(df), j, {"type": "cell", "criteria": ">=", "value": 1, "format": bad})
         info = pd.DataFrame(list(run_info.items()), columns=["Bilgi", "Değer"])
         info.to_excel(xw, sheet_name="Çalıştırma Bilgisi", index=False)
         xw.sheets["Çalıştırma Bilgisi"].set_column(0, 1, 60)

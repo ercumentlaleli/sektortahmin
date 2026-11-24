@@ -13,5 +13,6 @@ WEO petrol ufku dışı yıllar,"2032-2032: son yıl (2031, %-2.54) sabit tutuld
 Uzun vade yakınsaması,"2029Q1–2032Q4 doğrusal; hedef = tarihsel göreli değişim oranı (2013Q1'ten, [0, 2] sınırlı) x Yİ-ÜFE genel değişimi"
 Tahmin örneklemi sonu,2026Q3
 Tahmin ufku,2032Q4
+Çapraz doğrulama,"Genişleyen pencere, son 12 başlangıç noktası, h=1..4, her noktada AIC ile yeniden seçim; açıklayıcıların gerçekleşen değerleri"
 Modellenen seri,116
 Modellenemeyen,C211: tahmin örneklemi kısa (22 gözlem < 40; veri 2020-01'dan başlıyor); C256: tahmin örneklemi kısa (34 gözlem < 40; veri 2017-01'dan başlıyor); C268: yayımı durmuş (son veri 2018-12); C279: tahmin örneklemi kısa (31 gözlem < 40; veri 2017-12'dan başlıyor); C302: tahmin örneklemi kısa (34 gözlem < 40; veri 2017-01'dan başlıyor); C324: tahmin örneklemi kısa (22 gözlem < 40; veri 2020-01'dan başlıyor)

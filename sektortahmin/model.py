@@ -63,6 +63,7 @@ USE_CONST = True
 #   büyüme_t = w_t * model_t + (1 - w_t) * hedef_t
 #   hedef_t  = oran * Δlog(TR GSYH)_t,  oran = ort. Δlog(SÜE) / ort. Δlog(GSYH) (tarihsel), [0, 2] ile sınırlı
 #   w_t = 1 (CONV_START öncesi), CONV_START'tan ufuk sonuna doğrusal olarak 0'a iner.
+RUN_CV = True                 # zaman serisi çapraz doğrulaması (yavaş; --no-cv ile kapatılır)
 CONV_START = "2029Q1"
 REL_START = "2013Q1"          # göreli büyüme oranı için tarihsel pencere başlangıcı
 RATIO_BOUNDS = (0.0, 2.0)
@@ -122,6 +123,10 @@ class ModelResult:
     select_table: pd.DataFrame = field(default_factory=pd.DataFrame)
     convergence: dict = field(default_factory=dict)
     spec: ModelSpec = SUE_SPEC
+    unit_root: pd.DataFrame = field(default_factory=pd.DataFrame)
+    unit_root_note: str = ""
+    perf: pd.DataFrame = field(default_factory=pd.DataFrame)
+    cv: pd.DataFrame = field(default_factory=pd.DataFrame)
     notes: list = field(default_factory=list)
 
 
@@ -264,6 +269,16 @@ def fit_and_forecast(code: str, y_level_q: pd.Series, n_months: pd.Series, X_dl:
     diag = diagnostics(res, Xe.values, Xe[het_cols].values)
     fitted = pd.Series(np.asarray(res.fittedvalues), index=Xe.index)
 
+    # Birim kök testleri (bağımlı değişken, tahmin örneklemi), performans ve çapraz doğrulama
+    from . import validation as V
+    ur = V.unit_root_table({spec.dep_short: y.loc[est_idx[0]:est_idx[-1]]})
+    ins = V.error_stats(np.asarray(res.resid) * 100, (ye - ye.mean()).values * 100)
+    perf_rows = [{"Ölçüt": "Örneklem içi (tek adım) çeyreklik değişim (puan)", **ins}]
+    cv = pd.DataFrame()
+    if RUN_CV:
+        cv = V.rolling_origin_cv(df, est_idx, spec.x_cols, select_order_aic, _design, MAXLAG)
+    perf = pd.concat([pd.DataFrame(perf_rows), V.cv_metrics(cv)], ignore_index=True)
+
     # Tahmin: y'nin son gerçekleşeninden sonrası, dinamik
     path = df["dly"].copy()
     fc_idx = pd.period_range(y.index[-1] + 1, horizon_end, freq="Q")
@@ -359,4 +374,5 @@ def fit_and_forecast(code: str, y_level_q: pd.Series, n_months: pd.Series, X_dl:
     return ModelResult(code=code, order={"p": p, **q}, ols=res, design_cols=list(Xe.columns),
                        sample=(Xe.index[0], Xe.index[-1]), nobs=int(res.nobs), aic=float(sel_tab.iloc[0, 1]),
                        diagnostics=diag, season=season, fitted=fitted_raw, forecast=fcdf,
-                       quarterly=qdf, annual=annual, select_table=sel_tab, notes=notes, convergence=conv, spec=spec)
+                       quarterly=qdf, annual=annual, select_table=sel_tab, notes=notes, convergence=conv, spec=spec,
+                       unit_root=ur, unit_root_note=V.unit_root_summary(ur), perf=perf, cv=cv)

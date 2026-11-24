@@ -51,6 +51,8 @@ def load_run(run: str, model: str, _mtime: float) -> dict:
             ["models", "annual", "quarterly", "diagnostics", "coefficients", "inputs_quarterly"]}
     data["assumptions"] = pd.read_csv(d / "assumptions_annual.csv")
     data["run_info"] = pd.read_csv(d / "run_info.csv", index_col=0)
+    for n in ["performance", "unit_root", "cv", "unit_root_x"]:
+        data[n] = pd.read_csv(d / f"{n}.csv") if (d / f"{n}.csv").exists() else pd.DataFrame()
     sp = d / "spec.json"
     data["spec"] = json.loads(sp.read_text()) if sp.exists() else SUE_DEFAULT_SPEC
     return data
@@ -204,12 +206,27 @@ if page == "Genel bakış":
             tbl[f"{y} Tahmin %"] = piv_fc.get(y)
     diag = D["diagnostics"].pivot(index="NACE", columns="Test", values="Sonuç (%5)")
     tbl["Geçen test"] = (diag == "Geçti").sum(axis=1).astype(str) + "/" + diag.notna().sum(axis=1).astype(str)
+    pf = D["performance"]
+    if not pf.empty:
+        k4 = pf[pf["Ölçüt"].str.contains("kümülatif")].set_index("NACE")
+        h1 = pf[pf["Ölçüt"].str.contains("h=1")].set_index("NACE")
+        tbl["RMSE h=1"] = h1["RMSE"]
+        tbl["RMSE 4Ç"] = k4["RMSE"]
+        tbl["Theil U 4Ç"] = k4["Theil U (naif'e göre)"]
+    ur = D["unit_root"]
+    if not ur.empty:
+        d_ok = ur[ur["Dönüşüm"] == "Δlog"].groupby("NACE")["p-değeri"].max() < 0.05
+        tbl["Δlog durağan (ADF+PP)"] = d_ok.map({True: "Evet", False: "Hayır"})
     tbl = tbl[tbl["Düzey"].isin(lvl)]
     if search:
         s = search.lower()
         tbl = tbl[tbl.index.str.lower().str.contains(s) | tbl["Ad"].str.lower().str.contains(s)]
     num_cols = [c for c in tbl.columns if c.endswith("%")]
-    sty = tbl.style.format({c: "{:.1f}" for c in num_cols} | {"Düz. R2": "{:.2f}", f"Göreli {W} oranı": "{:.2f}"})
+    sty = tbl.style.format({c: "{:.1f}" for c in num_cols} | {"Düz. R2": "{:.2f}", f"Göreli {W} oranı": "{:.2f}",
+                                                             "RMSE h=1": "{:.2f}", "RMSE 4Ç": "{:.2f}", "Theil U 4Ç": "{:.2f}"}, na_rep="–")
+    if "Theil U 4Ç" in tbl.columns:
+        sty = sty.map(lambda v: ("background-color:#C6EFCE;color:#006100" if v < 1 else "background-color:#FFC7CE;color:#9C0006")
+                      if v == v else "", subset=["Theil U 4Ç"])
     if model == "ufe":
         # Renk: sektör fiyat değişiminin genel Yİ-ÜFE değişiminden sapması
         gen = D["assumptions"].set_index("Yıl").iloc[:, 0]
@@ -261,7 +278,8 @@ elif page == "Sektör detayı":
     if CONV_COL in a.columns:
         st.caption("Yakınsamalı tahmin: 2028 sonuna kadar model tahminiyle aynıdır; 2029Q1'den ufuk sonuna doğru ağırlık "
                    f"doğrusal olarak modelden hedefe (göreli {W} oranı x {SP['anchor_label']}) kayar. Yargısal bir düzeltmedir.")
-    t1, t2, t3, t4 = st.tabs(["Yıllık tablo", "Tanı testleri", "Katsayılar", "Çeyreklik veri"])
+    t1, t2, t5, t6, t3, t4 = st.tabs(["Yıllık tablo", "Tanı testleri", "Tahmin performansı", "Birim kök testleri",
+                                      "Katsayılar", "Çeyreklik veri"])
     with t1:
         at = a.drop(columns="NACE").set_index("Yıl")
         at.columns = [disp(c, SP) for c in at.columns]
@@ -270,6 +288,55 @@ elif page == "Sektör detayı":
         dg = D["diagnostics"][D["diagnostics"]["NACE"] == code].drop(columns="NACE").set_index("Test")
         st.dataframe(dg.style.format({"İstatistik": "{:.3f}", "p-değeri": "{:.3f}"}).map(color_result, subset=["Sonuç (%5)"]),
                      width="stretch")
+    with t5:
+        pf = D["performance"]
+        pf = pf[pf["NACE"] == code].drop(columns="NACE").set_index("Ölçüt") if not pf.empty else pf
+        if pf.empty:
+            st.info("Bu çalıştırmada tahmin performansı hesaplanmamış.")
+        else:
+            sty = pf.style.format("{:.3f}", na_rep="–", subset=[c for c in pf.columns if c != "N"])
+            if "Theil U (naif'e göre)" in pf.columns:
+                sty = sty.map(lambda v: ("background-color:#C6EFCE;color:#006100" if v < 1 else "background-color:#FFC7CE;color:#9C0006")
+                              if v == v else "", subset=["Theil U (naif'e göre)"])
+            st.dataframe(sty, width="stretch")
+            st.caption("Birim: çeyreklik log-değişim, yüzde puan. Örneklem dışı satırlar zaman serisi çapraz doğrulamasından gelir: "
+                       "son 12 çeyrekte her başlangıç noktasında yalnızca o güne kadarki veriyle gecikmeler AIC ile yeniden seçilir, "
+                       "model yeniden tahmin edilir ve 1–4 çeyrek sonrası açıklayıcıların gerçekleşen değerleriyle tahmin edilir. "
+                       "Theil U < 1: model, naif tahminden (geçmiş ortalama değişim) daha başarılı.")
+            cv = D["cv"]
+            cv = cv[cv["NACE"] == code] if not cv.empty else cv
+            if not cv.empty:
+                c1 = cv[cv["h"] == 1].copy()
+                c1["Tarih"] = pd.PeriodIndex(c1["Hedef çeyrek"], freq="Q").to_timestamp()
+                mm = c1.melt(id_vars=["Tarih"], value_vars=["Gerçekleşen Δlog", "Tahmin Δlog", "Naif Δlog"],
+                             var_name="Seri", value_name="Δlog")
+                mm["Değişim %"] = mm["Δlog"] * 100
+                mm["Seri"] = mm["Seri"].map({"Gerçekleşen Δlog": "Gerçekleşen", "Tahmin Δlog": "Model (1 çeyrek önceden)",
+                                             "Naif Δlog": "Naif"})
+                ch = (alt.Chart(mm, title="Çapraz doğrulama: 1 çeyrek önceden tahmin vs gerçekleşen (çeyreklik %)")
+                      .mark_line(point=True)
+                      .encode(x=alt.X("Tarih:T", title=None, axis=alt.Axis(format="%Y-Ç%q", tickCount="quarter")),
+                              y=alt.Y("Değişim %:Q", title="Çeyreklik değişim (%)"),
+                              color=alt.Color("Seri:N", scale=alt.Scale(domain=["Gerçekleşen", "Model (1 çeyrek önceden)", "Naif"],
+                                                                        range=[C_ACT, C_FC, "#A5A5A5"]),
+                                              legend=alt.Legend(orient="bottom", title=None)),
+                              tooltip=[alt.Tooltip("Tarih:T", format="%Y-Q%q"), "Seri", alt.Tooltip("Değişim %:Q", format=".2f")])
+                      .properties(height=320))
+                st.altair_chart(ch, width="stretch")
+                with st.expander("Çapraz doğrulama ayrıntısı"):
+                    st.dataframe(cv.drop(columns="NACE"), width="stretch")
+    with t6:
+        ur = D["unit_root"]
+        ur = ur[ur["NACE"] == code].drop(columns="NACE") if not ur.empty else ur
+        if ur.empty:
+            st.info("Bu çalıştırmada birim kök testleri hesaplanmamış.")
+        else:
+            st.dataframe(ur.set_index(["Dönüşüm", "Test"]).style.format({"İstatistik": "{:.3f}", "p-değeri": "{:.3f}"})
+                         .map(lambda v: "background-color:#C6EFCE;color:#006100" if v == "Durağan"
+                              else ("background-color:#FFC7CE;color:#9C0006" if isinstance(v, str) and v.startswith("Birim") else ""),
+                              subset=["Sonuç (%5)"]), width="stretch")
+            st.caption("H0: seride birim kök var (durağan değil). Log düzeyde sabit + trend, Δlog'da sabit terimli test. "
+                       "ADF gecikmesi AIC ile, PP bant genişliği otomatik seçilir. ARDL farklarla kurulduğu için Δlog'un durağan olması gerekir.")
     with t3:
         cf = D["coefficients"][D["coefficients"]["NACE"] == code].drop(columns="NACE").set_index("Değişken")
         st.dataframe(cf.style.format("{:.4f}").map(lambda v: "font-weight:bold" if v < 0.05 else "", subset=["p"]),
@@ -299,6 +366,10 @@ elif page == "Varsayımlar":
                       tooltip=[alt.Tooltip("Tarih:T", format="%Y-Q%q"), alt.Tooltip("Değer:Q", format=".2f"), "Kaynak"])
               .properties(height=300))
         col.altair_chart(ch, width="stretch")
+    if not D["unit_root_x"].empty:
+        st.subheader("Açıklayıcılarda birim kök testleri (ADF, PP)")
+        st.dataframe(D["unit_root_x"].set_index(["Değişken", "Dönüşüm", "Test"]).style.format({"İstatistik": "{:.3f}", "p-değeri": "{:.3f}"}),
+                     width="stretch")
     with st.expander("Çeyreklik açıklayıcı veriler"):
         st.dataframe(D["inputs_quarterly"].set_index("Çeyrek"), width="stretch")
 

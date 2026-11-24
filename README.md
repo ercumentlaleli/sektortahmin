@@ -79,3 +79,12 @@ Opsiyonlar: `--models sue,ufe` (varsayılan ikisi), `--end-year 2032` (varsayıl
 | Brent | Gerçekleşen: EVDS `TP.BRENTPETROL.EUBP` aylık ortalama (tamamlanmış aylar). Kısmi çeyreğin kalan ayları son gerçekleşen ayın değeriyle sabit tutulur; aylık Brent projeksiyonu yok. Sonraki yıllar: IMF WEO ortalama petrol fiyatı `G001.POILAPSP` yıllık % değişimleri. WEO ufku (2031) sonrasında son yılın değişimi sabit tutulur. |
 | Uzun vade yakınsaması | Hedef = sektörün tarihsel göreli fiyat değişimi oranı × genel Yİ-ÜFE değişimi. |
 | Dışlanan seriler | Tahmin örneklemi 40 çeyrekten kısa olanlar ve yayımı 12 aydan uzun süredir durmuş olanlar. |
+
+## Doğrulama: birim kök testleri ve tahmin performansı
+
+| Bölüm | Uygulama |
+|---|---|
+| Birim kök | Her sektörün bağımlı değişkeni ve açıklayıcılar için ADF (gecikme AIC ile) ve Phillips-Perron (`arch` paketi). Log düzeyde sabit + trend, Δlog'da sabit. H0: birim kök var. |
+| Örneklem içi | Tek adım ileri kalıntılardan ME, MAE, RMSE (çeyreklik log-değişim, yüzde puan). Theil U = model RMSE / naif RMSE. |
+| Çapraz doğrulama | Zaman serisi çapraz doğrulaması (genişleyen pencere, kaydırmalı başlangıç). Son 12 çeyreğin her birinde yalnızca o güne kadarki veriyle gecikmeler AIC ile yeniden seçilir, model yeniden tahmin edilir, 1–4 çeyrek sonrası dinamik olarak tahmin edilir. Açıklayıcıların gerçekleşen değerleri kullanılır (koşullu tahmin). Ufuk bazında ve 4 çeyreklik kümülatif ME, MAE, RMSE, Theil U raporlanır. Naif ölçüt: o güne kadarki ortalama değişim (sürüklenmeli rassal yürüyüş). `--no-cv` ile kapatılabilir. |
+| Çıktılar | Excel: Özet sayfasında "Tahmin performansı" ve "Birim kök testleri" tabloları, "Çapraz Doğrulama" sayfası; özet dosyada RMSE, Theil U, ADF/PP sütunları. Streamlit: sektör sayfasında "Tahmin performansı" ve "Birim kök testleri" sekmeleri, genel bakışta RMSE ve Theil U sütunları. |

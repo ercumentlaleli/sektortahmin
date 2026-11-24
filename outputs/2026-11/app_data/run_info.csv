@@ -13,5 +13,6 @@ REDK son tam çeyrek,2026Q3 (son ay 2026-10)
 Uzun vade yakınsaması,"2029Q1–2032Q4 doğrusal; hedef = tarihsel göreli büyüme oranı (2013Q1'ten, [0, 2] sınırlı) x TR GSYH büyümesi"
 Tahmin örneklemi sonu,2026Q2
 Tahmin ufku,2032Q4
+Çapraz doğrulama,"Genişleyen pencere, son 12 başlangıç noktası, h=1..4, her noktada AIC ile yeniden seçim; açıklayıcıların gerçekleşen değerleri"
 Modellenen seri,118
 Modellenemeyen,B061: TÜİK veri yayımlamıyor (gizli); B062: TÜİK veri yayımlamıyor (gizli); C182: TÜİK veri yayımlamıyor (gizli); C191: TÜİK veri yayımlamıyor (gizli); C192: TÜİK veri yayımlamıyor (gizli); C211: TÜİK veri yayımlamıyor (gizli); C253: TÜİK veri yayımlamıyor (gizli); C262: TÜİK veri yayımlamıyor (gizli); C264: TÜİK veri yayımlamıyor (gizli); C267: TÜİK veri yayımlamıyor (gizli); C268: TÜİK veri yayımlamıyor (gizli); C303: TÜİK veri yayımlamıyor (gizli); C304: TÜİK veri yayımlamıyor (gizli); C331: TÜİK veri yayımlamıyor (gizli); C332: TÜİK veri yayımlamıyor (gizli)

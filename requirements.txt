@@ -7,3 +7,4 @@ xlsxwriter
 requests
 streamlit>=1.40
 altair>=5
+arch>=7

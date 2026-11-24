@@ -1,0 +1,465 @@
+Değişken,Dönüşüm,Test,Deterministik,İstatistik,p-değeri,Gecikme,Sonuç (%5),NACE
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.2553756300858187,0.9904839360166998,9,Birim kök (durağan değil),B05
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.5350213896898444,0.982170863264294,12,Birim kök (durağan değil),B05
+Yİ-ÜFE,Δlog,ADF,sabit,-2.4243911155136204,0.13497019645658065,8,Birim kök (durağan değil),B05
+Yİ-ÜFE,Δlog,PP,sabit,-5.096879350856089,1.1778156946739174e-05,12,Durağan,B05
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.4320467594179451,0.8512580111240717,1,Birim kök (durağan değil),B051
+Yİ-ÜFE,log düzey,PP,sabit + trend,-1.0467315594269602,0.9357713320646138,12,Birim kök (durağan değil),B051
+Yİ-ÜFE,Δlog,ADF,sabit,-4.398348630840072,0.00029883648295729636,0,Durağan,B051
+Yİ-ÜFE,Δlog,PP,sabit,-4.2678959249783865,0.0004929669078225252,12,Durağan,B051
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.20108153640272466,0.9915129504665093,9,Birim kök (durağan değil),B052
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.4525286043462095,0.9857249580067905,12,Birim kök (durağan değil),B052
+Yİ-ÜFE,Δlog,ADF,sabit,-2.4010452803180216,0.14144160336586392,8,Birim kök (durağan değil),B052
+Yİ-ÜFE,Δlog,PP,sabit,-5.860034279753497,1.8637840371562524e-07,12,Durağan,B052
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.0824386170757356,0.9319496872763173,0,Birim kök (durağan değil),B06
+Yİ-ÜFE,log düzey,PP,sabit + trend,-1.0719466457818874,0.9319021549836634,12,Birim kök (durağan değil),B06
+Yİ-ÜFE,Δlog,ADF,sabit,-8.940769099477203,9.266740382000085e-15,0,Durağan,B06
+Yİ-ÜFE,Δlog,PP,sabit,-8.939016000395144,8.216492105388113e-19,12,Durağan,B06
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.4671768217603112,0.840102309227021,0,Birim kök (durağan değil),B061
+Yİ-ÜFE,log düzey,PP,sabit + trend,-1.4009417537256539,0.8604288599194156,12,Birim kök (durağan değil),B061
+Yİ-ÜFE,Δlog,ADF,sabit,-9.244109566012742,1.5540427160485533e-15,0,Durağan,B061
+Yİ-ÜFE,Δlog,PP,sabit,-9.31282706058994,8.047140340912212e-21,12,Durağan,B061
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.27007969095076,0.8951309517204991,5,Birim kök (durağan değil),B062
+Yİ-ÜFE,log düzey,PP,sabit + trend,-1.3139875712062912,0.883543703100043,12,Birim kök (durağan değil),B062
+Yİ-ÜFE,Δlog,ADF,sabit,-5.661435107790636,9.360227302669365e-07,4,Durağan,B062
+Yİ-ÜFE,Δlog,PP,sabit,-4.875887862229764,3.436773104268203e-05,12,Durağan,B062
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.011948624074237526,0.9941102022087928,1,Birim kök (durağan değil),B07
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.525770352721865,0.9992584557740598,12,Birim kök (durağan değil),B07
+Yİ-ÜFE,Δlog,ADF,sabit,-5.875243117597795,3.170803575495473e-07,0,Durağan,B07
+Yİ-ÜFE,Δlog,PP,sabit,-6.374155805344149,7.459954694193324e-09,12,Durağan,B07
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.3133860508879889,0.8845785188714437,1,Birim kök (durağan değil),B071
+Yİ-ÜFE,log düzey,PP,sabit + trend,-1.0671960861711596,0.9326460982967791,12,Birim kök (durağan değil),B071
+Yİ-ÜFE,Δlog,ADF,sabit,-6.15254478078575,7.50160070905807e-08,0,Durağan,B071
+Yİ-ÜFE,Δlog,PP,sabit,-6.165864361877883,2.8714527139105363e-08,12,Durağan,B071
+Yİ-ÜFE,log düzey,ADF,sabit + trend,0.28842085791068967,0.9962176168211829,1,Birim kök (durağan değil),B072
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.39565688819468275,0.998860485368118,12,Birim kök (durağan değil),B072
+Yİ-ÜFE,Δlog,ADF,sabit,-6.325734574548621,2.9896721183479e-08,0,Durağan,B072
+Yİ-ÜFE,Δlog,PP,sabit,-7.112032670514544,3.7109096912686314e-11,12,Durağan,B072
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.0680901538880754,0.93422636110733,1,Birim kök (durağan değil),B08
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.6451786278678446,0.9761647876133439,12,Birim kök (durağan değil),B08
+Yİ-ÜFE,Δlog,ADF,sabit,-3.6763041193428894,0.004459076361575029,0,Durağan,B08
+Yİ-ÜFE,Δlog,PP,sabit,-3.840892896260485,0.0025138884575762873,12,Durağan,B08
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.454539730840889,0.8441846737387183,2,Birim kök (durağan değil),B081
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.6306367839145844,0.9770510538471185,12,Birim kök (durağan değil),B081
+Yİ-ÜFE,Δlog,ADF,sabit,-2.7818899604721365,0.06090758565142593,1,Birim kök (durağan değil),B081
+Yİ-ÜFE,Δlog,PP,sabit,-3.9897808564467843,0.0014566584900632122,12,Durağan,B081
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.0747459390992125,0.9331789648083844,2,Birim kök (durağan değil),B089
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.7768085141968348,0.9666181618148284,12,Birim kök (durağan değil),B089
+Yİ-ÜFE,Δlog,ADF,sabit,-3.7087876468134207,0.003991232262473868,1,Durağan,B089
+Yİ-ÜFE,Δlog,PP,sabit,-5.957573151759572,1.0405371981050028e-07,12,Durağan,B089
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.212261508612262,0.90796012294831,3,Birim kök (durağan değil),C10
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.37663645828943787,0.9884078731252022,12,Birim kök (durağan değil),C10
+Yİ-ÜFE,Δlog,ADF,sabit,-2.278875098823765,0.17887170838325817,2,Birim kök (durağan değil),C10
+Yİ-ÜFE,Δlog,PP,sabit,-3.2640345687319985,0.01660769357628142,12,Durağan,C10
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.5384724544844692,0.8155971652242352,4,Birim kök (durağan değil),C101
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.5703792714443295,0.9804134007778462,12,Birim kök (durağan değil),C101
+Yİ-ÜFE,Δlog,ADF,sabit,-1.9891428312790929,0.29135378571303927,3,Birim kök (durağan değil),C101
+Yİ-ÜFE,Δlog,PP,sabit,-7.081449327164057,4.705199462981611e-11,12,Durağan,C101
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.482444905909864,0.8350654680602714,0,Birim kök (durağan değil),C102
+Yİ-ÜFE,log düzey,PP,sabit + trend,-1.4707679498775343,0.8393590066003178,11,Birim kök (durağan değil),C102
+Yİ-ÜFE,Δlog,ADF,sabit,-4.382376599542285,0.00031889084190309336,0,Durağan,C102
+Yİ-ÜFE,Δlog,PP,sabit,-5.108267285715005,1.1128814254757167e-05,11,Durağan,C102
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.4994916065957313,0.8293062493533401,1,Birim kök (durağan değil),C103
+Yİ-ÜFE,log düzey,PP,sabit + trend,-1.0730107621771112,0.9317345468195866,12,Birim kök (durağan değil),C103
+Yİ-ÜFE,Δlog,ADF,sabit,-4.586959757406089,0.00013651026709180373,0,Durağan,C103
+Yİ-ÜFE,Δlog,PP,sabit,-4.530489985533626,0.00016406344555627074,12,Durağan,C103
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.4827751364936437,0.9840941386107444,2,Birim kök (durağan değil),C104
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.35626439891686923,0.9890444135450472,12,Birim kök (durağan değil),C104
+Yİ-ÜFE,Δlog,ADF,sabit,-5.087264474057292,1.48696240852889e-05,0,Durağan,C104
+Yİ-ÜFE,Δlog,PP,sabit,-5.347384067943442,3.266045168720388e-06,12,Durağan,C104
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.5270240768075858,0.9823355717129029,1,Birim kök (durağan değil),C105
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.22461233781175133,0.9924401174159467,12,Birim kök (durağan değil),C105
+Yİ-ÜFE,Δlog,ADF,sabit,-4.279862192741883,0.0004812656140708765,0,Durağan,C105
+Yİ-ÜFE,Δlog,PP,sabit,-4.665538964075653,9.046099893338932e-05,12,Durağan,C105
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.9630232442675525,0.9488905484938669,1,Birim kök (durağan değil),C106
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.4138066491124204,0.9871579310258631,12,Birim kök (durağan değil),C106
+Yİ-ÜFE,Δlog,ADF,sabit,-3.633779884771819,0.005147114959504757,0,Durağan,C106
+Yİ-ÜFE,Δlog,PP,sabit,-3.586087652922893,0.006051012381874463,12,Durağan,C106
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.6515426757268921,0.9761451792369401,2,Birim kök (durağan değil),C107
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.10990880421034444,0.9945744897044915,12,Birim kök (durağan değil),C107
+Yİ-ÜFE,Δlog,ADF,sabit,-2.938281747211554,0.041074029673813864,1,Durağan,C107
+Yİ-ÜFE,Δlog,PP,sabit,-4.720662657324334,7.053408785332567e-05,12,Durağan,C107
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.4662338416860865,0.9847005991465213,2,Birim kök (durağan değil),C108
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.25067640708233485,0.9918572234856222,12,Birim kök (durağan değil),C108
+Yİ-ÜFE,Δlog,ADF,sabit,-3.379624802645459,0.011673384221577368,1,Durağan,C108
+Yİ-ÜFE,Δlog,PP,sabit,-2.8202719647482155,0.05542028420862915,12,Birim kök (durağan değil),C108
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.7556556286018865,0.9692223781605402,1,Birim kök (durağan değil),C109
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.6096532458337713,0.9782772418775342,12,Birim kök (durağan değil),C109
+Yİ-ÜFE,Δlog,ADF,sabit,-4.693977983542359,8.637232507791656e-05,0,Durağan,C109
+Yİ-ÜFE,Δlog,PP,sabit,-4.923039013855171,2.7476425875196313e-05,12,Durağan,C109
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.04611120048952996,0.9937352466818554,5,Birim kök (durağan değil),C11
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.01533864060768586,0.9962576243800197,12,Birim kök (durağan değil),C11
+Yİ-ÜFE,Δlog,ADF,sabit,-2.5231507252895544,0.10994262807194644,1,Birim kök (durağan değil),C11
+Yİ-ÜFE,Δlog,PP,sabit,-4.3551574284463666,0.0003448822181182862,12,Durağan,C11
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.04611120048952996,0.9937352466818554,5,Birim kök (durağan değil),C110
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.01533864060768586,0.9962576243800197,12,Birim kök (durağan değil),C110
+Yİ-ÜFE,Δlog,ADF,sabit,-2.5231507252895544,0.10994262807194644,1,Birim kök (durağan değil),C110
+Yİ-ÜFE,Δlog,PP,sabit,-4.3551574284463666,0.0003448822181182862,12,Durağan,C110
+Yİ-ÜFE,log düzey,ADF,sabit + trend,0.3457187606020233,0.99644228247352,2,Birim kök (durağan değil),C12
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.25057005273937993,0.9981860007910552,12,Birim kök (durağan değil),C12
+Yİ-ÜFE,Δlog,ADF,sabit,-2.866603053879942,0.04937172345900076,3,Durağan,C12
+Yİ-ÜFE,Δlog,PP,sabit,-7.823544305953414,9.141020369184998e-14,12,Durağan,C12
+Yİ-ÜFE,log düzey,ADF,sabit + trend,0.3457187606020233,0.99644228247352,2,Birim kök (durağan değil),C120
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.25057005273937993,0.9981860007910552,12,Birim kök (durağan değil),C120
+Yİ-ÜFE,Δlog,ADF,sabit,-2.866603053879942,0.04937172345900076,3,Durağan,C120
+Yİ-ÜFE,Δlog,PP,sabit,-7.823544305953414,9.141020369184998e-14,12,Durağan,C120
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.84505234664865,0.9616715912755224,1,Birim kök (durağan değil),C13
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.7691343419439244,0.9672572566522754,12,Birim kök (durağan değil),C13
+Yİ-ÜFE,Δlog,ADF,sabit,-4.690027297440644,8.785874997997976e-05,0,Durağan,C13
+Yİ-ÜFE,Δlog,PP,sabit,-4.982386580064447,2.0656872249131203e-05,12,Durağan,C13
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.1236989394058927,0.9250043956580913,1,Birim kök (durağan değil),C131
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.9707880834631322,0.946297005574731,12,Birim kök (durağan değil),C131
+Yİ-ÜFE,Δlog,ADF,sabit,-5.265555662794049,6.450734548607507e-06,0,Durağan,C131
+Yİ-ÜFE,Δlog,PP,sabit,-5.428724338241778,2.119094619902116e-06,12,Durağan,C131
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.2134623556553358,0.9912914684185912,12,Birim kök (durağan değil),C132
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.8737495481320796,0.9575286898066326,12,Birim kök (durağan değil),C132
+Yİ-ÜFE,Δlog,ADF,sabit,-1.6401700245959494,0.46217195139288675,11,Birim kök (durağan değil),C132
+Yİ-ÜFE,Δlog,PP,sabit,-5.802830533515944,2.608136259091712e-07,12,Durağan,C132
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.9183783538303208,0.9541454574923207,1,Birim kök (durağan değil),C133
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.9228933639374121,0.9521305537533302,12,Birim kök (durağan değil),C133
+Yİ-ÜFE,Δlog,ADF,sabit,-4.766658460443564,6.296196749358278e-05,0,Durağan,C133
+Yİ-ÜFE,Δlog,PP,sabit,-5.015151645154962,1.7616196880095318e-05,12,Durağan,C133
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.5375252838829551,0.9818873465624671,1,Birim kök (durağan değil),C139
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.3584553902639234,0.9889775345651531,12,Birim kök (durağan değil),C139
+Yİ-ÜFE,Δlog,ADF,sabit,-4.075493200616136,0.001062912502394936,0,Durağan,C139
+Yİ-ÜFE,Δlog,PP,sabit,-4.32623927971247,0.0003885840503116689,12,Durağan,C139
+Yİ-ÜFE,log düzey,ADF,sabit + trend,0.7002060969258425,1.0,1,Birim kök (durağan değil),C14
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.645430252605435,0.9995060775151919,12,Birim kök (durağan değil),C14
+Yİ-ÜFE,Δlog,ADF,sabit,-1.742771197583833,0.40922101373727154,9,Birim kök (durağan değil),C14
+Yİ-ÜFE,Δlog,PP,sabit,-5.812835186546868,2.460030163481343e-07,12,Durağan,C14
+Yİ-ÜFE,log düzey,ADF,sabit + trend,0.745342121603355,1.0,1,Birim kök (durağan değil),C141
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.6611025529625542,0.9995320685402143,12,Birim kök (durağan değil),C141
+Yİ-ÜFE,Δlog,ADF,sabit,-1.76045201927959,0.40026528787370386,9,Birim kök (durağan değil),C141
+Yİ-ÜFE,Δlog,PP,sabit,-6.025274789000175,6.891606255963931e-08,12,Durağan,C141
+Yİ-ÜFE,log düzey,ADF,sabit + trend,1.0398524186575928,1.0,11,Birim kök (durağan değil),C143
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.1623743818116556,0.9976101466363482,12,Birim kök (durağan değil),C143
+Yİ-ÜFE,Δlog,ADF,sabit,-1.9728143606578477,0.29861876479306065,8,Birim kök (durağan değil),C143
+Yİ-ÜFE,Δlog,PP,sabit,-7.171249283166083,2.3327034197471912e-11,12,Durağan,C143
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.7267319041764029,0.9713305530139085,2,Birim kök (durağan değil),C15
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.09642418581233264,0.9947847435762346,12,Birim kök (durağan değil),C15
+Yİ-ÜFE,Δlog,ADF,sabit,-2.739163595887499,0.06750295592274634,1,Birim kök (durağan değil),C15
+Yİ-ÜFE,Δlog,PP,sabit,-5.336762056751107,3.453821926048836e-06,12,Durağan,C15
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.772022083253852,0.967960683779169,2,Birim kök (durağan değil),C151
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.7241494546209666,0.9707875609745178,12,Birim kök (durağan değil),C151
+Yİ-ÜFE,Δlog,ADF,sabit,-3.5163052927249803,0.007578081946388052,1,Durağan,C151
+Yİ-ÜFE,Δlog,PP,sabit,-6.5356397315101535,2.5126387813271514e-09,12,Durağan,C151
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.9955281236629074,0.944713621660054,5,Birim kök (durağan değil),C152
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.04212759189840781,0.9965477516867082,12,Birim kök (durağan değil),C152
+Yİ-ÜFE,Δlog,ADF,sabit,-2.014155973885345,0.28040089794129086,4,Birim kök (durağan değil),C152
+Yİ-ÜFE,Δlog,PP,sabit,-5.3408138683747,3.381006715430218e-06,12,Durağan,C152
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.6658184458447023,0.9753001769299661,2,Birim kök (durağan değil),C16
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.2697124794999649,0.9914055149278751,12,Birim kök (durağan değil),C16
+Yİ-ÜFE,Δlog,ADF,sabit,-3.2607832038724047,0.01672509938621608,1,Durağan,C16
+Yİ-ÜFE,Δlog,PP,sabit,-2.7685413858498857,0.06287917289796276,12,Birim kök (durağan değil),C16
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.1083628305236481,0.9276563193351126,3,Birim kök (durağan değil),C161
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.33054426276464793,0.989802020067719,12,Birim kök (durağan değil),C161
+Yİ-ÜFE,Δlog,ADF,sabit,-2.5396236575609596,0.1061286413744218,2,Birim kök (durağan değil),C161
+Yİ-ÜFE,Δlog,PP,sabit,-3.639628035223424,0.00506053790462451,12,Durağan,C161
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.6115726946809251,0.9783532407742852,2,Birim kök (durağan değil),C162
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.34130414499522543,0.9894911620779657,12,Birim kök (durağan değil),C162
+Yİ-ÜFE,Δlog,ADF,sabit,-3.318333337365997,0.014078600494592476,0,Durağan,C162
+Yİ-ÜFE,Δlog,PP,sabit,-3.2348435102157156,0.018097924426260553,12,Durağan,C162
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.5463574172936766,0.9815007062620146,1,Birim kök (durağan değil),C17
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.5415888907804163,0.9818557367816761,12,Birim kök (durağan değil),C17
+Yİ-ÜFE,Δlog,ADF,sabit,-3.1550293470519177,0.022739841851491922,2,Durağan,C17
+Yİ-ÜFE,Δlog,PP,sabit,-6.222248583625546,2.0057574478514045e-08,12,Durağan,C17
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.7448768053962139,0.9700258142419859,8,Birim kök (durağan değil),C171
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.9042455365200458,0.9542463220333236,12,Birim kök (durağan değil),C171
+Yİ-ÜFE,Δlog,ADF,sabit,-2.6681106040737474,0.07972094441311922,5,Birim kök (durağan değil),C171
+Yİ-ÜFE,Δlog,PP,sabit,-6.449990127126416,4.4965737794559614e-09,12,Durağan,C171
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.43483605291115907,0.9857811466486589,1,Birim kök (durağan değil),C172
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.4627834595993041,0.9853216150961857,12,Birim kök (durağan değil),C172
+Yİ-ÜFE,Δlog,ADF,sabit,-3.0290882012921942,0.03226578263186668,2,Durağan,C172
+Yİ-ÜFE,Δlog,PP,sabit,-6.1901506906811985,2.4616184227904573e-08,12,Durağan,C172
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.7558942848587102,0.9692043447802241,4,Birim kök (durağan değil),C18
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.31657135352268023,0.9985291733666171,12,Birim kök (durağan değil),C18
+Yİ-ÜFE,Δlog,ADF,sabit,-1.9225259436376763,0.32153951681728565,3,Birim kök (durağan değil),C18
+Yİ-ÜFE,Δlog,PP,sabit,-4.908386017194696,2.9463303336265752e-05,12,Durağan,C18
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.7558942848587102,0.9692043447802241,4,Birim kök (durağan değil),C181
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.31657135352268023,0.9985291733666171,12,Birim kök (durağan değil),C181
+Yİ-ÜFE,Δlog,ADF,sabit,-1.9225259436376763,0.32153951681728565,3,Birim kök (durağan değil),C181
+Yİ-ÜFE,Δlog,PP,sabit,-4.908386017194696,2.9463303336265752e-05,12,Durağan,C181
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.2574376697740983,0.8980568055485263,1,Birim kök (durağan değil),C19
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.6940919130928158,0.972951394523738,12,Birim kök (durağan değil),C19
+Yİ-ÜFE,Δlog,ADF,sabit,-7.081215138624868,4.661138044853253e-10,0,Durağan,C19
+Yİ-ÜFE,Δlog,PP,sabit,-6.9322031915993,1.46486612348297e-10,12,Durağan,C19
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.1571546955810228,0.9189197757737815,1,Birim kök (durağan değil),C191
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.7328841312354442,0.9701301498522819,12,Birim kök (durağan değil),C191
+Yİ-ÜFE,Δlog,ADF,sabit,-6.610415057893764,6.397987938342893e-09,0,Durağan,C191
+Yİ-ÜFE,Δlog,PP,sabit,-6.398965513503752,6.327202577138936e-09,12,Durağan,C191
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.2779422444387838,0.8932764010556764,1,Birim kök (durağan değil),C192
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.7293932871123672,0.970394467650627,12,Birim kök (durağan değil),C192
+Yİ-ÜFE,Δlog,ADF,sabit,-7.115951411628333,3.83064383883152e-10,0,Durağan,C192
+Yİ-ÜFE,Δlog,PP,sabit,-6.969646808799415,1.1055590404461095e-10,12,Durağan,C192
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.648744262503811,0.976307243362098,1,Birim kök (durağan değil),C20
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.4594700146020124,0.9854530684362748,12,Birim kök (durağan değil),C20
+Yİ-ÜFE,Δlog,ADF,sabit,-4.816376133068973,5.059576360227879e-05,0,Durağan,C20
+Yİ-ÜFE,Δlog,PP,sabit,-5.144888954806253,9.264095164059123e-06,12,Durağan,C20
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.9418258881184959,0.951452922623335,1,Birim kök (durağan değil),C201
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.7602907088337262,0.9679801164543119,12,Birim kök (durağan değil),C201
+Yİ-ÜFE,Δlog,ADF,sabit,-5.839669071845803,3.8034470442004967e-07,0,Durağan,C201
+Yİ-ÜFE,Δlog,PP,sabit,-6.011844923610501,7.482189839862033e-08,12,Durağan,C201
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.9584819939938679,0.9494500019080573,1,Birim kök (durağan değil),C202
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.6488078511546567,0.9759388154308406,12,Birim kök (durağan değil),C202
+Yİ-ÜFE,Δlog,ADF,sabit,-5.214149076945479,8.225746993052444e-06,0,Durağan,C202
+Yİ-ÜFE,Δlog,PP,sabit,-5.329591721682374,3.5863713338717047e-06,12,Durağan,C202
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.7007256058080945,0.973100198861072,2,Birim kök (durağan değil),C203
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.18841561835959286,0.9931856792969295,12,Birim kök (durağan değil),C203
+Yİ-ÜFE,Δlog,ADF,sabit,-3.02036269276184,0.03303604460373189,1,Durağan,C203
+Yİ-ÜFE,Δlog,PP,sabit,-5.062538438218157,1.3962062748605863e-05,12,Durağan,C203
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.5523451652824952,0.9812334609753338,1,Birim kök (durağan değil),C204
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.4332011802165422,0.9864576090309571,12,Birim kök (durağan değil),C204
+Yİ-ÜFE,Δlog,ADF,sabit,-3.742465615196088,0.0035539745526144747,0,Durağan,C204
+Yİ-ÜFE,Δlog,PP,sabit,-3.8407242238734076,0.002515408913425219,12,Durağan,C204
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.6215511306321172,0.9778230479785435,1,Birim kök (durağan değil),C205
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.36494070864947553,0.988777361146461,12,Birim kök (durağan değil),C205
+Yİ-ÜFE,Δlog,ADF,sabit,-4.686123196397089,8.935167197335888e-05,0,Durağan,C205
+Yİ-ÜFE,Δlog,PP,sabit,-5.103426879231478,1.140053270873291e-05,12,Durağan,C205
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.7736095105177421,0.967835573796473,0,Birim kök (durağan değil),C206
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.7062369712418451,0.9720951218648204,12,Birim kök (durağan değil),C206
+Yİ-ÜFE,Δlog,ADF,sabit,-7.415148630064448,6.966972829996234e-11,0,Durağan,C206
+Yİ-ÜFE,Δlog,PP,sabit,-7.4560226740110975,2.292208065326413e-12,12,Durağan,C206
+Yİ-ÜFE,log düzey,ADF,sabit + trend,1.464215457961483,1.0,12,Birim kök (durağan değil),C21
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.06670722599744211,0.9967953893152901,12,Birim kök (durağan değil),C21
+Yİ-ÜFE,Δlog,ADF,sabit,-1.689797194988006,0.4363767873415476,5,Birim kök (durağan değil),C21
+Yİ-ÜFE,Δlog,PP,sabit,-6.583627291371521,1.8047927800143325e-09,12,Durağan,C21
+Yİ-ÜFE,log düzey,ADF,sabit + trend,1.5188459938217416,1.0,12,Birim kök (durağan değil),C212
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.0654229620522137,0.9967828715315094,12,Birim kök (durağan değil),C212
+Yİ-ÜFE,Δlog,ADF,sabit,-1.7066154014532076,0.42770728673284747,5,Birim kök (durağan değil),C212
+Yİ-ÜFE,Δlog,PP,sabit,-6.623197127078132,1.3702106857428767e-09,12,Durağan,C212
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.3349271937388493,0.9886751237515384,1,Birim kök (durağan değil),C22
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.017555727214067285,0.995870336081324,12,Birim kök (durağan değil),C22
+Yİ-ÜFE,Δlog,ADF,sabit,-4.533672919725767,0.00017085208346981335,0,Durağan,C22
+Yİ-ÜFE,Δlog,PP,sabit,-5.037133954515326,1.5820366180097672e-05,12,Durağan,C22
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.6299784407449935,0.9773645474817513,1,Birim kök (durağan değil),C221
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.23589531733954044,0.9921926994084613,12,Birim kök (durağan değil),C221
+Yİ-ÜFE,Δlog,ADF,sabit,-3.8539654360696276,0.0024010056448832903,0,Durağan,C221
+Yİ-ÜFE,Δlog,PP,sabit,-3.9843149315909736,0.0014867625502975618,12,Durağan,C221
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.2544487198492857,0.990502804546682,1,Birim kök (durağan değil),C222
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.03653370243703857,0.9964889578861745,12,Birim kök (durağan değil),C222
+Yİ-ÜFE,Δlog,ADF,sabit,-4.855675150235756,4.250675746782549e-05,0,Durağan,C222
+Yİ-ÜFE,Δlog,PP,sabit,-5.497993501941637,1.4568124261755888e-06,12,Durağan,C222
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.326699201145017,0.8811662600421359,3,Birim kök (durağan değil),C23
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.6021440249618137,0.9787013714644772,12,Birim kök (durağan değil),C23
+Yİ-ÜFE,Δlog,ADF,sabit,-2.4962126887513314,0.11639854007528794,2,Birim kök (durağan değil),C23
+Yİ-ÜFE,Δlog,PP,sabit,-2.9999603472132574,0.034924688851258996,12,Durağan,C23
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.6235214544545303,0.9777167374357717,2,Birim kök (durağan değil),C231
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.1767276948093922,0.9934114639024474,12,Birim kök (durağan değil),C231
+Yİ-ÜFE,Δlog,ADF,sabit,-2.863332846722174,0.04978105727304345,2,Durağan,C231
+Yİ-ÜFE,Δlog,PP,sabit,-3.325461064353638,0.01381840153706784,12,Durağan,C231
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.7759694786360036,0.7162285690401464,1,Birim kök (durağan değil),C232
+Yİ-ÜFE,log düzey,PP,sabit + trend,-1.498321269775432,0.830400808287748,12,Birim kök (durağan değil),C232
+Yİ-ÜFE,Δlog,ADF,sabit,-5.234010829582305,7.490003600450004e-06,0,Durağan,C232
+Yİ-ÜFE,Δlog,PP,sabit,-5.17613525866221,7.912416206496462e-06,12,Durağan,C232
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.2402540011961942,0.9019243631251685,1,Birim kök (durağan değil),C233
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.6954491582566042,0.9728568953811778,12,Birim kök (durağan değil),C233
+Yİ-ÜFE,Δlog,ADF,sabit,-3.7684862758646287,0.0032467086519487047,0,Durağan,C233
+Yİ-ÜFE,Δlog,PP,sabit,-3.6158778875866195,0.005480239203444316,12,Durağan,C233
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.5325885254659032,0.9820995993923216,1,Birim kök (durağan değil),C234
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.02268417217019114,0.9963393577732785,12,Birim kök (durağan değil),C234
+Yİ-ÜFE,Δlog,ADF,sabit,-3.7521147514333286,0.0034370487224112426,0,Durağan,C234
+Yİ-ÜFE,Δlog,PP,sabit,-3.9033058565608507,0.0020056999715977065,12,Durağan,C234
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.1499459789898494,0.9202661982356095,1,Birim kök (durağan değil),C235
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.6778212745595026,0.9740613380332649,12,Birim kök (durağan değil),C235
+Yİ-ÜFE,Δlog,ADF,sabit,-3.6600309033925504,0.0047118017219692585,0,Durağan,C235
+Yİ-ÜFE,Δlog,PP,sabit,-3.702946768106889,0.004079914050609665,12,Durağan,C235
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.3753883621580745,0.8679937062834606,1,Birim kök (durağan değil),C236
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.7165935275469197,0.9713457100793174,12,Birim kök (durağan değil),C236
+Yİ-ÜFE,Δlog,ADF,sabit,-2.9797171823741704,0.036832467519495274,0,Durağan,C236
+Yİ-ÜFE,Δlog,PP,sabit,-2.95575711599721,0.039256173571983355,12,Durağan,C236
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.363410146195187,0.9879273439916431,1,Birim kök (durağan değil),C237
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.16027577066553989,0.9937175374905837,12,Birim kök (durağan değil),C237
+Yİ-ÜFE,Δlog,ADF,sabit,-4.277512524625022,0.0004857741457924784,0,Durağan,C237
+Yİ-ÜFE,Δlog,PP,sabit,-4.7555645510708375,6.014733222579908e-05,12,Durağan,C237
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-2.526830881364474,0.31468019519213847,1,Birim kök (durağan değil),C239
+Yİ-ÜFE,log düzey,PP,sabit + trend,-2.3699094860974528,0.39503345168037374,11,Birim kök (durağan değil),C239
+Yİ-ÜFE,Δlog,ADF,sabit,-3.2841681732055736,0.015601160815891961,0,Durağan,C239
+Yİ-ÜFE,Δlog,PP,sabit,-3.1941428383888173,0.02036979562627511,11,Durağan,C239
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.1109082986815852,0.9272220018298176,1,Birim kök (durağan değil),C24
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.8490107665559602,0.9600362359475346,12,Birim kök (durağan değil),C24
+Yİ-ÜFE,Δlog,ADF,sabit,-5.84553039431621,3.691312925536317e-07,0,Durağan,C24
+Yİ-ÜFE,Δlog,PP,sabit,-5.826410140713128,2.2719544267217375e-07,12,Durağan,C24
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.416814123140158,0.855908738282076,1,Birim kök (durağan değil),C241
+Yİ-ÜFE,log düzey,PP,sabit + trend,-1.1104057197664967,0.9256150743879282,12,Birim kök (durağan değil),C241
+Yİ-ÜFE,Δlog,ADF,sabit,-5.99166840269452,1.7397349724725603e-07,0,Durağan,C241
+Yİ-ÜFE,Δlog,PP,sabit,-5.777214019611427,3.0274951220803723e-07,12,Durağan,C241
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.0881711527922289,0.931020460120109,1,Birim kök (durağan değil),C242
+Yİ-ÜFE,log düzey,PP,sabit + trend,-1.1673864713714672,0.9153924831439602,12,Birim kök (durağan değil),C242
+Yİ-ÜFE,Δlog,ADF,sabit,-6.264170666262526,4.152961834913651e-08,0,Durağan,C242
+Yİ-ÜFE,Δlog,PP,sabit,-6.409159834268159,5.911656782400156e-09,12,Durağan,C242
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.3555713083098475,0.8734878218421891,4,Birim kök (durağan değil),C243
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.9451929562962155,0.9494876720457336,12,Birim kök (durağan değil),C243
+Yİ-ÜFE,Δlog,ADF,sabit,-3.415352312084589,0.010446514048023926,3,Durağan,C243
+Yİ-ÜFE,Δlog,PP,sabit,-6.876305563606978,2.2201277203317875e-10,12,Durağan,C243
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.031166570173215533,0.9939036523582255,1,Birim kök (durağan değil),C244
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.6924641891187788,0.9995802951646091,12,Birim kök (durağan değil),C244
+Yİ-ÜFE,Δlog,ADF,sabit,-6.510928105701417,1.1009296924105012e-08,0,Durağan,C244
+Yİ-ÜFE,Δlog,PP,sabit,-6.861117817153837,2.4834714013066445e-10,12,Durağan,C244
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.8829187407602649,0.9579479168223863,1,Birim kök (durağan değil),C245
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.6803311596888122,0.9738928510550016,12,Birim kök (durağan değil),C245
+Yİ-ÜFE,Δlog,ADF,sabit,-4.153963368163278,0.0007876426411697002,0,Durağan,C245
+Yİ-ÜFE,Δlog,PP,sabit,-4.375379989201113,0.0003171038896849098,12,Durağan,C245
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.6471107046756391,0.9764013130020761,1,Birim kök (durağan değil),C25
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.399858579834367,0.9876408255694848,12,Birim kök (durağan değil),C25
+Yİ-ÜFE,Δlog,ADF,sabit,-4.181885962685895,0.0007069967368698856,0,Durağan,C25
+Yİ-ÜFE,Δlog,PP,sabit,-4.618532856271284,0.00011154493208819108,12,Durağan,C25
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.5599256851104965,0.9808890813691211,1,Birim kök (durağan değil),C251
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.4188218236115921,0.9869801018634168,12,Birim kök (durağan değil),C251
+Yİ-ÜFE,Δlog,ADF,sabit,-1.6607843058500054,0.45142233950362026,5,Birim kök (durağan değil),C251
+Yİ-ÜFE,Δlog,PP,sabit,-5.546512531256155,1.1165648766329226e-06,12,Durağan,C251
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.6864994408939085,0.9740203204211353,1,Birim kök (durağan değil),C252
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.35717341427721566,0.9890167118200219,12,Birim kök (durağan değil),C252
+Yİ-ÜFE,Δlog,ADF,sabit,-3.931368105756378,0.001815747346188819,0,Durağan,C252
+Yİ-ÜFE,Δlog,PP,sabit,-4.17636173337087,0.0007107201814384226,12,Durağan,C252
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.4913802084020893,0.9837680096555099,1,Birim kök (durağan değil),C255
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.400773383837305,0.9876096735861315,12,Birim kök (durağan değil),C255
+Yİ-ÜFE,Δlog,ADF,sabit,-2.6496304397133223,0.08316724210884069,2,Birim kök (durağan değil),C255
+Yİ-ÜFE,Δlog,PP,sabit,-5.424554334894768,2.167037849874255e-06,12,Durağan,C255
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.2523156903776043,0.9905460458215171,1,Birim kök (durağan değil),C257
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.16716807293067237,0.9935909544410008,12,Birim kök (durağan değil),C257
+Yİ-ÜFE,Δlog,ADF,sabit,-3.357446234112546,0.012497942829696717,1,Durağan,C257
+Yİ-ÜFE,Δlog,PP,sabit,-6.10570236676431,4.190333400201739e-08,12,Durağan,C257
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.6882499771984665,0.973908875655599,1,Birim kök (durağan değil),C259
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.43967872978020783,0.9862160023748793,12,Birim kök (durağan değil),C259
+Yİ-ÜFE,Δlog,ADF,sabit,-4.3218369549346125,0.0004070841555131919,0,Durağan,C259
+Yİ-ÜFE,Δlog,PP,sabit,-4.629855560795198,0.00010607919597665068,12,Durağan,C259
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.5146751131064107,0.9828471135054394,1,Birim kök (durağan değil),C26
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.427357416885928,0.9866722311861584,12,Birim kök (durağan değil),C26
+Yİ-ÜFE,Δlog,ADF,sabit,-3.7289386164729255,0.003724037164821238,1,Durağan,C26
+Yİ-ÜFE,Δlog,PP,sabit,-5.995601135864815,8.261858876327962e-08,12,Durağan,C26
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.1381879185223496,0.9224203758106827,1,Birim kök (durağan değil),C261
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.947911150062504,0.9491569103630872,12,Birim kök (durağan değil),C261
+Yİ-ÜFE,Δlog,ADF,sabit,-6.404390597172819,1.959560382854891e-08,0,Durağan,C261
+Yİ-ÜFE,Δlog,PP,sabit,-6.676803746397654,9.39806725150017e-10,12,Durağan,C261
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.1160323394126765,0.9263406882694707,0,Birim kök (durağan değil),C262
+Yİ-ÜFE,log düzey,PP,sabit + trend,-1.0982096178426237,0.9276605517960763,12,Birim kök (durağan değil),C262
+Yİ-ÜFE,Δlog,ADF,sabit,-2.185561863022155,0.2115273369817553,5,Birim kök (durağan değil),C262
+Yİ-ÜFE,Δlog,PP,sabit,-7.655781485516993,4.112632644182204e-13,12,Durağan,C262
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.8703916948543949,0.9592171155281786,2,Birim kök (durağan değil),C263
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.6985625922734456,0.9726389931300562,12,Birim kök (durağan değil),C263
+Yİ-ÜFE,Δlog,ADF,sabit,-3.9598585986267882,0.0016359209674281763,1,Durağan,C263
+Yİ-ÜFE,Δlog,PP,sabit,-6.366053744697423,7.870630965312166e-09,12,Durağan,C263
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.27785484065284,0.893297164978428,1,Birim kök (durağan değil),C264
+Yİ-ÜFE,log düzey,PP,sabit + trend,-1.28191686563393,0.8912426590252054,12,Birim kök (durağan değil),C264
+Yİ-ÜFE,Δlog,ADF,sabit,-5.857482854950988,3.4725805202637626e-07,0,Durağan,C264
+Yİ-ÜFE,Δlog,PP,sabit,-6.334210427298011,9.706892682780071e-09,12,Durağan,C264
+Yİ-ÜFE,log düzey,ADF,sabit + trend,0.672821181080485,0.9970269344821304,3,Birim kök (durağan değil),C265
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.9974645303268179,0.999860608772401,12,Birim kök (durağan değil),C265
+Yİ-ÜFE,Δlog,ADF,sabit,-3.1688586556752507,0.021859519873197533,1,Durağan,C265
+Yİ-ÜFE,Δlog,PP,sabit,-6.38461406397233,6.960386114464891e-09,12,Durağan,C265
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.29509500698337,0.989629296797846,1,Birim kök (durağan değil),C27
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.17488892674797352,0.9934463465094934,12,Birim kök (durağan değil),C27
+Yİ-ÜFE,Δlog,ADF,sabit,-1.6131802427507396,0.4763063964535628,6,Birim kök (durağan değil),C27
+Yİ-ÜFE,Δlog,PP,sabit,-4.641434585658865,0.00010075178296393537,12,Durağan,C27
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.6894258632852838,0.97383373739833,1,Birim kök (durağan değil),C271
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.534913672235275,0.9821759899044915,12,Birim kök (durağan değil),C271
+Yİ-ÜFE,Δlog,ADF,sabit,-1.8670966056208718,0.34769463338155826,7,Birim kök (durağan değil),C271
+Yİ-ÜFE,Δlog,PP,sabit,-5.408708067795475,2.3588739290324873e-06,12,Durağan,C271
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-2.5352354722723405,0.3105754465910009,6,Birim kök (durağan değil),C272
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.6988525124601284,0.9726186221085101,12,Birim kök (durağan değil),C272
+Yİ-ÜFE,Δlog,ADF,sabit,-1.5641843130741018,0.5015556075628955,5,Birim kök (durağan değil),C272
+Yİ-ÜFE,Δlog,PP,sabit,-5.742073153862199,3.709493039823113e-07,12,Durağan,C272
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.0836713688204964,0.9932799813611856,1,Birim kök (durağan değil),C273
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.07579247260194427,0.9968826560858821,12,Birim kök (durağan değil),C273
+Yİ-ÜFE,Δlog,ADF,sabit,-3.507268886105839,0.00780236432099546,1,Durağan,C273
+Yİ-ÜFE,Δlog,PP,sabit,-5.30735323672436,4.029121396780608e-06,12,Durağan,C273
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.2083817629730453,0.9913832584404867,1,Birim kök (durağan değil),C274
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.18991100009603756,0.993156279732846,12,Birim kök (durağan değil),C274
+Yİ-ÜFE,Δlog,ADF,sabit,-1.5896596683872695,0.4887857119142312,5,Birim kök (durağan değil),C274
+Yİ-ÜFE,Δlog,PP,sabit,-6.490523118098583,3.418702486710969e-09,12,Durağan,C274
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.433001116404867,0.9858415523688749,2,Birim kök (durağan değil),C275
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.136953059786948,0.9941288760447216,12,Birim kök (durağan değil),C275
+Yİ-ÜFE,Δlog,ADF,sabit,-1.4321787256724419,0.566755750897391,5,Birim kök (durağan değil),C275
+Yİ-ÜFE,Δlog,PP,sabit,-5.065343108178679,1.3770148002573532e-05,12,Durağan,C275
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.6730459774835709,0.7625393215108014,6,Birim kök (durağan değil),C28
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.014097104921428627,0.9959127452883648,12,Birim kök (durağan değil),C28
+Yİ-ÜFE,Δlog,ADF,sabit,-1.3501232039782787,0.6059406187852963,5,Birim kök (durağan değil),C28
+Yİ-ÜFE,Δlog,PP,sabit,-5.022281969681593,1.7013441353534324e-05,12,Durağan,C28
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.34277875687477066,0.9884746691709032,2,Birim kök (durağan değil),C281
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.15708013710657598,0.9975706592447348,12,Birim kök (durağan değil),C281
+Yİ-ÜFE,Δlog,ADF,sabit,-1.3001848616241318,0.6290877350195149,5,Birim kök (durağan değil),C281
+Yİ-ÜFE,Δlog,PP,sabit,-6.2445898426136015,1.737801386171224e-08,12,Durağan,C281
+Yİ-ÜFE,log düzey,ADF,sabit + trend,0.08831797290339592,0.9950248177133146,1,Birim kök (durağan değil),C282
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.011992386921791942,0.9962198302579948,12,Birim kök (durağan değil),C282
+Yİ-ÜFE,Δlog,ADF,sabit,-1.4866704316130512,0.5400946790280547,5,Birim kök (durağan değil),C282
+Yİ-ÜFE,Δlog,PP,sabit,-6.218977702008498,2.0481919953141527e-08,12,Durağan,C282
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.9763662365240167,0.9472129687007822,2,Birim kök (durağan değil),C283
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.1807792797630431,0.9933339941047363,12,Birim kök (durağan değil),C283
+Yİ-ÜFE,Δlog,ADF,sabit,-2.0725255012242516,0.2557047495013175,3,Birim kök (durağan değil),C283
+Yİ-ÜFE,Δlog,PP,sabit,-3.7544432775354393,0.003413384272216638,12,Durağan,C283
+Yİ-ÜFE,log düzey,ADF,sabit + trend,0.8215131433131108,1.0,11,Birim kök (durağan değil),C284
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.4250752721350744,0.9867551947127639,12,Birim kök (durağan değil),C284
+Yİ-ÜFE,Δlog,ADF,sabit,-0.9837104151332021,0.7591590918299713,12,Birim kök (durağan değil),C284
+Yİ-ÜFE,Δlog,PP,sabit,-5.42434588595473,2.1694614820084013e-06,12,Durağan,C284
+Yİ-ÜFE,log düzey,ADF,sabit + trend,0.579747425862684,0.9969672351484721,10,Birim kök (durağan değil),C289
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.11548218828950962,0.9944853105019172,12,Birim kök (durağan değil),C289
+Yİ-ÜFE,Δlog,ADF,sabit,-3.0330177448275877,0.03192390332471701,1,Durağan,C289
+Yİ-ÜFE,Δlog,PP,sabit,-6.468792919637687,3.960966660748768e-09,12,Durağan,C289
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.7252142022360206,0.9714370300777122,1,Birim kök (durağan değil),C29
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.5796095633350351,0.9799293150526105,12,Birim kök (durağan değil),C29
+Yİ-ÜFE,Δlog,ADF,sabit,-4.130257888664524,0.0008628049437256508,0,Durağan,C29
+Yİ-ÜFE,Δlog,PP,sabit,-4.6466548428587595,9.843351335603822e-05,12,Durağan,C29
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.8852774102705703,0.9577047065710428,1,Birim kök (durağan değil),C291
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.7682919240691101,0.9673267394511138,12,Birim kök (durağan değil),C291
+Yİ-ÜFE,Δlog,ADF,sabit,-3.1929173174962404,0.020398330574977513,1,Durağan,C291
+Yİ-ÜFE,Δlog,PP,sabit,-5.039441197804175,1.5642327106841346e-05,12,Durağan,C291
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-2.548553532475702,0.3041271965381585,6,Birim kök (durağan değil),C292
+Yİ-ÜFE,log düzey,PP,sabit + trend,-2.3332549733475045,0.4148054265381554,11,Birim kök (durağan değil),C292
+Yİ-ÜFE,Δlog,ADF,sabit,-4.155109386008014,0.000784169460936143,0,Durağan,C292
+Yİ-ÜFE,Δlog,PP,sabit,-4.37473033975301,0.0003179626862038146,11,Durağan,C292
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.5381294876920678,0.9818611802851503,1,Birim kök (durağan değil),C293
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.4230245848830358,0.9868293388095851,12,Birim kök (durağan değil),C293
+Yİ-ÜFE,Δlog,ADF,sabit,-4.221904609984329,0.0006048481837902141,0,Durağan,C293
+Yİ-ÜFE,Δlog,PP,sabit,-4.6812012763296345,8.431546683754519e-05,12,Durağan,C293
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.5363725617735915,0.8163548197247017,4,Birim kök (durağan değil),C30
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.8661080566285381,0.958317740478364,12,Birim kök (durağan değil),C30
+Yİ-ÜFE,Δlog,ADF,sabit,-1.8880386307218864,0.33770886909089737,3,Birim kök (durağan değil),C30
+Yİ-ÜFE,Δlog,PP,sabit,-6.898146849837006,1.8883550728882783e-10,12,Durağan,C30
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.4602722604854084,0.8423424946941042,4,Birim kök (durağan değil),C309
+Yİ-ÜFE,log düzey,PP,sabit + trend,-1.1490892222335118,0.9187975162044117,12,Birim kök (durağan değil),C309
+Yİ-ÜFE,Δlog,ADF,sabit,-1.9195318428093537,0.32292923391820044,4,Birim kök (durağan değil),C309
+Yİ-ÜFE,Δlog,PP,sabit,-7.673684707115159,3.5123288376257424e-13,12,Durağan,C309
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.0765130282373128,0.9328983692234206,4,Birim kök (durağan değil),C31
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.040970472283914094,0.9955722795732151,12,Birim kök (durağan değil),C31
+Yİ-ÜFE,Δlog,ADF,sabit,-2.0978695549510022,0.24537212667821495,3,Birim kök (durağan değil),C31
+Yİ-ÜFE,Δlog,PP,sabit,-5.04596043463162,1.5149519829962975e-05,12,Durağan,C31
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.0765130282373128,0.9328983692234206,4,Birim kök (durağan değil),C310
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.040970472283914094,0.9955722795732151,12,Birim kök (durağan değil),C310
+Yİ-ÜFE,Δlog,ADF,sabit,-2.0978695549510022,0.24537212667821495,3,Birim kök (durağan değil),C310
+Yİ-ÜFE,Δlog,PP,sabit,-5.04596043463162,1.5149519829962975e-05,12,Durağan,C310
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.05593633156029743,0.9936206758580757,1,Birim kök (durağan değil),C32
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.344506185280988,0.9986552996941083,12,Birim kök (durağan değil),C32
+Yİ-ÜFE,Δlog,ADF,sabit,-1.3605313203887763,0.601044919880572,5,Birim kök (durağan değil),C32
+Yİ-ÜFE,Δlog,PP,sabit,-5.6469637205941625,6.377904257189962e-07,12,Durağan,C32
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-2.4558567209597113,0.35037193952674683,5,Birim kök (durağan değil),C321
+Yİ-ÜFE,log düzey,PP,sabit + trend,-2.4261145258880656,0.3653851985919479,11,Birim kök (durağan değil),C321
+Yİ-ÜFE,Δlog,ADF,sabit,-5.0968834373597245,1.4222702246663249e-05,0,Durağan,C321
+Yİ-ÜFE,Δlog,PP,sabit,-5.477072750237426,1.6323959864838516e-06,11,Durağan,C321
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-0.5589321692646531,0.9809346049295928,1,Birim kök (durağan değil),C325
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.3518087626185015,0.9891792671523724,12,Birim kök (durağan değil),C325
+Yİ-ÜFE,Δlog,ADF,sabit,-1.7099973369753876,0.42596904877422787,5,Birim kök (durağan değil),C325
+Yİ-ÜFE,Δlog,PP,sabit,-5.901135678459588,1.4601330752446176e-07,12,Durağan,C325
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.0883339220027823,0.9309939102968214,2,Birim kök (durağan değil),C329
+Yİ-ÜFE,log düzey,PP,sabit + trend,-0.3348005540449537,0.9896800825858301,12,Birim kök (durağan değil),C329
+Yİ-ÜFE,Δlog,ADF,sabit,-2.4819576116485558,0.11992617486520019,1,Birim kök (durağan değil),C329
+Yİ-ÜFE,Δlog,PP,sabit,-4.388411193181006,0.0003003297987380471,12,Durağan,C329
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.696685257450335,0.7523241971354759,3,Birim kök (durağan değil),D35
+Yİ-ÜFE,log düzey,PP,sabit + trend,-1.2000052496128475,0.909023287371217,12,Birim kök (durağan değil),D35
+Yİ-ÜFE,Δlog,ADF,sabit,-4.373783579708595,0.00033020105951351425,4,Durağan,D35
+Yİ-ÜFE,Δlog,PP,sabit,-4.919723422091021,2.791453741279301e-05,12,Durağan,D35
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.5690880792814612,0.8043034571783845,1,Birim kök (durağan değil),D351
+Yİ-ÜFE,log düzey,PP,sabit + trend,-1.424086554474271,0.8536999286346383,12,Birim kök (durağan değil),D351
+Yİ-ÜFE,Δlog,ADF,sabit,-6.159687437878225,7.224395323926552e-08,0,Durağan,D351
+Yİ-ÜFE,Δlog,PP,sabit,-5.931760903629319,1.215567219982668e-07,12,Durağan,D351
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-1.0958906098648622,0.9297511912731246,5,Birim kök (durağan değil),D352
+Yİ-ÜFE,log düzey,PP,sabit + trend,-1.0566355146364355,0.9342748503030642,12,Birim kök (durağan değil),D352
+Yİ-ÜFE,Δlog,ADF,sabit,-5.067029064324514,1.6324662275558577e-05,4,Durağan,D352
+Yİ-ÜFE,Δlog,PP,sabit,-5.107109430791609,1.1193243592032707e-05,12,Durağan,D352
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-2.277941983212207,0.4461870533700855,6,Birim kök (durağan değil),E36
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.2451850978656137,0.9981549351128228,12,Birim kök (durağan değil),E36
+Yİ-ÜFE,Δlog,ADF,sabit,-1.4752994231473395,0.5456930636517748,4,Birim kök (durağan değil),E36
+Yİ-ÜFE,Δlog,PP,sabit,-5.3123047450074985,3.9262347313856555e-06,12,Durağan,E36
+Yİ-ÜFE,log düzey,ADF,sabit + trend,-2.277941983212207,0.4461870533700855,6,Birim kök (durağan değil),E360
+Yİ-ÜFE,log düzey,PP,sabit + trend,0.2451850978656137,0.9981549351128228,12,Birim kök (durağan değil),E360
+Yİ-ÜFE,Δlog,ADF,sabit,-1.4752994231473395,0.5456930636517748,4,Birim kök (durağan değil),E360
+Yİ-ÜFE,Δlog,PP,sabit,-5.3123047450074985,3.9262347313856555e-06,12,Durağan,E360
